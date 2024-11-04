@@ -1,0 +1,107 @@
+:root {
+    --black: #000;
+    --white: #fff;
+
+    --bgColor: #f8fafd;
+    --text: #333;
+
+    --mainColor: #fff000;
+
+    --petrolColor: #238c96;
+    --sandColor: #b1b0a1;
+    --oliveColor: #4b8969;
+    --redColor: #b61a2d;
+    --grayColor: #e3e3e3;
+
+    --controlColor: #ccc;
+    --faColor: #222;
+
+    --breakPoint: 800px;
+}
+
+@font-face {
+    font-family: mainFont;
+    src: url(../fonts/FFClanProRegular.TTF);
+    font-display: swap;
+}
+
+@font-face {
+    font-family: mainFontBold;
+    src: url(../fonts/FFClanProBold.TTF);
+    font-display: swap;
+}
+
+@keyframes invalid-outline {
+    0% {
+        outline-color: var(--redColor);
+    }
+    50% {
+        outline-color: var(--black);
+    }
+    100% {
+        outline-color: var(--redColor);
+    }
+}
+
+body, h1, h2, h3, h4, h5, h6, ul, ol, li, p, img {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bgColor);
+    font-family: mainFont;
+    color: var(--black);
+    cursor: default;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--breakPoint);
+    overflow: auto;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.hidden {
+    display: none;
+}
+
+.transition {
+    transition: all 0.2s;
+}
+
+a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+a, .button {
+    transition: 0.2s opacity;
+}
+
+a:hover, .button:hover,
+a:focus, .button:focus {
+    opacity: 0.75;
+    cursor: pointer;
+}

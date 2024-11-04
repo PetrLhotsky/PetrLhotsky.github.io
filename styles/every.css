@@ -1,0 +1,449 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    height: calc(100% - 40px);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+}
+
+#logo img {
+    width: 116px;
+    height: 30px;
+    margin-top: 5px;
+}
+
+#top-panel {
+    width: calc(100% - 116px - 30px);
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: var(--mainColor);
+    border-radius: 10px;
+}
+
+h1 {
+    font-family: mainFontBold;
+}
+
+#top-panel>span.float-left {
+    text-align: right;
+}
+
+#top-panel-item-1 {
+    width: 40%;
+}
+
+#top-panel-item-2 {
+    width: 20%;
+}
+
+#top-panel-item-3 {
+    width: 20%;
+}
+
+#top-panel-item-4 {
+    width: 20%;
+}
+
+nav {
+    width: 100%;
+    margin-top: 20px;
+    padding: 4px;
+    box-sizing: border-box;
+    background-color: var(--white);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 0px 2px 2px 0px rgba(0, 0, 0, 0.07), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
+}
+
+nav>div>span {
+    margin-right: 20px;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#nav-panel-item-8 {
+    margin-right: 0;
+    cursor: default;
+}
+
+nav>div>span:hover:not(#nav-panel-item-8) {
+    background-color: var(--grayColor);
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 0px 2px 2px 0px rgba(0, 0, 0, 0.07), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
+}
+
+nav>div>span.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+nav>div>span.disabled:hover:not(#nav-panel-item-8) {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+@media screen and (max-width: 1419px) {
+    #nav-panel-item-8 .nav-panel-label {
+        display: none;
+    }
+
+    @media screen and (max-width: 1279px) {
+        #nav-panel-item-7 .nav-panel-label,
+        #nav-panel-item-6 .nav-panel-label {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 999px) {
+        #nav-panel-item-4 .nav-panel-label {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 789px) {
+        #nav-panel-item-3 .nav-panel-label {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 579px) {
+        #nav-panel-item-2 .nav-panel-label {
+            display: none;
+        }
+    }
+}
+
+.fa-solid {
+    color: var(--faColor);
+}
+
+main {
+    margin-top: 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+main>div {
+    overflow: overlay;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.table-row.weekend {
+    background-color: var(--grayColor);
+}
+
+.table-row.active {
+    background-color: var(--mainColor);
+}
+
+.table-row {
+    transition: background-color 0.2s;
+}
+
+.table-row:hover {
+    background-color: var(--sandColor);
+}
+
+.sheet-view .table-row.hidden,
+.sheet-view #calendar-header {
+    display: none;
+}
+
+.calendar-view .table-row.hidden {
+    visibility: hidden;
+    display: block;
+}
+
+.calendar-view #calendar-header {
+    display: block;
+}
+
+.sheet-view {
+    min-width: 1310px;
+}
+
+.sheet-view .table-row {
+    padding: 5px 0;
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    border-bottom: 1px var(--sandColor) solid;
+}
+
+.sheet-view .table-row:last-child {
+    border-bottom: none;
+}
+
+#sheet-header {
+    padding: 10px 0;
+    font-family: mainFontBold;
+    font-size: 0.9rem;
+    background-color: var(--grayColor);
+    border-radius: 10px;
+}
+
+.sheet-view .table-item {
+    font-size: 0.8rem;
+}
+
+.sheet-view .table-column {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+
+.sheet-view .table-column-0 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-1 {
+    min-width: 60px;
+}
+
+.sheet-view .table-column-2 {
+    min-width: 150px;
+}
+
+.sheet-view .table-column-3 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-4 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-5 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-6 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-7 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-8 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-9 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-10 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-11 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-12 {
+    min-width: 100px;
+}
+
+.calendar-view #sheet-header {
+    display: none;
+}
+
+.calendar-view {
+    overflow: auto;
+}
+
+.calendar-view .table-row {
+    padding: 5px;
+    box-sizing: border-box;
+    float: left;
+    width: calc((100% - 30px) / 7);
+    border: 1px var(--sandColor) solid;
+    border-radius: 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+#calendar-header.table-row, .calendar-view .table-row:nth-child(7n + 2) {
+    margin-right: 0;
+}
+
+#calendar-header {
+    padding: 10px 0;
+    font-family: mainFontBold;
+    font-size: 0.9rem;
+    background-color: var(--grayColor);
+    border-radius: 10px;
+    float: none;
+    overflow: auto;
+    width: 100%;
+}
+
+.calendar-view .table-item {
+    font-size: 0.8rem;
+    height: 220px;
+}
+
+#calendar-header .table-column {
+    float: left;
+    width: calc(100% / 7);
+}
+
+.calendar-view .table-column {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.table-column-0 label.checkbox,
+.table-column-0 i {
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.table-row:has(.checkbox input:checked) {
+    background-color: var(--sandColor);
+}
+
+dialog .form-row {
+    margin-top: 20px;
+    display: grid;
+    column-gap: 40px;
+}
+
+#form .form-row {
+    grid-template-columns: repeat(3, 1fr);
+    width: 900px;
+}
+
+#tank .form-row {
+    grid-template-columns: repeat(2, 1fr);
+    width: 500px;
+}
+
+#costs .form-row {
+    grid-template-columns: repeat(4, 1fr);
+    width: 900px;
+    margin-bottom: 10px;
+}
+
+#costs>.form-row:last-child {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+dialog .form-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+dialog .form-label,
+dialog input[type=text],
+dialog .custom-select {
+    width: 100%;
+    display: block;
+}
+
+dialog .form-label {
+    padding: 9.5px 0;
+    transition: all 0.2s;
+}
+
+#costs .form-label {
+    padding: 0;
+}
+
+#costs .form-label.form-action  {
+    padding: 9.5px 9.5px 9.5px 0;
+    box-sizing: border-box;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#costs .form-label.form-action:hover {
+    background-color: var(--grayColor);
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 0px 2px 2px 0px rgba(0, 0, 0, 0.07), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
+    padding-left: 9.5px;
+}
+
+#costs-rows {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+dialog input[type=text] {
+    border: none;
+    margin: 0;
+    padding: 9.5px;
+    box-sizing: border-box;
+    font-family: mainFont;
+    background-color: var(--mainColor);
+    border-radius: 10px;
+    transition: all 0.2s;
+    outline: 1px var(--black) solid;
+}
+
+dialog .custom-select .select-selected {
+    font-family: mainFont;
+    transition: all 0.2s;
+    outline: 1px var(--black) solid;
+}
+
+dialog .form-column:has(:not(#form-datum):not(#form-novy-stav-tachometru):not(#tank-zacatek)[disabled]) label {
+    text-decoration: line-through;
+    opacity: 0.2;
+}
+
+dialog input:not(#form-datum):not(#form-novy-stav-tachometru):not(#tank-zacatek)[type=text][disabled],
+dialog .custom-select[disabled] .select-selected {
+    background-color: var(--grayColor);
+    color: rgba(0, 0, 0, 0);
+    cursor: not-allowed;
+    outline-color: var(--white);
+    opacity: 0.2;
+}
+
+dialog input[type=text]:not([disabled]).invalid,
+dialog .custom-select:not([disabled]).invalid .select-selected {
+    outline-width: 2px;
+    animation: invalid-outline 1s infinite;
+}
+
+dialog .form-selection .select-selected {
+    padding: 10px;
+}
+
+dialog .form-selection .select-selected.select-arrow-active:after {
+    top: 9px;
+}
+
+dialog .form-selection .select-selected:after {
+    top: 15px;
+}
+
+dialog .form-selection .select-items {
+    top: 100%;
+    font-size: 0.6rem;
+}
+
+dialog .form-checkbox .checkbox {
+    margin-top: 9px;
+}

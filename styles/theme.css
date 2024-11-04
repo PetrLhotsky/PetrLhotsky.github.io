@@ -1,0 +1,49 @@
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        --black: #fff;
+        --white: #000;
+
+        --bgColor: #333;
+        --text: #f8fafd;
+
+        --mainColor: #fff000;
+
+        --petrolColor: #238c96;
+        --sandColor: #b1b0a1;
+        --oliveColor: #4b8969;
+        --redColor: #b61a2d;
+        --grayColor: #e3e3e3;
+
+        --controlColor: #333;
+        --faColor: #ddd;
+    }
+
+    #top-panel,
+    #top-panel * {
+        color: var(--white);
+    }
+
+    .select-selected::after {
+        border-color: var(--white) transparent transparent transparent !important;
+    }
+
+    #sheet-header,
+    #calendar-header,
+    .table-row.weekend,
+    .table-row.active {
+        color: var(--white);
+    }
+
+    dialog {
+        background-color: var(--white);
+    }
+
+    dialog * {
+        color: var(--black);
+    }
+
+    #form input:not(#form-datum)[type=text]:not([disabled]),
+    #form .custom-select:not([disabled]) .select-selected {
+        color: var(--white);
+    }
+}

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="cs">  
+    <head>
+        <meta charset="UTF-8">
+        <title>Kärcher Web App</title>
+
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="description" content="Karcher Web App">
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+        <link rel="stylesheet" href="styles/basic.css">
+        <link rel="stylesheet" href="styles/every.css">
+        <link rel="stylesheet" href="styles/phone.css" media="(max-width: 700px)">
+        <link rel="stylesheet" href="styles/theme.css" media="(prefers-color-scheme: dark)">
+
+        <link rel="stylesheet" href="inputs/toggle.css">
+        <link rel="stylesheet" href="inputs/selection.css">
+        <link rel="stylesheet" href="inputs/checkbox.css">
+        <link rel="stylesheet" href="inputs/radiobox.css">
+        <link rel="stylesheet" href="inputs/dialog.css">
+    </head>
+    
+    <body>
+        
+        <header>
+            <div id="logo" class="float-left">
+                <img src="images/logo.svg" alt="Logo Kärcher">
+            </div>
+
+            <div id="top-panel" class="float-right">
+                <h1 id="top-panel-item-1" class="float-left">
+                    <span class="top-panel-label">Cestovní příkazy pro</span>
+                    <span id="top-panel-mo" tabindex="1"></span>
+                </h1>
+
+                <span id="top-panel-item-2" class="float-left">
+                    <a href="#" tabindex="2">Nastavení</a>
+                </span>
+
+                <span id="top-panel-item-3" class="float-left">
+                    <span id="top-panel-rp" tabindex="3"></span>
+                </span>
+
+                <span id="top-panel-item-4" class="float-left">
+                    <span id="top-panel-name" tabindex="4"></span>
+                </span>
+            </div>
+        </header>
+
+        <nav>
+            <div class="float-left">
+                <span id="nav-panel-item-2" class="float-left disabled" tabindex="5">
+                    <i class="fa-solid fa-pen-to-square" title="upravit data (Ctrl + E)"></i>
+                    <span class="nav-panel-label">upravit označené řádky</span>
+                </span>
+
+                <span id="nav-panel-item-3" class="float-left disabled" tabindex="6">
+                    <i class="fa-solid fa-eraser" title="odstranit data (Ctrl + D)"></i>
+                    <span class="nav-panel-label">odstranit označené řádky</span>
+                </span>
+
+                <span id="nav-panel-item-4" class="float-left" tabindex="7">
+                    <i class="fa-solid fa-car" title="stav nádrže (Ctrl + T)"></i>
+                    <span class="nav-panel-label">zadat údaje o stavu nádrže</span>
+                </span>
+            </div>
+
+            <div class="float-right">
+                <span id="nav-panel-item-6" class="float-left" tabindex="8">
+                    <i class="fa-solid fa-coins" title="vedlejší náklady"></i>
+                    <span class="nav-panel-label">vedlejší náklady</span>
+                </span>
+
+                <span id="nav-panel-item-7" class="float-left" tabindex="9">
+                    <i class="fa-solid fa-chart-simple" title="souhrn a export"></i>
+                    <span class="nav-panel-label">souhrn a export</span>
+                </span>
+
+                <span id="nav-panel-item-8" class="float-left">
+                    <span class="nav-panel-label">tabulka</span>
+                    <i class="fa-solid fa-table-list" title="tabulka"></i>
+                    <span id="nav-panel-toggle-1" tabindex="10"></span>
+                    <i class="fa-solid fa-calendar-days" title="kalendář"></i>
+                    <span class="nav-panel-label">kalendář</span>
+                </span>
+            </div>
+        </nav>
+
+        <main>
+            <div>
+                <div id="table" class="sheet-view">
+                    <div id="sheet-header" class="table-row">
+                        <div id="table-header-prop-0" class="table-column table-column-0">Akce</div>
+                        <div id="table-header-prop-1" class="table-column table-column-1">Datum</div>
+                        <div id="table-header-prop-2" class="table-column table-column-2">Popis trasy</div>
+                        <div id="table-header-prop-3" class="table-column table-column-3">Dopravní pr.</div>
+                        <div id="table-header-prop-4" class="table-column table-column-4">Tachometr</div>
+                        <div id="table-header-prop-5" class="table-column table-column-5">KM služ.</div>
+                        <div id="table-header-prop-6" class="table-column table-column-6">KM souk.</div>
+                        <div id="table-header-prop-7" class="table-column table-column-7">PH l</div>
+                        <div id="table-header-prop-8" class="table-column table-column-8">PH Kč</div>
+                        <div id="table-header-prop-9" class="table-column table-column-9">Ostatní výdaje</div>
+                        <div id="table-header-prop-10" class="table-column table-column-10">Trvání od</div>
+                        <div id="table-header-prop-11" class="table-column table-column-11">Trvání do</div>
+                        <div id="table-header-prop-12" class="table-column table-column-12">Posk. jídla</div>
+                    </div>
+
+                    <div id="calendar-header" class="table-row">
+                        <div id="table-header-day-1" class="table-column">PO</div>
+                        <div id="table-header-day-2" class="table-column">ÚT</div>
+                        <div id="table-header-day-3" class="table-column">ST</div>
+                        <div id="table-header-day-4" class="table-column">ČT</div>
+                        <div id="table-header-day-5" class="table-column">PÁ</div>
+                        <div id="table-header-day-6" class="table-column">SO</div>
+                        <div id="table-header-day-7" class="table-column">NE</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+        </footer>
+        
+        <div class="temp1" style="display: none">
+            <h2>Cestovní příkaz</h2>
+            <div class="form-row">
+                <div class="form-column">
+                    <span id="form-radio-1"></span>
+                </div>
+
+                <div class="form-column">
+                    <span id="form-radio-2"></span>
+                </div>
+
+                <div class="form-column">
+                    <span id="form-radio-3"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="form-datum" class="form-label">Datum</label>
+                    <input type="text" name="form-datum" id="form-datum" tabindex="101">
+                </div>
+
+                <div class="form-column">
+                    <label for="form-popis-trasy" class="form-label">Popis trasy</label>
+                    <input type="text" name="form-popis-trasy" id="form-popis-trasy" tabindex="102">
+                </div>
+
+                <div class="form-column">
+                    <label for="form-oblibene-trasy" class="form-label">Oblíbené trasy</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="form-ujeto-km-sluzebne" class="form-label">Ujeto KM služ.</label>
+                    <input type="text" name="form-ujeto-km-sluzebne" id="form-ujeto-km-sluzebne" tabindex="103">
+                </div>
+
+                <div class="form-column">
+                    <label for="form-ujeto-km-soukrome" class="form-label">Ujeto KM souk.</label>
+                    <input type="text" name="form-ujeto-km-soukrome" id="form-ujeto-km-soukrome" tabindex="104">
+                </div>
+
+                <div class="form-column">
+                    <label for="form-selection-1" class="form-label">Dopravní pr.</label>
+                    <span id="form-selection-1" class="form-selection" tabindex="105"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="form-selection-2" class="form-label">Počáteční čas</label>
+                    <span id="form-selection-2" class="form-selection" tabindex="106"></span>
+                </div>
+
+                <div class="form-column">
+                    <label for="form-selection-3" class="form-label">Koncový čas</label>
+                    <span id="form-selection-3" class="form-selection" tabindex="107"></span>
+                </div>
+
+                <div class="form-column">
+                    <label for="form-novy-stav-tachometru" class="form-label">Nový stav tach.</label>
+                    <input type="text" name="form-novy-stav-tachometru" id="form-novy-stav-tachometru" tabindex="108">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="form-cerpani-ph-litry" class="form-label">Čerpání PH l</label>
+                    <input type="text" name="form-cerpani-ph-litry" id="form-cerpani-ph-litry" tabindex="109">
+                </div>
+
+                <div class="form-column">
+                    <label for="form-cerpani-ph-kc" class="form-label">Čerpání PH Kč</label>
+                    <input type="text" name="form-cerpani-ph-kc" id="form-cerpani-ph-kc" tabindex="110">
+                </div>
+
+                <div class="form-column">
+                    <label for="form-ostatni-vydaje-kc" class="form-label">Ostatní výdaje</label>
+                    <input type="text" name="form-ostatni-vydaje-kc" id="form-ostatni-vydaje-kc" tabindex="111">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="form-checkbox-1" class="form-label">Posk. snídaně</label>
+                    <span id="form-checkbox-1" class="form-checkbox" tabindex="112"></span>
+                </div>
+
+                <div class="form-column">
+                    <label for="form-checkbox-2" class="form-label">Posk. oběd</label>
+                    <span id="form-checkbox-2" class="form-checkbox" tabindex="113"></span>
+                </div>
+
+                <div class="form-column">
+                    <label for="form-checkbox-3" class="form-label">Posk. večeře</label>
+                    <span id="form-checkbox-3" class="form-checkbox" tabindex="114"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="cancel" tabindex="115">
+                        <i class="fa-solid fa-cancel" title="Escape"></i>
+                        zrušit
+                    </span>
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="submit" tabindex="116">
+                        <i class="fa-solid fa-save" title="Ctrl + S"></i>
+                        uložit
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="temp2" style="display: none">
+            <h2>Stav nádrže</h2>
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="tank-zacatek" class="form-label">Začátek měsíce</label>
+                    <input type="text" name="tank-zacatek" id="tank-zacatek" tabindex="201">
+                </div>
+
+                <div class="form-column">
+                    <label for="tank-konec" class="form-label">Konec měsíce</label>
+                    <input type="text" name="tank-konec" id="tank-konec" tabindex="202">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <span></span>
+                    <span class="cancel" tabindex="115">
+                        <i class="fa-solid fa-cancel" title="Escape"></i>
+                        zrušit
+                    </span>
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="submit" tabindex="116">
+                        <i class="fa-solid fa-save" title="Ctrl + S"></i>
+                        uložit
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="temp3" style="display: none">
+            <h2>Vedlejší náklady</h2>
+            <div class="form-row">
+                <div class="form-column">
+                    <label class="form-label">Akce</label>
+                </div>
+
+                <div class="form-column">
+                    <label class="form-label">Datum (den)</label>
+                </div>
+
+                <div class="form-column">
+                    <label class="form-label">Obsah</label>
+                </div>
+
+                <div class="form-column">
+                    <label class="form-label">Částka</label>
+                </div>
+            </div>
+
+            <div id="costs-rows"></div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    <label id="costs-insert" class="form-label form-action">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        přidat
+                    </label>
+                </div>
+
+                <div class="form-column">
+                    
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="cancel" tabindex="115">
+                        <i class="fa-solid fa-cancel" title="Escape"></i>
+                        zrušit
+                    </span>
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="submit" tabindex="116">
+                        <i class="fa-solid fa-save" title="Ctrl + S"></i>
+                        uložit
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="temp4" style="display: none">
+            <h2>Souhrn a export</h2>
+            <div class="form-row">
+                <span>⚠ Pracujeme na tom...</span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-column">
+                    
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="cancel" tabindex="115">
+                        <i class="fa-solid fa-cancel" title="Escape"></i>
+                        zrušit
+                    </span>
+                </div>
+
+                <div class="form-column">
+                    <span></span>
+                    <span class="submit" tabindex="116">
+                        <i class="fa-solid fa-save" title="Ctrl + S"></i>
+                        uložit
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/afb03f35dd.js" crossorigin="anonymous"></script>
+        <script src="scripts/utilities.js"></script>
+        
+        <script src="inputs/selection.js"></script>
+        <script src="inputs/toggle.js"></script>
+        <script src="inputs/checkbox.js"></script>
+        <script src="inputs/dialog.js"></script>
+        <script src="inputs/radiobox.js"></script>
+        
+        <script src="scripts/shortcuts.js"></script>
+        <script src="scripts/testing.js"></script>
+
+        <script>
+            appendSelection($("#top-panel-mo"), "selection-mo", "inline", 170, [{value: 0, label: "říjen 2024"}, {value: 1, label: "listopad 2024"}, {value: 2, label: "prosinec 2024"}])
+            appendSelection($("#top-panel-rp"), "selection-rp", "inline", 150, [{value: 0, label: "6H8 5486"}, {value: 1, label: "1A1 1111"}, {value: 2, label: "2B2 2222"}])
+            appendSelection($("#top-panel-name"), "selection-name", "inline", 170, [{value: 0, label: "Petr Lhotský"}, {value: 1, label: "Karel Novák"}, {value: 2, label: "Tereza Dvořáková"}])
+
+            appendToggle($("#nav-panel-toggle-1"), "toggle-view", "no-color", () => {
+                $("#table").toggleClass("sheet-view calendar-view")
+            })
+
+            $(".table-item .table-column-0").toArray().forEach(element => {
+                appendCheckbox($("#" + element.id + "-check"), "checkbox-" + element.id, "no-color", "")
+            })
+
+            appendDialog($("body"), "form", "", $(".temp1").html(), () => cancelForm(), () => saveForm())
+            $(".temp1").empty()
+
+            appendDialog($("body"), "tank", "", $(".temp2").html(), () => cancelTank(), () => saveTank())
+            $(".temp2").empty()
+
+            appendDialog($("body"), "costs", "", $(".temp3").html(), () => cancelCosts(), () => saveCosts())
+            $(".temp3").empty()
+
+            appendDialog($("body"), "summary", "", $(".temp4").html(), () => cancelSummary(), () => saveSummary())
+            $(".temp4").empty()
+
+            appendRadiobox($("#form-radio-1"), "radio-1", "", "řidič - služební", "form-type", 1)
+            appendRadiobox($("#form-radio-2"), "radio-2", "", "řidič - soukromá", "form-type", 2)
+            appendRadiobox($("#form-radio-3"), "radio-3", "", "spolujezdec", "form-type", 3)
+
+            appendSelection($("#form-selection-1"), "form-dopravni-prostredek", "inline", 0, [{value: "AUS", label: "AUS"}, {value: "MHD", label: "MHD"}, {value: "MOT", label: "MOT"}])
+            appendSelection($("#form-selection-2"), "form-pocatecni-cas", "inline", 0, getPocatecniCasyList())
+            appendSelection($("#form-selection-3"), "form-koncovy-cas", "inline", 0, getKoncoveCasyList())
+
+            appendCheckbox($("#form-checkbox-1"), "form-poskytnuta-snidane", "inline", "snídaně", "check-snidane")
+            appendCheckbox($("#form-checkbox-2"), "form-poskytnuty-obed", "inline", "oběd", "check-obed")
+            appendCheckbox($("#form-checkbox-3"), "form-poskytnuta-vecere", "inline", "večeře", "check-vecere")
+
+            hideDialog(() => { return true }, "form")
+            hideDialog(() => { return true }, "tank")
+            hideDialog(() => { return true }, "costs")
+            //hideDialog(() => { return true }, "summary")
+        </script>
+
+        <script src="scripts/index.js"></script>
+        <script src="scripts/form.js"></script>
+        <script src="scripts/tank.js"></script>
+        <script src="scripts/costs.js"></script>
+        <script src="scripts/summary.js"></script>
+
+        <script>
+            //$.getJSON("test.json", (data) => console.log(data))
+        </script>
+    </body>
+</html>

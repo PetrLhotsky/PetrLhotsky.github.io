@@ -1,0 +1,61 @@
+.radiobox {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .radiobox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .radiomark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: var(--controlColor);
+    border-radius: 50%;
+    transition: 0.2s;
+  }
+  
+  .radiobox:hover input ~ .radiomark {
+    background-color: var(--controlColor);
+  }
+  
+  .radiobox input:checked ~ .radiomark {
+    background-color: var(--mainColor);
+  }
+
+  .radiobox.no-color input:checked ~ .radiomark {
+    background-color: var(--controlColor);
+  }
+  
+  .radiomark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .radiobox input:checked ~ .radiomark:after {
+    display: block;
+  }
+  
+  .radiobox .radiomark:after {
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--black);
+  }
