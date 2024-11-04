@@ -34,7 +34,7 @@
                 </h1>
 
                 <span id="top-panel-item-2" class="float-left">
-                    <a href="#" tabindex="2">Nastavení</a>
+                    <a href="#" tabindex="2" onclick="location.reload()">Aktualizovat</a>
                 </span>
 
                 <span id="top-panel-item-3" class="float-left">
@@ -60,7 +60,7 @@
                 </span>
 
                 <span id="nav-panel-item-4" class="float-left" tabindex="7">
-                    <i class="fa-solid fa-car" title="stav nádrže (Ctrl + T)"></i>
+                    <i class="fa-solid fa-car" title="stav nádrže (Ctrl + F)"></i>
                     <span class="nav-panel-label">zadat údaje o stavu nádrže</span>
                 </span>
             </div>
@@ -372,9 +372,9 @@
         <script src="scripts/testing.js"></script>
 
         <script>
-            appendSelection($("#top-panel-mo"), "selection-mo", "inline", 170, [{value: 0, label: "říjen 2024"}, {value: 1, label: "listopad 2024"}, {value: 2, label: "prosinec 2024"}])
-            appendSelection($("#top-panel-rp"), "selection-rp", "inline", 150, [{value: 0, label: "6H8 5486"}, {value: 1, label: "1A1 1111"}, {value: 2, label: "2B2 2222"}])
-            appendSelection($("#top-panel-name"), "selection-name", "inline", 170, [{value: 0, label: "Petr Lhotský"}, {value: 1, label: "Karel Novák"}, {value: 2, label: "Tereza Dvořáková"}])
+            appendSelection($("#top-panel-mo"), "selection-mo", "inline", 170, [{ value: 0, label: "měsíc a rok" }, { value: 7, label: "červenec 2024" }, { value: 8, label: "srpen 2024" }, { value: 9, label: "září 2024" }, { value: 10, label: "říjen 2024" }, { value: 11, label: "listopad 2024" }, { value: 12, label: "prosinec 2024" }], "listopad 2024")
+            appendSelection($("#top-panel-rp"), "selection-rp", "inline", 150, [{ value: 0, label: "zvolte RZ" }, { value: 1, label: "1A1 1111" }, { value: 2, label: "2B2 2222" }, { value: 3, label: "3B3 3333" }], "1A1 1111")
+            appendSelection($("#top-panel-name"), "selection-name", "inline", 170, [{ value: 0, label: "Karel Novák" }, { value: 2, label: "odhlásit se" }])
 
             appendToggle($("#nav-panel-toggle-1"), "toggle-view", "no-color", () => {
                 $("#table").toggleClass("sheet-view calendar-view")
@@ -411,7 +411,7 @@
             hideDialog(() => { return true }, "form")
             hideDialog(() => { return true }, "tank")
             hideDialog(() => { return true }, "costs")
-            //hideDialog(() => { return true }, "summary")
+            hideDialog(() => { return true }, "summary")
         </script>
 
         <script src="scripts/index.js"></script>

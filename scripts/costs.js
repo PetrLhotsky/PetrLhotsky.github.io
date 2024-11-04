@@ -7,7 +7,7 @@ const costsMapping = [
 bindCostsActions()
 bindCostsValidations()
 
-$("#nav-panel-item-6").click()
+//$("#nav-panel-item-6").click()
 
 function bindCostsActions() {
     $(document).on("click", ".costs-delete", (e) => deleteCostsRecord(e.target.id))
@@ -128,7 +128,15 @@ function costsCheckTextboxes() {
 }
 
 function costsRowsCount() {
-    return $("#costs .form-row").length - 1
+    var rows = $("#costs .form-row").toArray()
+    var max = 0
+    rows.forEach(row => {
+        var id = parseInt(row.id.split('-').pop())
+        if (id > max) {
+            max = id
+        }
+    })
+    return max + 1
 }
 
 function costsHtmlRecord(id) {

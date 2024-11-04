@@ -100,6 +100,17 @@ nav>div>span.disabled:hover:not(#nav-panel-item-8) {
         #nav-panel-item-6 .nav-panel-label {
             display: none;
         }
+
+        h1.float-left#top-panel-item-1 {
+            float: none;
+            width: 100%;
+        }
+
+        #top-panel-item-2,
+        #top-panel-item-3,
+        #top-panel-item-4 {
+            display: none;
+        }
     }
 
     @media screen and (max-width: 999px) {

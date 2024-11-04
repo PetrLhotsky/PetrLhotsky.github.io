@@ -1,16 +1,16 @@
 const formMapping = [
     { type: "radiobox", formName: "type", recordName: "type", enabled: [true, true, true] },
     { type: "textbox", formName: "datum", recordName: "datum", enabled: [false, false, false] },
-    { type: "textbox", formName: "popis-trasy", recordName: "popisTrasy", enabled: [true, false, false], validation: ".+" },
+    { type: "textbox", formName: "popis-trasy", recordName: "popisTrasy", enabled: [true, false, true], validation: ".+" },
     { type: "textbox", formName: "ujeto-km-sluzebne", recordName: "ujetoKmSluzebne", enabled: [true, false, false], validation: "^(?:[1-9]\\d{0,3})$", format: "number" },
-    { type: "textbox", formName: "ujeto-km-soukrome", recordName: "ujetoKmSoukrome", enabled: [true, true, false], validation: "^(?:[1-9]\\d{0,3})$", format: "number" },
+    { type: "textbox", formName: "ujeto-km-soukrome", recordName: "ujetoKmSoukrome", enabled: [true, true, false], validation: "^(?:[1-9]\d{0,3}|^$)$", format: "number" },
     { type: "selection", formName: "dopravni-prostredek", recordName: "dopravniProstredek", enabled: [true, true, false] },
     { type: "selection", formName: "pocatecni-cas", recordName: "trvaniOd", enabled: [true, false, true] },
     { type: "selection", formName: "koncovy-cas", recordName: "trvaniDo", enabled: [true, false, true] },
     { type: "textbox", formName: "novy-stav-tachometru", recordName: "tachometr", enabled: [false, false, false], format: "number" },
-    { type: "textbox", formName: "cerpani-ph-litry", recordName: "cerpaniPhLi", enabled: [true, true, false], validation: "^(?:[0-9]\\d{0,3}(?:[.]\\d+)?|0(?:[.]\\d+)?)$", format: "number" },
-    { type: "textbox", formName: "cerpani-ph-kc", recordName: "cerpaniPhKc", enabled: [true, true, false], validation: "^(?:[0-9]\\d{0,3}(?:[.]\\d+)?|0(?:[.]\\d+)?)$", format: "number" },
-    { type: "textbox", formName: "ostatni-vydaje-kc", recordName: "ostatniVydaje", enabled: [true, true, false], validation: "^(?:[0-9]\\d{0,3}(?:[.]\\d+)?|0(?:[.]\\d+)?)$", format: "number" },
+    { type: "textbox", formName: "cerpani-ph-litry", recordName: "cerpaniPhLi", enabled: [true, true, false], validation: "^(?:[0-9]\\d{0,3}(?:[.]\\d+)?|0(?:[.]\\d+)?|^$)$", format: "number" },
+    { type: "textbox", formName: "cerpani-ph-kc", recordName: "cerpaniPhKc", enabled: [true, true, false], validation: "^(?:[0-9]\\d{0,3}(?:[.]\\d+)?|0(?:[.]\\d+)?|^$)$", format: "number" },
+    { type: "textbox", formName: "ostatni-vydaje-kc", recordName: "ostatniVydaje", enabled: [true, true, false], validation: "^(?:[0-9]\\d{0,3}(?:[.]\\d+)?|0(?:[.]\\d+)?|^$)$", format: "number" },
     { type: "checkbox", formName: "snidane", recordName: "poskytnutaSnidane", enabled: [true, true, true] },
     { type: "checkbox", formName: "obed", recordName: "poskytnutyObed", enabled: [true, true, true] },
     { type: "checkbox", formName: "vecere", recordName: "poskytnutaVecere", enabled: [true, true, true] }
@@ -58,6 +58,9 @@ function setFormOne(record) {
                 break
             case "textbox":
                 setTextbox(m.formName, record[m.recordName])
+                if (m.formName == "ujeto-km-sluzebne" || m.formName == "ujeto-km-soukrome" || m.formName == "novy-stav-tachometru") {
+                    $("#form-" + m.formName).attr("data-def", record[m.recordName])
+                }
                 break
             case "selection":
                 setSelection(m.formName, record[m.recordName])
@@ -83,7 +86,7 @@ function setTextbox(id, value) {
 }
 
 function getTextbox(id) {
-    if (id != "datum" && $("#form-" + id).attr("disabled") == "disabled") {
+    if (id != "datum" && id != "novy-stav-tachometru" && $("#form-" + id).attr("disabled") == "disabled") {
         return ""
     }
 
@@ -116,8 +119,9 @@ function validateTextbox(id) {
     }
 
     var validation = getValidation(id)
+    var second = id == "ujeto-km-soukrome" && calculateKms() > 0
 
-    if (testRegExp(value, validation)) {
+    if (testRegExp(value, validation) || second) {
         $("#form-" + id).removeClass("invalid")
     }
     else {
@@ -222,13 +226,32 @@ function calculateNovyStav() {
         return
     }
 
+    setTextbox("novy-stav-tachometru", calculateDef() + calculateKms())
+}
+
+function calculateDef() {
+    var sluzebne = $("#form-ujeto-km-sluzebne").attr("data-def")
+    var soukrome = $("#form-ujeto-km-soukrome").attr("data-def")
+    var novyStav = $("#form-novy-stav-tachometru").attr("data-def")
+
+    sluzebne = sluzebne == undefined ? 0 : deformatNumber(sluzebne)
+    soukrome = soukrome == undefined ? 0 : deformatNumber(soukrome)
+    novyStav = novyStav == undefined ? 0 : deformatNumber(novyStav)
+
+    return novyStav - sluzebne - soukrome
+}
+
+function calculateKms() {
     var sluzebne = getTextbox("ujeto-km-sluzebne")
     var soukrome = getTextbox("ujeto-km-soukrome")
 
     sluzebne = parseFloat(deformatNumber(sluzebne))
     soukrome = parseFloat(deformatNumber(soukrome))
 
-    setTextbox("novy-stav-tachometru", sluzebne + soukrome)
+    if (isNaN(sluzebne)) sluzebne = 0
+    if (isNaN(soukrome)) soukrome = 0
+
+    return sluzebne + soukrome
 }
 
 function getForm() {

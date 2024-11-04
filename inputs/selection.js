@@ -1,4 +1,4 @@
-function appendSelection(parent, id, classes, width, options) {
+function appendSelection(parent, id, classes, width, options, value) {
     parent.append('\
         <div id="' + id + '" class="custom-select ' + classes + '"' + (width > 0 ? ' style="width: ' + width + 'px;"' : '') + '>\
             <select id="' + id + '-select"></select>\
@@ -7,6 +7,10 @@ function appendSelection(parent, id, classes, width, options) {
     options.forEach((o) => $("#" + id + "-select").append('<option value="' + o.value + '">' + o.label + '</option>'))
 
     selectionW3(id)
+
+    if (value != null) {
+        $("#" + id + " .select-items div:contains(" + value + ")").click()
+    }
 }
 
 function selectionW3(id) {

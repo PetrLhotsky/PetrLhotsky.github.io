@@ -18,7 +18,7 @@ function bindMenuActions() {
 function bindMenuShortcuts() {
     addShortcut(69, editData)
     addShortcut(68, deleteData)
-    addShortcut(84, tankData)
+    addShortcut(70, tankData)
 }
 
 function bindTableActions() {
@@ -41,7 +41,16 @@ function editData() {
 }
 
 function deleteData() {
-    console.log("d")
+    if (!checkEnabled()) {
+        return
+    }
+
+    var rows = getCheckedRows()
+    var ids = rows.map(r => extractNumber(r.id, "item-", ""))
+    var record = getEmpty()
+    record["datum"] = ids.join(", ")
+
+    writeRows(record)
 }
 
 function tankData() {
@@ -99,6 +108,25 @@ function readRow(id) {
             output[prop] = value
         }
     })
+
+    return output
+}
+
+function getEmpties(ids) {
+    return ids.map(i => getEmpty(i))
+}
+
+function getEmpty(id) {
+    var output = {}
+
+    tableMapping.forEach(m => {
+        output[m] = ""
+    })
+
+    output["datum"] = addLeadingZero(id) + ". 11."
+    output["dopravniProstredek"] = "AUS"
+    output["type"] = 1
+    output["poskytnutaJidla"] = 0
 
     return output
 }
