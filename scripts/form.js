@@ -40,7 +40,7 @@ function bindFormValidations() {
         }
 
         if (m.formName == "dopravni-prostredek") {
-            $("#form-" + m.formName).click(() => calculateNovyStav())
+            $("#form-" + m.formName).click(() => changeDopravniProstredek())
         }
     })
 }
@@ -70,6 +70,8 @@ function setFormOne(record) {
                 break
         }
     })
+
+    changeDopravniProstredek()
 }
 
 function showForm() {
@@ -134,6 +136,10 @@ function validateTextbox(id) {
     }
 
     checkTextboxes()
+}
+
+function getEnabled(id, index) {
+    return formMapping.find(i => i.formName == id).enabled[index]
 }
 
 function getValidation(id) {
@@ -223,6 +229,8 @@ function changeFormType(selected) {
                 break
         }
     })
+
+    changeDopravniProstredek()
 }
 
 function calculateNovyStav() {
@@ -258,6 +266,25 @@ function calculateKms() {
     if (isNaN(soukrome)) soukrome = 0
 
     return sluzebne + soukrome
+}
+
+function changeDopravniProstredek() {
+    calculateNovyStav()
+
+    var prostredek = getSelection("dopravni-prostredek")
+    if (prostredek != "AUS") {
+        enableTextbox("ujeto-km-sluzebne", false)
+        enableTextbox("ujeto-km-soukrome", false)
+        enableTextbox("cerpani-ph-litry", false)
+        enableTextbox("cerpani-ph-kc", false)
+    }
+    else {
+        var selected = getRadiobox("type")
+        enableTextbox("ujeto-km-sluzebne", getEnabled("ujeto-km-sluzebne", selected - 1))
+        enableTextbox("ujeto-km-soukrome", getEnabled("ujeto-km-soukrome", selected - 1))
+        enableTextbox("cerpani-ph-litry", true)
+        enableTextbox("cerpani-ph-kc", true)
+    }
 }
 
 function getForm() {
