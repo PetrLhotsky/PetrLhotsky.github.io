@@ -321,6 +321,58 @@ main>div {
     text-align: center;
 }
 
+.calendar-view .table-column:before {
+    margin-right: 20px;
+}
+
+.calendar-view .table-column-1:before {
+    content: "\1F4C5"
+}
+
+.calendar-view .table-column-2:before {
+    content: "\1F5FA"
+}
+
+.calendar-view .table-column-3:before {
+    content: "\1F697"
+}
+
+.calendar-view .table-column-4:before {
+    content: "\1F6E1"
+}
+
+.calendar-view .table-column-5:before {
+    content: "\1F4CF"
+}
+
+.calendar-view .table-column-6:before {
+    content: "\1F4CF"
+}
+
+.calendar-view .table-column-7:before {
+    content: "\26FD"
+}
+
+.calendar-view .table-column-8:before {
+    content: "\1F4B0"
+}
+
+.calendar-view .table-column-9:before {
+    content: "\1F4B3"
+}
+
+.calendar-view .table-column-10:before {
+    content: "\1F3C1"
+}
+
+.calendar-view .table-column-11:before {
+    content: "\1F3AF"
+}
+
+.calendar-view .table-column-12:before {
+    content: "\1F37D"
+}
+
 .table-column-0 label.checkbox,
 .table-column-0 i {
     display: inline-block;

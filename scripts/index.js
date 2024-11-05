@@ -126,7 +126,8 @@ function getEmpty(id) {
     output["datum"] = addLeadingZero(id) + ". 11."
     output["dopravniProstredek"] = "AUS"
     output["type"] = 1
-    output["poskytnutaJidla"] = 0
+    output["trvaniOd"] = '\u00A0'
+    output["trvaniDo"] = '\u00A0'
 
     return output
 }
@@ -148,6 +149,7 @@ function saveForm() {
 function writeRows(data) {
     var dates = data.datum.split(", ")
     dates.forEach(d => writeRow(d, data))
+    recalculateRows()
 }
 
 function writeRow(d, data) {
@@ -178,6 +180,32 @@ function writeRow(d, data) {
 
         $("#table-item-" + id + "-prop-" + (index + 1)).text(value)
     })
+}
+
+function recalculateRows() {
+    for (var i = 1; i <= 30; i++) {
+        var dopravniProstredek = $("#table-item-" + i + "-prop-3").text()
+        var tachometrPrev = $("#table-item-" + (i - 1) + "-prop-4").text()
+
+        if (dopravniProstredek != "AUS") {
+            $("#table-item-" + i + "-prop-4").text(tachometrPrev)
+            continue
+        }
+
+        var kmSluzebneCurr = $("#table-item-" + i + "-prop-5").text()
+        var kmSoukromeCurr = $("#table-item-" + i + "-prop-6").text()
+
+        tachometrPrev = tachometrPrev == "" ? 0 : tachometrPrev
+        kmSluzebneCurr = kmSluzebneCurr == "" ? 0 : kmSluzebneCurr
+        kmSoukromeCurr = kmSoukromeCurr == "" ? 0 : kmSoukromeCurr
+
+        tachometrPrev = parseInt(deformatNumber(tachometrPrev))
+        kmSluzebneCurr = parseInt(deformatNumber(kmSluzebneCurr))
+        kmSoukromeCurr = parseInt(deformatNumber(kmSoukromeCurr))
+
+        var tachometrCurr = tachometrPrev + kmSluzebneCurr + kmSoukromeCurr
+        $("#table-item-" + i + "-prop-4").text(formatNumber(tachometrCurr))
+    }
 }
 
 function poskytnutaJidla(data) {

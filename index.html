@@ -24,7 +24,9 @@
         
         <header>
             <div id="logo" class="float-left">
-                <img src="images/logo.svg" alt="Logo Kärcher">
+                <a href="#" onclick="location.reload()">
+                    <img src="images/logo.svg" alt="Logo Kärcher">
+                </a>
             </div>
 
             <div id="top-panel" class="float-right">
@@ -34,7 +36,7 @@
                 </h1>
 
                 <span id="top-panel-item-2" class="float-left">
-                    <a href="#" tabindex="2" onclick="location.reload()">Aktualizovat</a>
+                    <a href="#" tabindex="2" onclick="location.reload()">Preview v0.1.0</a>
                 </span>
 
                 <span id="top-panel-item-3" class="float-left">
@@ -400,7 +402,7 @@
             appendRadiobox($("#form-radio-2"), "radio-2", "", "řidič - soukromá", "form-type", 2)
             appendRadiobox($("#form-radio-3"), "radio-3", "", "spolujezdec", "form-type", 3)
 
-            appendSelection($("#form-selection-1"), "form-dopravni-prostredek", "inline", 0, [{value: "AUS", label: "AUS"}, {value: "MHD", label: "MHD"}, {value: "MOT", label: "MOT"}])
+            appendSelection($("#form-selection-1"), "form-dopravni-prostredek", "inline", 0, [{value: "vyberte", label: "vyberte"}, {value: "AUS", label: "AUS"}, {value: "MHD", label: "MHD"}, {value: "MOT", label: "MOT"}])
             appendSelection($("#form-selection-2"), "form-pocatecni-cas", "inline", 0, getPocatecniCasyList())
             appendSelection($("#form-selection-3"), "form-koncovy-cas", "inline", 0, getKoncoveCasyList())
 

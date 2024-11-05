@@ -76,7 +76,9 @@ function testRegExp(text, pattern) {
 
 
 function getPocatecniCasyList() {
-    var output = [{value: "00:01", label: "00:01"}]
+    var output = [{value: "vyberte", label: "vyberte"}]
+    output.push({value: "", label: '\u00A0'})
+    output.push({value: "00:01", label: "00:01"})
     output.push(...getObecneCasyList(1))
     return output
 }
@@ -84,7 +86,9 @@ function getPocatecniCasyList() {
 
 
 function getKoncoveCasyList() {
-    var output = getObecneCasyList(0)
+    var output = [{value: "vyberte", label: "vyberte"}]
+    output.push({value: "", label: '\u00A0'})
+    output.push(...getObecneCasyList(0))
     output.push({value: "23:59", label: "23:59"})
     return output
 }

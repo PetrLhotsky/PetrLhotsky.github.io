@@ -3,7 +3,7 @@ const formMapping = [
     { type: "textbox", formName: "datum", recordName: "datum", enabled: [false, false, false] },
     { type: "textbox", formName: "popis-trasy", recordName: "popisTrasy", enabled: [true, false, true], validation: ".+" },
     { type: "textbox", formName: "ujeto-km-sluzebne", recordName: "ujetoKmSluzebne", enabled: [true, false, false], validation: "^(?:[1-9]\\d{0,3})$", format: "number" },
-    { type: "textbox", formName: "ujeto-km-soukrome", recordName: "ujetoKmSoukrome", enabled: [true, true, false], validation: "^(?:[1-9]\d{0,3}|^$)$", format: "number" },
+    { type: "textbox", formName: "ujeto-km-soukrome", recordName: "ujetoKmSoukrome", enabled: [true, true, false], validation: "^(?:[1-9]\d{0,3})$", format: "number" },
     { type: "selection", formName: "dopravni-prostredek", recordName: "dopravniProstredek", enabled: [true, true, false] },
     { type: "selection", formName: "pocatecni-cas", recordName: "trvaniOd", enabled: [true, false, true] },
     { type: "selection", formName: "koncovy-cas", recordName: "trvaniDo", enabled: [true, false, true] },
@@ -128,6 +128,11 @@ function validateTextbox(id) {
         $("#form-" + id).addClass("invalid")
     }
 
+    if (id == "ujeto-km-sluzebne") {
+        validateTextbox("ujeto-km-soukrome")
+        return
+    }
+
     checkTextboxes()
 }
 
@@ -169,6 +174,7 @@ function enableRadiobox(name, bool) {
 }
 
 function setSelection(id, value) {
+    value = value != "" ? value : '\u00A0'
     $("#form-" + id + " .select-items div:contains(" + value + ")").click()
 }
 

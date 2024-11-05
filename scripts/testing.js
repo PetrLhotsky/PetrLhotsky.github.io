@@ -1,9 +1,9 @@
 function generateTable() {
-    for (var i = 1; i < new Date("2024-11-1").getDay(); i++) {
-        $("#table").append(generateTableItem(0, " hidden")[1])
-    }
-
     var tachometr = 100000
+
+    for (var i = 1; i < new Date("2024-11-1").getDay(); i++) {
+        $("#table").append(generateTableItem(0, " hidden", tachometr)[1])
+    }
 
     for (var i = 1; i <= 30; i++) {
         var [next, html] = generateTableItem(i, "", tachometr)
@@ -16,7 +16,7 @@ function generateTableItem(i, c, tachometr) {
     var x = c
 
     if (i == 0) {
-        return [0, '<div id="table-item-' + i + '" class="table-row table-item' + c + '"></div>']
+        return [0, '<div id="table-item-' + i + '" class="table-row table-item' + c + '"><div id="table-item-0-prop-4" class="table-column table-column-4">' + addThousandsSpace(tachometr) + '</div></div>']
     }
     
     if (new Date("2024-11-" + i).getDay() == 0 || new Date("2024-11-" + i).getDay() == 6) x += " weekend"
@@ -39,8 +39,8 @@ function generateTableItem(i, c, tachometr) {
                         <div id="table-item-' + i + '-prop-7" class="table-column table-column-7"></div>\
                         <div id="table-item-' + i + '-prop-8" class="table-column table-column-8"></div>\
                         <div id="table-item-' + i + '-prop-9" class="table-column table-column-9"></div>\
-                        <div id="table-item-' + i + '-prop-10" class="table-column table-column-10"></div>\
-                        <div id="table-item-' + i + '-prop-11" class="table-column table-column-11"></div>\
+                        <div id="table-item-' + i + '-prop-10" class="table-column table-column-10">\u00A0</div>\
+                        <div id="table-item-' + i + '-prop-11" class="table-column table-column-11">\u00A0</div>\
                         <div id="table-item-' + i + '-prop-12" class="table-column table-column-12"></div>\
                         <div id="table-item-' + i + '-prop-13" class="table-column table-column-13 hidden"></div>\
                         <div id="table-item-' + i + '-prop-14" class="table-column table-column-14 hidden"></div>\
@@ -51,11 +51,11 @@ function generateTableItem(i, c, tachometr) {
     else {
         var next = Math.floor(Math.random() * 100) + 100
         var p1 = Math.floor(Math.random() * 3)
-        var p2 = next, p3 = 0
+        var p2 = next, p3 = ""
         var typ = 1
 
         if (p1 == 0) {
-            p2 = Math.floor(Math.random() * next)
+            p2 = Math.floor(Math.random() * next) + 1
             p3 = next - p2
         }
 
