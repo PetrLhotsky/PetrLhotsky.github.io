@@ -22,7 +22,7 @@ function generateTableItem(i, c, tachometr) {
     if (new Date("2024-11-" + i).getDay() == 0 || new Date("2024-11-" + i).getDay() == 6) x += " weekend"
     if (i == new Date().getDate()) x += " active"
 
-    var r = Math.floor(Math.random() * 5)
+    var r = Math.floor(Math.random() * 4)
 
     if (r == 0) {
         return [0, '<div id="table-item-' + i + '" class="table-row table-item' + x + '">\
@@ -53,6 +53,8 @@ function generateTableItem(i, c, tachometr) {
         var p1 = Math.floor(Math.random() * 3)
         var p2 = next, p3 = ""
         var typ = 1
+        var cod = "08:00"
+        var cdo = "16:00"
 
         if (p1 == 0) {
             p2 = Math.floor(Math.random() * next) + 1
@@ -63,6 +65,8 @@ function generateTableItem(i, c, tachometr) {
             p2 = ""
             p3 = next
             typ = 2
+            cod = "\u00A0"
+            cdo = "\u00A0"
         }
 
         return [next, '<div id="table-item-' + i + '" class="table-row table-item' + x + '">\
@@ -79,8 +83,8 @@ function generateTableItem(i, c, tachometr) {
                         <div id="table-item-' + i + '-prop-7" class="table-column table-column-7">20</div>\
                         <div id="table-item-' + i + '-prop-8" class="table-column table-column-8">1 000</div>\
                         <div id="table-item-' + i + '-prop-9" class="table-column table-column-9">500</div>\
-                        <div id="table-item-' + i + '-prop-10" class="table-column table-column-10">08:00</div>\
-                        <div id="table-item-' + i + '-prop-11" class="table-column table-column-11">16:00</div>\
+                        <div id="table-item-' + i + '-prop-10" class="table-column table-column-10">' + cod + '</div>\
+                        <div id="table-item-' + i + '-prop-11" class="table-column table-column-11">' + cdo + '</div>\
                         <div id="table-item-' + i + '-prop-12" class="table-column table-column-12">1</div>\
                         <div id="table-item-' + i + '-prop-13" class="table-column table-column-13 hidden">ne</div>\
                         <div id="table-item-' + i + '-prop-14" class="table-column table-column-14 hidden">ano</div>\
