@@ -11,7 +11,7 @@ function removeLeadingZeros(number) {
 
 
 function addThousandsSpace(number) {
-    return number ? new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 0, maximumFractionDigits: 4 }).format(number) : ""
+    return number ? new Intl.NumberFormat('cs-CZ', { minimumFractionDigits: 0, maximumFractionDigits: 4 }).format(number).replace(/\u00A0/g, ' ') : ""
 }
 
 
@@ -75,8 +75,80 @@ function testRegExp(text, pattern) {
 
 
 
+function isWeekend(date) {
+    return date.getDay() == 0 || date.getDay() == 6
+}
+
+
+
+function isToday(date) {
+    const today = new Date();
+    return date.getFullYear() === today.getFullYear() &&
+           date.getMonth() === today.getMonth() &&
+           date.getDate() === today.getDate()
+}
+
+
+
+function getMesiceList(start, end) {
+    if (end == null) {
+        const now = new Date()
+        end = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`
+    }
+
+    const monthNames = [
+        "leden", "únor", "březen", "duben", "květen", "červen",
+        "červenec", "srpen", "září", "říjen", "listopad", "prosinec"
+    ]
+
+    const startDate = new Date(`${start}-01`)
+    const endDate = new Date(`${end}-01`)
+    const result = [{ value: 0, label: "měsíc a rok" }]
+
+    while (startDate <= endDate) {
+        const year = startDate.getFullYear()
+        const month = startDate.getMonth() + 1
+        const monthLabel = monthNames[month - 1]
+        const monthValue = `${month.toString().padStart(2, '0')}-${year}`
+
+        result.push({ value: monthValue, label: `${monthLabel} ${year}` })
+
+        startDate.setMonth(startDate.getMonth() + 1)
+    }
+
+    return result
+}
+
+
+
+function getCurrentMY() {
+    const monthNames = [
+        "leden", "únor", "březen", "duben", "květen", "červen",
+        "červenec", "srpen", "září", "říjen", "listopad", "prosinec"
+    ];
+
+    const now = new Date()
+    const month = now.getMonth()
+    const year = now.getFullYear()
+
+    return `${monthNames[month]} ${year}`
+}
+
+
+
+function getDopravniProstredkyList() {
+    return [
+        {value: "vyberte", label: "vyberte"},
+        {value: "AUS", label: "AUS"},
+        {value: "MHD", label: "MHD"},
+        {value: "MOT", label: "MOT"}
+    ]
+}
+
+
+
 function getPocatecniCasyList() {
-    var output = [{value: "vyberte", label: "vyberte"}]
+    var output = [{value: "nic", label: "nic"}]
     output.push({value: "", label: '\u00A0'})
     output.push({value: "00:01", label: "00:01"})
     output.push(...getObecneCasyList(1))
@@ -86,7 +158,7 @@ function getPocatecniCasyList() {
 
 
 function getKoncoveCasyList() {
-    var output = [{value: "vyberte", label: "vyberte"}]
+    var output = [{value: "nic", label: "nic"}]
     output.push({value: "", label: '\u00A0'})
     output.push(...getObecneCasyList(0))
     output.push({value: "23:59", label: "23:59"})
@@ -104,4 +176,39 @@ function getObecneCasyList() {
         }   
     }
     return output
+}
+
+
+
+function compareCasy(start, end) {
+    const [startHour, startMinute] = start.split(':').map(Number)
+    const [endHour, endMinute] = end.split(':').map(Number)
+
+    const startTotalMinutes = startHour * 60 + startMinute
+    const endTotalMinutes = endHour * 60 + endMinute
+
+    return startTotalMinutes < endTotalMinutes;
+}
+
+
+
+function getNakladyObsahList() {
+    return [
+        { label: "jízdné" },
+        { label: "občerstvení" },
+        { label: "ubytování" },
+        { label: "parkovné" },
+        { label: "auto - spotřeba PH" },
+        { label: "auto - oprava, údržba, mytí" },
+        { label: "auto - drob. materiál" },
+        { label: "náhr. za použití soukr. auta" },
+        { label: "dálniční známka" },
+        { label: "kancelářské potřeby" },
+        { label: "jiné admin služby" },
+        { label: "PC - spotřební mat." },
+        { label: "PC - služby (opr.)" },
+        { label: "poštovné" },
+        { label: "materiál drobný" },
+        { label: "nářadí drobné" }
+    ]
 }

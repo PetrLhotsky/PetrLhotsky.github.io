@@ -1,3 +1,246 @@
-@media screen and (max-width: 700px) {
-    
+@media (max-width: 1419px) {
+    #nav-panel-item-8 .nav-panel-label {
+        display: none;
+    }
+
+    @media (max-width: 1279px) {
+        #nav-panel-item-7 .nav-panel-label,
+        #nav-panel-item-6 .nav-panel-label {
+            display: none;
+        }
+
+        #top-panel-item-1 .top-panel-label {
+            display: none;
+        }
+    }
+
+    @media (max-width: 999px) {
+        #logo {
+            float: none;
+            width: 100%;
+        }
+
+        #logo .img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #top-panel {
+            float: none;
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #top-panel-item-1 {
+            float: none;
+            width: 100%;
+            text-align: -webkit-center;
+        }
+
+        #top-panel-item-2,
+        #top-panel-item-3,
+        #top-panel-item-4 {
+            margin-top: 10px;
+            float: none;
+            display: block;
+            width: 100%;
+            text-align: -webkit-center !important;
+        }
+
+        #nav-panel-item-4 .nav-panel-label {
+            display: none;
+        }       
+    }
+
+    @media (max-width: 789px) {
+        #nav-panel-item-3 .nav-panel-label {
+            display: none;
+        }
+    }
+
+    @media (max-width: 579px) {
+        #nav-panel-item-7 {
+            margin-right: 0;
+        }
+        #nav-panel-item-8 {
+            display: none;
+        } 
+    }
+
+    @media (max-width: 469px) {
+        #nav-panel-item-2 .nav-panel-label {
+            display: none;
+        }
+    }
+
+    @media (max-width: 319px) {
+        header,
+        nav,
+        main {
+            display: none;
+        }
+    }
+}
+
+
+
+@media (max-width: 579px) {
+    .table-row {
+        padding: 5px 0 !important;
+        display: block !important;
+        border: none !important;
+        border-bottom: 1px var(--sandColor) solid !important;
+
+        float: none !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+
+    .table-row.hidden {
+        display: none !important;
+    }
+
+    .sheet-view,
+    .calendar-view {
+        width: 100% !important;
+        min-width: auto !important;
+    }
+
+    #sheet-header,
+    #calendar-header {
+        display: none !important;
+    }
+
+    .table-item {
+        aspect-ratio: auto !important;
+        padding: 10px 0 !important;
+    }
+
+    .table-column-0 {
+        margin-bottom: 5px;
+    }
+
+    .table-column-3,
+    .table-column-4,
+    .table-column-5,
+    .table-column-6,
+    .table-column-7,
+    .table-column-8,
+    .table-column-9,
+    .table-column-10,
+    .table-column-11,
+    .table-column-12 {
+        display: none !important;
+    }
+}
+
+
+
+@media (max-width: 960px) {
+    dialog {
+        max-height: calc(100vh - 200px) !important;
+        overflow-y: auto;
+    }
+
+    dialog h2 {
+        margin-bottom: 20px !important;
+    }
+
+    dialog .dialog-row {
+        margin-top: 0;
+        width: auto !important;
+    }
+
+    #form .dialog-row,
+    #summary .dialog-row {
+        grid-template-columns: none;
+        grid-template-rows: repeat(3, 1fr);
+    }
+
+    #tank .dialog-row {
+        grid-template-columns: none;
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    #costs .dialog-row,
+    #favorites .dialog-row,
+    #vehicles .dialog-row {
+        grid-template-columns: none;
+        grid-template-rows: repeat(4, 1fr);
+    }
+
+    #allowance .dialog-row {
+        grid-template-columns: none;
+        grid-template-rows: repeat(8, 1fr);
+    }
+
+    #summary .dialog-row {
+        grid-template-columns: none !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+    }
+
+    #form .dialog-row:last-child {
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    #costs .dialog-row:last-child,
+    #favorites .dialog-row:last-child,
+    #vehicles .dialog-row:last-child,
+    #summary .dialog-row:last-child {
+        grid-template-rows: repeat(3, 1fr);
+    }
+
+    #allowance .dialog-row:last-child {
+        grid-template-rows: repeat(1, 1fr);
+    }
+
+    dialog .dialog-column {
+        margin-top: 10px;
+    }
+
+    dialog.scroll {
+        max-height: none;
+    }
+
+    dialog div:empty {
+        display: none;
+    }
+
+    #form .dialog-row:last-child .dialog-column,
+    #tank .dialog-row:last-child .dialog-column,
+    #costs h2+.dialog-row .dialog-column,
+    #favorites h2+.dialog-row .dialog-column,
+    #vehicles h2+.dialog-row .dialog-column,
+    #costs .dialog-row:last-child .dialog-column,
+    #favorites .dialog-row:last-child .dialog-column,
+    #vehicles .dialog-row:last-child .dialog-column {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    #costs h2+.dialog-row .dialog-column:first-child,
+    #favorites h2+.dialog-row .dialog-column:first-child,
+    #vehicles h2+.dialog-row .dialog-column:first-child {
+        display: none;
+    }
+
+    #costs-rows .dialog-row,
+    #favorites-rows .dialog-row,
+    #vehicles-rows .dialog-row,
+    #allowance-rows .dialog-row {
+        margin-bottom: 30px;
+    }
+
+    #costs-rows .dialog-column,
+    #favorites-rows .dialog-column,
+    #vehicles-rows .dialog-column {
+        grid-template-columns: repeat(1, 1fr) !important;
+        padding: 0 10px;
+    }
+
+    #costs-rows .costs-obsah {
+        width: 100%;
+    }
 }

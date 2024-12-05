@@ -26,7 +26,7 @@ function setTank(record) {
     tankMapping.forEach(m => {
         switch (m.type) {
             case "textbox":
-                tankSetTextbox(m.tankName, record[m.recordName])
+                tankSetTextbox(m.tankName, record != null && record.hasOwnProperty(m.recordName) && record[m.recordName] != null ? record[m.recordName] : "")
                 tankEnableTextbox(m.tankName, m.enabled)
                 break
         }

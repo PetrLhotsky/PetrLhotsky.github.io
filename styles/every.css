@@ -13,10 +13,18 @@ header {
     width: 100%;
 }
 
-#logo img {
+#logo-action {
+    display: block;
+}
+
+#logo .img {
     width: 116px;
     height: 30px;
     margin-top: 5px;
+    background-image: url(../images/logo_black.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #top-panel {
@@ -36,19 +44,20 @@ h1 {
 }
 
 #top-panel-item-1 {
-    width: 40%;
+    width: 37%;
 }
 
-#top-panel-item-2 {
-    width: 20%;
-}
-
-#top-panel-item-3 {
-    width: 20%;
-}
-
+#top-panel-item-2,
+#top-panel-item-3,
 #top-panel-item-4 {
-    width: 20%;
+    width: 21%;
+}
+
+#top-panel-item-4 .select-selected {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: calc(100% - 2ch);
 }
 
 nav {
@@ -90,48 +99,6 @@ nav>div>span.disabled:hover:not(#nav-panel-item-8) {
     box-shadow: none;
 }
 
-@media screen and (max-width: 1419px) {
-    #nav-panel-item-8 .nav-panel-label {
-        display: none;
-    }
-
-    @media screen and (max-width: 1279px) {
-        #nav-panel-item-7 .nav-panel-label,
-        #nav-panel-item-6 .nav-panel-label {
-            display: none;
-        }
-
-        h1.float-left#top-panel-item-1 {
-            float: none;
-            width: 100%;
-        }
-
-        #top-panel-item-2,
-        #top-panel-item-3,
-        #top-panel-item-4 {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width: 999px) {
-        #nav-panel-item-4 .nav-panel-label {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width: 789px) {
-        #nav-panel-item-3 .nav-panel-label {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width: 579px) {
-        #nav-panel-item-2 .nav-panel-label {
-            display: none;
-        }
-    }
-}
-
 .fa-solid {
     color: var(--faColor);
 }
@@ -161,7 +128,8 @@ main>div {
 }
 
 .table-row {
-    transition: background-color 0.2s;
+    transition: background-color 0.2s,
+                color 0.2s;
 }
 
 .table-row:hover {
@@ -194,7 +162,7 @@ main>div {
 }
 
 .sheet-view .table-row:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
 }
 
 #sheet-header {
@@ -306,7 +274,8 @@ main>div {
 
 .calendar-view .table-item {
     font-size: 0.8rem;
-    height: 220px;
+    aspect-ratio: 1/1;
+    max-height: 150px;
 }
 
 #calendar-header .table-column {
@@ -321,56 +290,17 @@ main>div {
     text-align: center;
 }
 
-.calendar-view .table-column:before {
-    margin-right: 20px;
-}
-
-.calendar-view .table-column-1:before {
-    content: "\1F4C5"
-}
-
-.calendar-view .table-column-2:before {
-    content: "\1F5FA"
-}
-
-.calendar-view .table-column-3:before {
-    content: "\1F697"
-}
-
-.calendar-view .table-column-4:before {
-    content: "\1F6E1"
-}
-
-.calendar-view .table-column-5:before {
-    content: "\1F4CF"
-}
-
-.calendar-view .table-column-6:before {
-    content: "\1F4CF"
-}
-
-.calendar-view .table-column-7:before {
-    content: "\26FD"
-}
-
-.calendar-view .table-column-8:before {
-    content: "\1F4B0"
-}
-
-.calendar-view .table-column-9:before {
-    content: "\1F4B3"
-}
-
-.calendar-view .table-column-10:before {
-    content: "\1F3C1"
-}
-
-.calendar-view .table-column-11:before {
-    content: "\1F3AF"
-}
-
-.calendar-view .table-column-12:before {
-    content: "\1F37D"
+.calendar-view .table-column-3,
+.calendar-view .table-column-4,
+.calendar-view .table-column-5,
+.calendar-view  .table-column-6,
+.calendar-view .table-column-7,
+.calendar-view .table-column-8,
+.calendar-view .table-column-9,
+.calendar-view .table-column-10,
+.calendar-view .table-column-11,
+.calendar-view .table-column-12 {
+    display: none !important;
 }
 
 .table-column-0 label.checkbox,
@@ -384,55 +314,105 @@ main>div {
     background-color: var(--sandColor);
 }
 
-dialog .form-row {
+dialog .dialog-row {
     margin-top: 20px;
     display: grid;
     column-gap: 40px;
 }
 
-#form .form-row {
+#form .dialog-row {
     grid-template-columns: repeat(3, 1fr);
     width: 900px;
 }
 
-#tank .form-row {
+#tank .dialog-row {
     grid-template-columns: repeat(2, 1fr);
     width: 500px;
 }
 
-#costs .form-row {
+#costs .dialog-row,
+#favorites .dialog-row {
     grid-template-columns: repeat(4, 1fr);
     width: 900px;
     margin-bottom: 10px;
 }
 
-#costs>.form-row:last-child {
+#vehicles .dialog-row {
+    grid-template-columns: repeat(5, 1fr);
+    width: 900px;
+    margin-bottom: 10px;
+}
+
+#allowance .dialog-row {
+    grid-template-columns: repeat(8, 1fr);
+    width: 900px;
+    margin-bottom: 10px;
+}
+
+#summary h2+.dialog-row {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 120px;
+}
+
+#costs>.dialog-row:last-child,
+#favorites>.dialog-row:last-child,
+#vehicles>.dialog-row:last-child,
+#allowance>.dialog-row:last-child {
     margin-top: 10px;
     margin-bottom: 0;
 }
 
-dialog .form-column {
+dialog .summary-row {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 40px;
+    width: 350px;
+}
+
+dialog .dialog-column {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
-dialog .form-label,
+#summary .dialog-column,
+#allowance .dialog-column,
+#allowance>.dialog-row:last-child {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+#summary .dialog-row:last-child {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+dialog .dialog-label,
 dialog input[type=text],
-dialog .custom-select {
+dialog .custom-select,
+dialog .custom-autocomplete {
     width: 100%;
     display: block;
 }
 
-dialog .form-label {
+dialog input.costs-obsah {
+    width: 195px;
+}
+
+dialog .dialog-label {
     padding: 9.5px 0;
     transition: all 0.2s;
 }
 
-#costs .form-label {
+#costs .dialog-label,
+#favorites .dialog-label,
+#vehicles .dialog-label,
+#allowance .dialog-label {
     padding: 0;
 }
 
-#costs .form-label.form-action  {
+#form .dialog-label.dialog-action,
+#costs .dialog-label.dialog-action,
+#favorites .dialog-label.dialog-action,
+#vehicles .dialog-label.dialog-action {
     padding: 9.5px 9.5px 9.5px 0;
     box-sizing: border-box;
     height: 36px;
@@ -441,15 +421,53 @@ dialog .form-label {
     transition: all 0.2s;
 }
 
-#costs .form-label.form-action:hover {
+#form .dialog-label.dialog-action:hover,
+#costs .dialog-label.dialog-action:hover,
+#favorites .dialog-label.dialog-action:hover,
+#vehicles .dialog-label.dialog-action:hover {
     background-color: var(--grayColor);
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.1), 0px 2px 2px 0px rgba(0, 0, 0, 0.07), 0px 1px 5px 0px rgba(0, 0, 0, 0.06);
     padding-left: 9.5px;
 }
 
-#costs-rows {
+.scroll {
     max-height: 400px;
     overflow-y: auto;
+}
+
+#costs>.dialog-row:not(:last-child) .dialog-column:nth-child(3),
+#costs-rows .dialog-column:nth-child(3),
+#favorites>.dialog-row:not(:last-child) .dialog-column:nth-child(2),
+#favorites-rows .dialog-column:nth-child(2),
+#vehicles>.dialog-row .dialog-column,
+#vehicles-rows .dialog-column {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+#allowance-rows {
+    padding: 0 1px;
+}
+
+#costs>.dialog-row:not(:last-child) .dialog-column:nth-child(4),
+#costs-rows .dialog-column:nth-child(4) {
+    grid-template-columns: calc(50% - 20px) 50%;
+}
+
+#vehicles>.dialog-row:not(:last-child) .dialog-column:nth-child(5),
+#vehicles-rows .dialog-column:nth-child(5) {
+    grid-template-columns: calc(100% - 20px);
+}
+
+#costs>.dialog-row .dialog-column:not(:first-child) label,
+#costs-rows input,
+#costs .autocomplete-items,
+#favorites>.dialog-row .dialog-column:not(:first-child) label,
+#favorites-rows input,
+#vehicles>.dialog-row .dialog-column:not(:first-child) label,
+#vehicles-rows input,
+#allowance>.dialog-row label,
+#allowance-rows input {
+    text-align: center !important;
 }
 
 dialog input[type=text] {
@@ -470,12 +488,20 @@ dialog .custom-select .select-selected {
     outline: 1px var(--black) solid;
 }
 
-dialog .form-column:has(:not(#form-datum):not(#form-novy-stav-tachometru):not(#tank-zacatek)[disabled]) label {
+dialog .dialog-column:has(:not(#form-datum):not(#form-novy-stav-tachometru):not(#tank-zacatek)[disabled]) label {
     text-decoration: line-through;
     opacity: 0.2;
 }
 
-dialog input:not(#form-datum):not(#form-novy-stav-tachometru):not(#tank-zacatek)[type=text][disabled],
+#summary label {
+    text-decoration: none !important;
+    opacity: 1 !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+dialog input:not(#form-datum):not(#form-novy-stav-tachometru):not(#tank-zacatek):not(.vehicles-rz):not(.vehicles-model):not(.vehicles-tachometr):not(.vehicles-costCenter)[type=text][disabled],
 dialog .custom-select[disabled] .select-selected {
     background-color: var(--grayColor);
     color: rgba(0, 0, 0, 0);
@@ -484,29 +510,74 @@ dialog .custom-select[disabled] .select-selected {
     opacity: 0.2;
 }
 
+#summary input[type=text][disabled],
+#allowance input[type=text][disabled] {
+    background-color: var(--grayColor) !important;
+    color: var(--black) !important;
+    font-weight: bold;
+    text-align: right;
+    cursor: default !important;
+    outline-color: var(--black) !important;
+    opacity: 1 !important;
+}
+
+dialog .dialog-column:has(input[type=text]:not([disabled]).invalid) label,
+dialog .dialog-column:has(.custom-select:not([disabled]).invalid) label {
+    font-weight: bold;
+    animation: invalid-text 1s infinite;
+}
+
 dialog input[type=text]:not([disabled]).invalid,
 dialog .custom-select:not([disabled]).invalid .select-selected {
     outline-width: 2px;
     animation: invalid-outline 1s infinite;
 }
 
-dialog .form-selection .select-selected {
+dialog .dialog-selection .select-selected {
     padding: 10px;
 }
 
-dialog .form-selection .select-selected.select-arrow-active:after {
+dialog .dialog-selection .select-selected.select-arrow-active:after {
     top: 9px;
 }
 
-dialog .form-selection .select-selected:after {
+dialog .dialog-selection .select-selected:after {
     top: 15px;
 }
 
-dialog .form-selection .select-items {
+dialog .dialog-selection .select-items {
     top: 100%;
     font-size: 0.6rem;
 }
 
-dialog .form-checkbox .checkbox {
+dialog .dialog-checkbox .checkbox {
     margin-top: 9px;
+}
+
+dialog .costs-autocomplete {
+    position: absolute;
+}
+
+dialog #costs-rows,
+dialog #favorites-rows,
+dialog #vehicles-rows {
+    transition: background-color 0.2s;
+}
+
+dialog #costs-rows .dialog-row:has(.dialog-action:hover) input,
+dialog #favorites-rows .dialog-row:has(.dialog-action:hover) input,
+dialog #vehicles-rows .dialog-row:has(.dialog-action:hover) input {
+    background-color: var(--grayColor);
+}
+
+footer {
+    height: 100vh;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+footer>div {
+    text-align: -webkit-center;
 }

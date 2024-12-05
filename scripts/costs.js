@@ -32,6 +32,7 @@ function setCostsMore(records) {
 function setCostsOne(record) {
     var id = costsRowsCount()
     $("#costs-rows").append(costsHtmlRecord(id))
+    appendAutocomplete($("#costs-autocomplete-" + id), "costs-obsah-" + id, "costs-obsah invalid", "", getNakladyObsahList())
 
     if (record == null) {
         return
@@ -128,7 +129,7 @@ function costsCheckTextboxes() {
 }
 
 function costsRowsCount() {
-    var rows = $("#costs .form-row").toArray()
+    var rows = $("#costs .dialog-row[id]").toArray()
     var max = 0
     rows.forEach(row => {
         var id = parseInt(row.id.split('-').pop())
@@ -141,21 +142,23 @@ function costsRowsCount() {
 
 function costsHtmlRecord(id) {
     return '\
-    <div id="costs-row-' + id + '" class="form-row">\
-        <div class="form-column">\
-            <label id="costs-delete-' + id + '" class="form-label form-action costs-delete">\
+    <div id="costs-row-' + id + '" class="dialog-row">\
+        <div class="dialog-column">\
+            <label id="costs-delete-' + id + '" class="dialog-label dialog-action costs-delete">\
                 <i class="fa-solid fa-trash"></i>\
                 odstranit\
             </label>\
         </div>\
-        <div class="form-column">\
-            <input type="text" name="costs-datum-' + id + '" id="costs-datum-' + id + '" class="costs-datum invalid" tabindex="3' + id + '1">\
+        <div class="dialog-column">\
+            <input type="text" name="costs-datum-' + id + '" id="costs-datum-' + id + '" class="costs-datum invalid" tabindex="3' + id + '1" autocomplete="off">\
         </div>\
-        <div class="form-column">\
-            <input type="text" name="costs-obsah-' + id + '" id="costs-obsah-' + id + '" class="costs-obsah invalid" tabindex="3' + id + '2">\
+        <div class="dialog-column">\
+            <!--<input type="text" name="costs-obsah-' + id + '" id="costs-obsah-' + id + '" class="costs-obsah invalid" tabindex="3' + id + '2" autocomplete="off">-->\
+            <span id="costs-autocomplete-' + id + '" class="costs-autocomplete" tabindex="3' + id + '3"></span>\
         </div>\
-        <div class="form-column">\
-            <input type="text" name="costs-castka-' + id + '" id="costs-castka-' + id + '" class="costs-castka invalid" tabindex="3' + id + '3">\
+        <div class="dialog-column">\
+            <div></div>\
+            <input type="text" name="costs-castka-' + id + '" id="costs-castka-' + id + '" class="costs-castka invalid" tabindex="3' + id + '3" autocomplete="off">\
         </div>\
     </div>'
 }
@@ -169,4 +172,31 @@ function deleteCostsRecord(originalId) {
 function insertCostsRecord() {
     setCostsOne()
     costsCheckTextboxes()
+}
+
+function getCosts() {
+    var output = []
+    $("#costs .dialog-row[id]").toArray().forEach(row => {
+        var id = parseInt(row.id.split('-').pop())
+        output.push(getCost(id))
+    })
+    return output
+}
+
+function getCost(id) {
+    var output = {}
+
+    costsMapping.forEach(m => {
+        var value
+
+        switch (m.type) {
+            case "textbox":
+                value = costsGetTextbox(m.costsName, id)
+                break
+        }
+
+        output[m.recordName] = value
+    })
+
+    return output
 }

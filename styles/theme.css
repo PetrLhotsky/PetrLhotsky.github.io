@@ -9,13 +9,17 @@
         --mainColor: #fff000;
 
         --petrolColor: #238c96;
-        --sandColor: #b1b0a1;
+        --sandColor: #1b1b1b;
         --oliveColor: #4b8969;
         --redColor: #b61a2d;
-        --grayColor: #e3e3e3;
+        --grayColor: #3e3e3e;
 
-        --controlColor: #333;
-        --faColor: #ddd;
+        --controlColor: #222;
+        --faColor: #ccc;
+    }
+
+    #logo .img {
+        background-image: url(../images/logo_white.svg);
     }
 
     #top-panel,
@@ -27,23 +31,30 @@
         border-color: var(--white) transparent transparent transparent !important;
     }
 
-    #sheet-header,
-    #calendar-header,
-    .table-row.weekend,
-    .table-row.active {
+    .select-selected.select-arrow-active:after {
+        border-color: transparent transparent var(--white) transparent !important;
+    }
+
+    .table-row.active:not(:hover) {
         color: var(--white);
     }
 
-    dialog {
-        background-color: var(--white);
+    .dialog-container {
+        background-color: rgb(7, 5, 2, 0.8) !important;
     }
 
-    dialog * {
+    dialog h2,
+    dialog label,
+    dialog span.cancel,
+    dialog span.submit {
         color: var(--black);
     }
 
-    #form input:not(#form-datum)[type=text]:not([disabled]),
-    #form .custom-select:not([disabled]) .select-selected {
-        color: var(--white);
+    dialog span.radiomark:after {
+        background: var(--white) !important;
+    }
+
+    dialog span.checkmark:after {
+        border-color: var(--white) !important;
     }
 }

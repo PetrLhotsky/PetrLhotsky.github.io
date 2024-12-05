@@ -1,55 +1,38 @@
-function generateTable() {
+function generateRandomData() {
     var tachometr = 100000
 
-    for (var i = 1; i < new Date("2024-11-1").getDay(); i++) {
-        $("#table").append(generateTableItem(0, " hidden", tachometr)[1])
-    }
-
     for (var i = 1; i <= 30; i++) {
-        var [next, html] = generateTableItem(i, "", tachometr)
+        var next = generateRandomItem(i, tachometr)
         tachometr += next
-        $("#table").append(html)
     }
 }
 
-function generateTableItem(i, c, tachometr) {
-    var x = c
-
-    if (i == 0) {
-        return [0, '<div id="table-item-' + i + '" class="table-row table-item' + c + '"><div id="table-item-0-prop-4" class="table-column table-column-4">' + addThousandsSpace(tachometr) + '</div></div>']
-    }
-    
-    if (new Date("2024-11-" + i).getDay() == 0 || new Date("2024-11-" + i).getDay() == 6) x += " weekend"
-    if (i == new Date().getDate()) x += " active"
-
+function generateRandomItem(i, tachometr) {
     var r = Math.floor(Math.random() * 4)
 
-    if (r == 0) {
-        return [0, '<div id="table-item-' + i + '" class="table-row table-item' + x + '">\
-                        <div id="table-item-' + i + '-prop-0" class="table-column table-column-0">\
-                            <span id="table-item-' + i + '-prop-0-check" class="table-check"></span>\
-                            <i id="table-item-' + i + '-prop-0-edit" class="fa-solid fa-pen-to-square table-edit"></i>\
-                        </div>\
-                        <div id="table-item-' + i + '-prop-1" class="table-column table-column-1">' + (i < 10 ? "0" + i : i ) + '. 11.</div>\
-                        <div id="table-item-' + i + '-prop-2" class="table-column table-column-2"></div>\
-                        <div id="table-item-' + i + '-prop-3" class="table-column table-column-3">AUS</div>\
-                        <div id="table-item-' + i + '-prop-4" class="table-column table-column-4">' + addThousandsSpace(tachometr) + '</div>\
-                        <div id="table-item-' + i + '-prop-5" class="table-column table-column-5"></div>\
-                        <div id="table-item-' + i + '-prop-6" class="table-column table-column-6"></div>\
-                        <div id="table-item-' + i + '-prop-7" class="table-column table-column-7"></div>\
-                        <div id="table-item-' + i + '-prop-8" class="table-column table-column-8"></div>\
-                        <div id="table-item-' + i + '-prop-9" class="table-column table-column-9"></div>\
-                        <div id="table-item-' + i + '-prop-10" class="table-column table-column-10">\u00A0</div>\
-                        <div id="table-item-' + i + '-prop-11" class="table-column table-column-11">\u00A0</div>\
-                        <div id="table-item-' + i + '-prop-12" class="table-column table-column-12"></div>\
-                        <div id="table-item-' + i + '-prop-13" class="table-column table-column-13 hidden"></div>\
-                        <div id="table-item-' + i + '-prop-14" class="table-column table-column-14 hidden"></div>\
-                        <div id="table-item-' + i + '-prop-15" class="table-column table-column-15 hidden"></div>\
-                        <div id="table-item-' + i + '-prop-16" class="table-column table-column-16 hidden">1</div>\
-                    </div>']
+    if (r == 0) {     
+        $("#table-item-" + i + "-prop-2").text("")
+        $("#table-item-" + i + "-prop-3").text("")
+        $("#table-item-" + i + "-prop-4").text(addThousandsSpace(tachometr))
+        $("#table-item-" + i + "-prop-5").text("")
+        $("#table-item-" + i + "-prop-6").text("")
+        $("#table-item-" + i + "-prop-7").text("")
+        $("#table-item-" + i + "-prop-8").text("")
+        $("#table-item-" + i + "-prop-9").text("")
+        $("#table-item-" + i + "-prop-10").text("")
+        $("#table-item-" + i + "-prop-11").text("")
+        $("#table-item-" + i + "-prop-12").text("")
+        $("#table-item-" + i + "-prop-13").text("")
+        $("#table-item-" + i + "-prop-14").text("")
+        $("#table-item-" + i + "-prop-15").text("")
+        $("#table-item-" + i + "-prop-16").text(-2)
+        
+        return 0
     }
+
     else {
         var next = Math.floor(Math.random() * 100) + 100
+
         var p1 = Math.floor(Math.random() * 3)
         var p2 = next, p3 = ""
         var typ = 1
@@ -69,29 +52,22 @@ function generateTableItem(i, c, tachometr) {
             cdo = "\u00A0"
         }
 
-        return [next, '<div id="table-item-' + i + '" class="table-row table-item' + x + '">\
-                        <div id="table-item-' + i + '-prop-0" class="table-column table-column-0">\
-                            <span id="table-item-' + i + '-prop-0-check" class="table-check"></span>\
-                            <i id="table-item-' + i + '-prop-0-edit" class="fa-solid fa-pen-to-square table-edit"></i>\
-                        </div>\
-                        <div id="table-item-' + i + '-prop-1" class="table-column table-column-1">' + (i < 10 ? "0" + i : i ) + '. 11.</div>\
-                        <div id="table-item-' + i + '-prop-2" class="table-column table-column-2">' + (typ == 2 ? "" : "Praha - Brno") + '</div>\
-                        <div id="table-item-' + i + '-prop-3" class="table-column table-column-3">AUS</div>\
-                        <div id="table-item-' + i + '-prop-4" class="table-column table-column-4">' + addThousandsSpace(tachometr + next) + '</div>\
-                        <div id="table-item-' + i + '-prop-5" class="table-column table-column-5">' + p2 + '</div>\
-                        <div id="table-item-' + i + '-prop-6" class="table-column table-column-6">' + p3 + '</div>\
-                        <div id="table-item-' + i + '-prop-7" class="table-column table-column-7">20</div>\
-                        <div id="table-item-' + i + '-prop-8" class="table-column table-column-8">1 000</div>\
-                        <div id="table-item-' + i + '-prop-9" class="table-column table-column-9">500</div>\
-                        <div id="table-item-' + i + '-prop-10" class="table-column table-column-10">' + cod + '</div>\
-                        <div id="table-item-' + i + '-prop-11" class="table-column table-column-11">' + cdo + '</div>\
-                        <div id="table-item-' + i + '-prop-12" class="table-column table-column-12">1</div>\
-                        <div id="table-item-' + i + '-prop-13" class="table-column table-column-13 hidden">ne</div>\
-                        <div id="table-item-' + i + '-prop-14" class="table-column table-column-14 hidden">ano</div>\
-                        <div id="table-item-' + i + '-prop-15" class="table-column table-column-15 hidden">ne</div>\
-                        <div id="table-item-' + i + '-prop-16" class="table-column table-column-16 hidden">' + typ + '</div>\
-                       </div>']
+        $("#table-item-" + i + "-prop-2").text(typ == 2 ? "(soukromá)" : "Praha - Brno")
+        $("#table-item-" + i + "-prop-3").text("AUS")
+        $("#table-item-" + i + "-prop-4").text(addThousandsSpace(tachometr + next))
+        $("#table-item-" + i + "-prop-5").text(p2)
+        $("#table-item-" + i + "-prop-6").text(p3)
+        $("#table-item-" + i + "-prop-7").text("20")
+        $("#table-item-" + i + "-prop-8").text("1 000")
+        $("#table-item-" + i + "-prop-9").text("500")
+        $("#table-item-" + i + "-prop-10").text(cod)
+        $("#table-item-" + i + "-prop-11").text(cdo)
+        $("#table-item-" + i + "-prop-12").text("1")
+        $("#table-item-" + i + "-prop-13").text("ne")
+        $("#table-item-" + i + "-prop-14").text("ano")
+        $("#table-item-" + i + "-prop-15").text("ne")
+        $("#table-item-" + i + "-prop-16").text(typ)
+
+        return next
     }
 }
-
-generateTable()

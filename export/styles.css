@@ -1,0 +1,270 @@
+:root {
+    --black: #000;
+    --white: #fff;
+
+    --bgColor: #f8fafd;
+    --text: #333;
+
+    --mainColor: #fff000;
+
+    --petrolColor: #238c96;
+    --sandColor: #b1b0a1;
+    --oliveColor: #4b8969;
+    --redColor: #b61a2d;
+    --grayColor: #e3e3e3;
+
+    --controlColor: #ccc;
+    --faColor: #222;
+
+    --breakPoint: 800px;
+}
+
+@font-face {
+    font-family: mainFont;
+    src: url(FFClanProRegular.TTF);
+    font-display: swap;
+}
+
+@font-face {
+    font-family: mainFontBold;
+    src: url(FFClanProBold.TTF);
+    font-display: swap;
+}
+
+@keyframes invalid-outline {
+    0% {
+        outline-color: var(--redColor);
+    }
+    50% {
+        outline-color: var(--black);
+    }
+    100% {
+        outline-color: var(--redColor);
+    }
+}
+
+@keyframes invalid-text {
+    0% {
+        color: var(--redColor);
+    }
+    50% {
+        color: var(--black);
+    }
+    100% {
+        color: var(--redColor);
+    }
+}
+
+body, h1, h2, h3, h4, h5, h6, ul, ol, li, p, img {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bgColor);
+    font-family: mainFont;
+    color: var(--black);
+    cursor: default;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--breakPoint);
+    overflow: auto;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.hidden {
+    display: none;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    height: calc(100% - 40px);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    width: 100%;
+}
+
+#logo img {
+    width: 116px;
+    height: 30px;
+    margin-top: 5px;
+}
+
+#top-panel {
+    width: calc(100% - 116px - 30px);
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: var(--mainColor);
+    border-radius: 10px;
+}
+
+h1 {
+    font-family: mainFontBold;
+}
+
+#top-panel>span.float-left {
+    text-align: right;
+}
+
+#top-panel-item-1 {
+    width: 40%;
+}
+
+#top-panel-item-2 {
+    width: 20%;
+}
+
+#top-panel-item-3 {
+    width: 20%;
+}
+
+#top-panel-item-4 {
+    width: 20%;
+}
+
+.fa-solid {
+    color: var(--faColor);
+}
+
+main {
+    margin-top: 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+main>div {
+    overflow: overlay;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.table-row.weekend {
+    background-color: var(--grayColor);
+}
+
+.table-row.active {
+    background-color: var(--mainColor);
+}
+
+.sheet-view {
+    min-width: 1310px;
+}
+
+.sheet-view .table-row {
+    padding: 5px 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    border-bottom: 1px var(--sandColor) solid;
+}
+
+.sheet-view .table-row:last-child {
+    border-bottom: none;
+}
+
+#sheet-header {
+    padding: 10px 0;
+    font-family: mainFontBold;
+    font-size: 0.9rem;
+    background-color: var(--grayColor);
+    border-radius: 10px;
+}
+
+.sheet-view .table-item {
+    font-size: 0.8rem;
+}
+
+.sheet-view .table-column {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+
+.sheet-view .table-column-0 {
+    /*min-width: 100px;*/
+    display: none;
+}
+
+.sheet-view .table-column-1 {
+    min-width: 60px;
+}
+
+.sheet-view .table-column-2 {
+    min-width: 150px;
+}
+
+.sheet-view .table-column-3 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-4 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-5 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-6 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-7 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-8 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-9 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-10 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-11 {
+    min-width: 100px;
+}
+
+.sheet-view .table-column-12 {
+    min-width: 100px;
+}

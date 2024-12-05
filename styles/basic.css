@@ -43,6 +43,18 @@
     }
 }
 
+@keyframes invalid-text {
+    0% {
+        color: var(--redColor);
+    }
+    50% {
+        color: var(--black);
+    }
+    100% {
+        color: var(--redColor);
+    }
+}
+
 body, h1, h2, h3, h4, h5, h6, ul, ol, li, p, img {
     margin: 0;
     padding: 0;
