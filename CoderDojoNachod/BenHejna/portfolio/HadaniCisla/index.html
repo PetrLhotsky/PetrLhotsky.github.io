@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hádej číslo 😃</title>
+</head>
+<body>
+    <h1>Hádej číslo mezi 1 a 100</h1>
+    <p>Uhodni náhodné číslo, které jsem si vybral. Zadej své tipy do pole a klikni na "Zkontrolovat ale pozor mas jenom tri pokusy muze tam bejt i 0 a 100 nazdar hodne stesti ale ja benjamin jsem v tom nejlepssiiiiiiiii jestli to vsechno das na jseden posu tak jsi dobrej".</p>
+    <p>V případě poruchy či chybi volej na číslo 734 407 434  nebo na gmail benjaminhejna@gmail.com (pozor mam plny uloziste takze eamil neprijde)</p>
+    <input type="number" id="userGuess" placeholder="Tvůj tip" min="1" max="100">
+    <button onclick="checkGuess()">Zkontrolovat</button>
+    
+    <p id="message"></p>
+ dawda
+    <script>
+        // Generování náhodného čísla mezi 1 a 100
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        // Funkce pro kontrolu tipu
+        function checkGuess() {
+            let userGuess = document.getElementById("userGuess").value;
+            let message = document.getElementById("message");
+
+            if (userGuess == randomNumber) {
+                message.textContent = "Gratuluji! Uhodl(a) jsi správně!";
+                message.style.color = "green";
+            } else if (userGuess < randomNumber) {
+                message.textContent = "Tvoje číslo je příliš malé. Zkus to znovu!";
+                message.style.color = "red";
+            } else if (userGuess > randomNumber) {
+                message.textContent = "Tvoje číslo je příliš velké. Zkus to znovu!";
+                message.style.color = "red";
+            } else {
+                message.textContent = "Zadej číslo mezi 1 a 100.";
+                message.style.color = "orange";
+            }
+        }
+    </script>
+</body>
+</html>

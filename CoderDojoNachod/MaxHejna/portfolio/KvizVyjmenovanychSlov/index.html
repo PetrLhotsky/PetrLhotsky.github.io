@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vyjmenovaná slova</title>
+
+    <style>
+        body {
+            background-color: rgb(120, 255, 201);
+            font-family: sans-serif;
+        }
+
+        h1 {
+            color: hsl(0, 0%, 9%);
+            font-size: 56px;
+
+            text-align: center;
+        }
+
+        #menu {
+            width: 1344px;
+            height: 90px;
+            overflow: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #slova-b, #slova-l, #slova-m, #slova-p, #slova-s, #slova-v, #slova-z {
+            width: 192px;
+            height: 90px;
+            float: left;
+            background-color: rgb(255, 98, 0);
+            font-size: 20.1px;
+            color: black;
+            text-align: center;
+        }
+
+        #pocetuloh {
+            width: 1000px;
+            height: 100px;
+            margin-left:auto ;
+            margin-right: auto;
+            display: block;
+        }
+
+        #pocet, #procenta, #znamka {
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 50px;
+            color: #0474fb;
+            text-align: center;
+        }
+
+        #hra {
+            display: none;
+        }
+
+        #casovac {
+            padding-top: 0px;
+        }
+
+        #panel1, #panel2, #panel3 {
+            width: 1170px;
+            height: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgb(136, 255, 0);
+            color: rgba(255, 0, 0, 0.508);
+        }
+
+        h2 {
+            text-align: center;
+            padding-top: 75px;
+            font-size: 33px;
+        }
+
+        #odpoved {
+            width: 288px;
+            overflow: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #vyber {
+            width: 100px;
+            height: 35px;
+            float: left;
+            margin-right: 10px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        #potvrdit {
+            width: 170px;
+            height: 35px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vyjmenovaná slova</h1>
+
+    <p id="procenta"></p>
+    <p id="znamka"></p>
+
+    <div id="menu">
+        <input type="button" value="po B" id="slova-b">
+        <input type="button" value="po L" id="slova-l">
+        <input type="button" value="po M" id="slova-m">
+        <input type="button" value="po P" id="slova-p">
+        <input type="button" value="po S" id="slova-s">
+        <input type="button" value="po V" id="slova-v">
+        <input type="button" value="po Z,F" id="slova-z">
+    </div>
+
+    <input type="range" id="pocetuloh" min="1" max="25" value="15">
+    <p id="pocet">15</p>
+
+    <div id="hra">
+
+        <h2 id="casovac">Čas: 10</h2>
+
+        <div id="panel1">
+            <h2 id="obdelnik-spravne">SPRÁVNĚ: 0</h2>
+        </div>
+
+        <div id="panel2">
+            <h2 id="obdelnik-spatne">ŠPATNĚ: 0</h2>
+        </div>
+
+        <div id="panel3">
+            <h2 id="uloha"></h2>
+            <div id="odpoved">
+                <select id="vyber">
+                    <option value="i">i</option>
+                    <option value="í">í</option>
+                    <option value="y">y</option>
+                    <option value="ý">ý</option>
+                </select>
+                <input type="button" value="POTVRDIT ODPOVĚĎ" id="potvrdit">
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="B.js"></script>
+    <script src="L.js"></script>
+    <script src="M.js"></script>
+    <script src="P.js"></script>
+    <script src="S.js"></script>
+    <script src="V.js"></script>
+    <script src="Z.js"></script>
+
+    <script>
+        var spravne = 0
+        var spatne = 0
+
+        var pismeno
+        var casovac
+        var cas
+        var spravnaodpoved
+        var hromadauloh
+        var seznamuloh
+
+
+
+        $("#procenta").hide()
+        $("#znamka").hide()
+        $("#hra").hide()
+
+
+
+        document.getElementById("pocetuloh").addEventListener("input", function(event) {
+            var value = event.target.value
+            $("#pocet").text(value)
+        })
+
+        $("#slova-b").click(function() {
+            spustitHru("B")
+        })
+
+        $("#slova-l").click(function() {
+            spustitHru("L")
+        })
+        
+        $("#slova-m").click(function() {
+            spustitHru("M")
+        })
+
+        $("#slova-p").click(function() {
+            spustitHru("P")
+        })
+
+        $("#slova-s").click(function() {
+            spustitHru("S")
+        })
+
+        $("#slova-v").click(function() {
+            spustitHru("V")
+        })
+
+        $("#slova-z").click(function() {
+            spustitHru("Z")
+        })
+
+
+
+        function spustitHru(zvoleno) {
+            $("#menu").hide()
+            $("#pocetuloh").hide()
+            $("#pocet").hide()
+            $("#hra").show()
+
+            pismeno = zvoleno
+            hromadauloh = parseInt($("#pocetuloh").val())
+
+            nacistUlohy()
+            
+            generovatUlohu()
+        }
+
+
+        
+        function nacistUlohy() {
+
+        if (pismeno=="B"){
+        seznamuloh=slova_b
+        }
+
+        if (pismeno=="L"){
+        seznamuloh=slova_l
+        }
+
+        if (pismeno=="M"){
+        seznamuloh=slova_m
+        }
+
+        if (pismeno=="P"){
+        seznamuloh=slova_p
+        }
+
+        if (pismeno=="S"){
+        seznamuloh=slova_s
+        }
+
+        if (pismeno=="V"){
+        seznamuloh=slova_v
+        }
+
+        if (pismeno=="Z"){
+        seznamuloh=slova_z
+        }
+
+
+            // úkol 1: načíst seznam úloh z příslušného JS souboru
+
+                // nápověda 1:  například pokud si uživatel vybral b (co si vybral, lze zjistit podle hodnoty proměnné pismeno),
+                //              bude nutné načíst obsah pole slova_b a v něm Items, jež je potřeba uložit do proměnné seznamuloh
+
+        }
+
+
+
+        function generovatUlohu() {
+            resetovatCasovac()
+
+            if (spravne + spatne == hromadauloh) {
+                zobrazZnamku()
+                return
+            }
+
+            var cislo = Math.floor(Math.random() * seznamuloh.Items.length)
+            // úkol 2: generovat další úlohu ze seznamu všech úloh
+
+                // nápověda 2:  k dispozici je proměnná seznamuloh, obsahující seznam všech úloh, takže je nutné z ní vybrat náhodnou
+                //              položku, zobrazit její Text (vynechaný) uživateli, ale i uložit si odpověď do proměnné spravnaodpoved
+            
+            uloha = seznamuloh.Items[cislo] // tento řádek zaměnit za náhodné generování úlohy
+            let text = uloha.Text;
+            let index = uloha.Indexes[0];
+            let nahrazovaciPismeno = '❓'; 
+
+            let novyText = text.substring(0, index) + nahrazovaciPismeno + text.substring(index + 1);
+
+
+
+            $("#uloha").text(novyText) // tento řádek zaměnit, aby místo k doplnění zůstalo vynechané
+
+            spravnaodpoved = uloha.Text[uloha.Indexes[0]]
+            console.log(spravnaodpoved)
+
+            spustitCasovac()
+        }
+
+
+
+        function resetovatCasovac() {
+            clearInterval(casovac)
+            cas = 15
+            $("#casovac").text("Zbývá " + cas + " s")
+        }
+
+        function spustitCasovac() {
+            casovac = setInterval(function () {
+                if (--cas < 0) chybnaOdpoved()
+                else $("#casovac").text("Zbývá: " + cas + " s")
+            }, 1000)
+        }
+
+
+
+        $("#potvrdit").click(function () {
+            zkontrolovatOdpoved()
+        })
+
+
+
+        function zkontrolovatOdpoved() {
+            if ($("#vyber").val() == null) return
+
+            var vyber = $("#vyber").val()
+            $("#vyber").val("")
+
+            if (spravnaodpoved == vyber) spravnaOdpoved()
+            else chybnaOdpoved()
+        }
+
+        function spravnaOdpoved() {
+            spravne++
+            $("#obdelnik-spravne").text("SPRÁVNĚ: " + spravne)
+
+            generovatUlohu()
+        }
+
+        function chybnaOdpoved() {
+            spatne++
+            $("#obdelnik-spatne").text("ŠPATNĚ: " + spatne)
+
+            generovatUlohu()
+        }
+
+
+
+        function zobrazZnamku() {
+            $("#hra").hide()
+            $("#procenta").show()
+            $("#znamka").show()
+
+            var procenta = Math.round((spravne / hromadauloh) * 100)
+            $("#procenta").text("Vaše úspěšnost: " + procenta + " %")
+
+            var znamka = 0
+            if (procenta >= 90) znamka = 1
+            else if (procenta >= 75) znamka = 2
+            else if (procenta >= 50) znamka = 3
+            else if (procenta >= 25) znamka = 4
+            else znamka = 5
+            $("#znamka").text("Vaše známka: " + znamka)
+        }
+    </script>
+</body>
+</html>

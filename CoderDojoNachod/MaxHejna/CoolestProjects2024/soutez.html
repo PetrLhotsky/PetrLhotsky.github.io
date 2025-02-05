@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Max Hejna - Coolest Projects 2024</title>
+        <link rel="stylesheet" type="text/css" href="soutez.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <style>
+            #completed {
+                transition: width 1s;
+            }
+            
+            #game>#close {
+                display: block;
+                background-color: white;
+                border-radius: 20px;
+                transition: background-color 1s;
+                cursor: pointer;
+                font-family: Arial, sans-serif;
+                text-align: center;
+
+                margin-bottom: 10px;
+                padding: 20px 20px;
+            }
+
+            #game>#close:hover {
+                background-color: lightgray;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="main">
+        <h1>Max Hejna - Coolest Projects 2024</h1>
+
+        <p id="intro">a set of education mini-games and challenges towards achieving the treasure</p>
+
+        <div id="score" class="row center">
+            <div class="column">
+                <span class="description">Completed goals</span>
+                <span id="completedGoals" class="value"></span>
+            </div>
+            <div class="column">
+                <span class="description">Completed percentage</span>
+                <span id="completedPercentage" class="value"></span>
+            </div>
+            <div class="column">
+                <span class="description">Remaining goals</span>
+                <span id="remainingGoals" class="value"></span>
+            </div>
+            <div class="column">
+                <span class="description">Remaining percentage</span>
+                <span id="remainingPercentage" class="value"></span>
+            </div>
+        </div>
+
+        <div id="progress" class="row center">
+            <div id="completed"></div>
+        </div>
+
+        <div id="lore" class="row center">
+            <p id="story"></p>
+            <span id="back" class="button">◄ back</span>
+            <span id="forw" class="button">forw ►</span>
+        </div>
+
+        <div id="task" class="row center" style="display: none">
+            <div class="column">
+                <img id="icon" src="" alt="Current Task">
+            </div>
+            <div class="column">
+                <h2>
+                    <img class="dot" src="soutez.gif" alt="Current Task">
+                    Current Task: <span id="name"></span>
+                    <img class="dot" src="soutez.gif" alt="Current Task">
+                </h2>
+                <p id="current"></p>
+                <span id="start" class="button">🏁 start 🏁</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="game" style="display: none"></div>
+
+        <script>
+            var completedGoals, completedPercentage, remainingGoals, remainingPercentage
+            const totalGoals = 8
+
+            function changeCompleted(value) {
+                completedGoals = value
+                completedPercentage = Math.round(100 * completedGoals / totalGoals)
+                remainingGoals = totalGoals - completedGoals
+                remainingPercentage = 100 - completedPercentage
+
+                $("#completedGoals").text(completedGoals)
+                $("#completedPercentage").text(completedPercentage + "%")
+                $("#remainingGoals").text(remainingGoals)
+                $("#remainingPercentage").text(remainingPercentage + "%")
+
+                $("#completed").css("width", completedPercentage + "%")
+            }
+
+            changeCompleted(0)
+
+            var storyIndex = 0, dialogIndex = 0, storyAnimation = false
+            const story = [
+                [
+                    "Hello, I'm Max and welcome to my project for the Coolest Projects 2024 event.",
+                    "I have prepared a series of educational mini-games and challenges for you.",
+                    "When developing these, I focused on their math and logical thinking purpose.",
+                    "The first 3 games waiting for you need to be finished to move forward.",
+                    "In the next 5 challenges you need to find code fragments by instructions.",
+                    "If you succeed, a treasure waits for you. But only if you enter the right code!",
+                    "Let's get started, first stop is a memory training game. Good luck with that."
+                ],
+                [
+                    "Successfully completed, keep it up 👏",
+                ],
+                [
+                    "Continue to discover more challenges 😎"
+                ],
+                [
+                    "You can do it, I have faith in you 👍"
+                ],
+                [
+                    "Only 50% left, it would be a pity to give up 🤩"
+                ],
+                [
+                    "That was difficult, but you did it again ✅"
+                ],
+                [
+                    "Be attentive in the following task 👀"
+                ],
+                [
+                    "The last challenge, goal is within reach 📣"
+                ],
+                [
+                    "Well done, you've come all the way to the end.",
+                    "Do you know all the parts of the code?"
+                ]
+            ]
+
+            var interval
+
+            function showStory(index) {
+                storyAnimation = true
+                $("#task").hide()
+                storyIndex = index
+                dialogIndex = -1
+
+                tick()
+                interval = setInterval(() => tick(), 2000)
+            }
+
+            function tick() {
+                if (dialogIndex + 1 == story[storyIndex].length) {
+                    clearInterval(interval)
+                    $("#task").slideDown()
+                    storyAnimation = false
+                }
+                else dialogIndex++
+
+                $("#story").text(story[storyIndex][dialogIndex])
+            }
+            
+            showStory(0)
+
+            function moveStory(step) {
+                if (storyAnimation) return
+
+                if (step > 0 && dialogIndex + 1 < story[storyIndex].length) dialogIndex++
+                else if (step < 0 && dialogIndex - 1 >= 0) dialogIndex--
+
+                $("#story").text(story[storyIndex][dialogIndex])
+            }
+
+            $("#back").click(() => moveStory(-1))
+            $("#forw").click(() => moveStory(+1))
+
+            var taskIndex = 0
+            const tasks = [
+                {
+                    "name": "Memory Training",
+                    "curr": "In each level, you'll see colored circles in random order in random places. Your task is to memorize this order and then click on the circles in the same order. If you reach level 10, you win, but be careful, the number of circles will increase as you progress. Are you ready?",
+                    "icon": "TreninkPameti"
+                },
+                {
+                    "name": "Mathematics Quiz",
+                    "curr": "Mathematics is an important discipline for all those who want to study science and technology. Can you pass the quiz to practice addition, subtraction, multiplication and division? You must achieve grade 1, but the difficulty, including the number of math examples, is fully up to you.",
+                    "icon": "MatematickyKviz"
+                },
+                {
+                    "name": "Minecraft Pairs",
+                    "curr": "Do you know which game is the second most played in the world? It's Minecraft, so let's try out a memory game for combining blocks and materials. The rules of Pairs probably need no introduction, your goal is to reach all 8 pairs with a maximum of 24 moves. I know you can do it.",
+                    "icon": "MinecraftPexeso"
+                },
+                {
+                    "name": "Fractions Addition",
+                    "curr": "Fractions are an essential part of mathematics. Can you remember how arithmetic operations work with them? The first part of the code to the treasure is the numerator of the result of 14/4 + 6/36 + 2/3. To help you figure this out using a computer, I've programmed a fraction calculator.",
+                    "icon": "ScitaniZlomku"
+                },
+                {
+                    "name": "CS ↔ EN Translator",
+                    "curr": "In today's world based on communication, knowledge of foreign languages is important. For example, do you know what the word \"apple\" means in Czech? This has great significance in the religious and technological worlds and it is the second piece of the code to the treasure.",
+                    "icon": "Prekladac"
+                },
+                {
+                    "name": "Units Converter",
+                    "curr": "Coming back to maths again, converting units is a simple thing, 1 m is 100 cm, 1 kg is 1000 grams,... But how much is 1 GB in MB? The correct answer is not 1000 as some people think, you have to find it out using a unit converter and the result is the third part of the code.",
+                    "icon": "PrevodnikJednotek"
+                },
+                {
+                    "name": "Greatest C. Divisor",
+                    "curr": "An important concept within programming are algorithms; it can be imagined as a cookbook to finding the required result. I recommend looking at the Euclidean algorithm, which is finding the greatest common divisor. The GCD of numbers 128 and 412 is the fourth part of the code.",
+                    "icon": "NejvetsiDelitel"
+                },
+                {
+                    "name": "Sieve of Eratosthenes",
+                    "curr": "Another algorithm I recommend to explore, and the last project, is Sieve of Eratosthenes. This is used to find prime numbers quickly, that is numbers that are divisible only by one and itself. The last piece of the code is the last three-digit prime number. Can you find it using my tool?",
+                    "icon": "EratosthenovoSito"
+                }
+            ]
+
+            function changeTask(value) {
+                taskIndex = value
+                if (taskIndex >= tasks.length) {
+                    endGame()
+                    return
+                }
+
+                $("#name").text(tasks[taskIndex].name)
+                $("#current").text(tasks[taskIndex].curr)
+                $("#icon").attr("src", tasks[taskIndex].icon + ".png")
+            }
+
+            changeTask(0)
+
+            function showGame() {
+                var src = tasks[taskIndex].icon
+                fetch(src + ".html")
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("game").innerHTML = '<span id="close" class="button">❌ close this project and return back to the main menu</span>' + html
+                    $("#main").hide()
+                    removeCSSFile("soutez")
+                    addCSSFile(src)
+                    addJSFile(src)
+                    $("#game").fadeIn()
+                    changeDone(false)
+                    hideWz()
+                })
+            }
+
+            function closeGame() {
+                var src = tasks[taskIndex].icon
+                $("#game").fadeOut()
+                removeJSFile(src)
+                removeCSSFile(src)
+                addCSSFile("soutez")
+                $("#main").show()
+                document.getElementById("game").innerHTML = ""
+
+                if (done) {
+                    changeCompleted(completedGoals + 1)
+                    showStory(storyIndex + 1)
+                    changeTask(taskIndex + 1)
+                }
+            }
+
+            function addCSSFile(path) {
+                var link = document.createElement("link")
+                link.rel = "stylesheet"
+                link.type = "text/css"
+                link.href = path + ".css"
+                document.head.appendChild(link)
+            }
+
+            function addJSFile(path) {
+                var script = document.createElement("script")
+                script.type = "text/javascript"
+                script.src = path + ".js"
+                document.body.appendChild(script)
+            }
+
+            function removeCSSFile(filePath) {
+                var links = document.querySelectorAll("link")
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].href.includes(filePath)) {
+                        links[i].parentNode.removeChild(links[i])
+                        return
+                    }
+                }
+            }
+
+            function removeJSFile(filePath) {
+                var scripts = document.querySelectorAll("script")
+                for (var i = 0; i < scripts.length; i++) {
+                    if (scripts[i].src.includes(filePath)) {
+                        scripts[i].parentNode.removeChild(scripts[i])
+                        return
+                    }
+                }
+            }
+
+            $("#start").click(() => showGame())
+            $("#game").on("click", "#close", () => closeGame())
+
+            var done = false
+
+            function changeDone(value) {
+                done = value
+            }
+
+            function readDone() {
+                return done
+            }
+
+            function endGame() {
+                $("#name").text("Unlock the Treasure")
+                $("#current").html('<input type="text" id="code" placeholder="Enter the code to the treasure"><input type="button" id="enter" value="Enter">')
+                $("#icon").attr("src", "finish.png")
+                $("#start").hide()
+            }
+
+            $(document).on("click", "#enter", function() {
+                var code = $("#code").val()
+                if (stringToHash(code) == 1166278411) {
+                    alert("✅ Correct")
+                }
+                else {
+                    alert("⛔ Wrong!")
+                }
+            })
+
+            function stringToHash(string) {
+                let hash = 0
+                if (string.length == 0) return hash
+
+                for (i = 0; i < string.length; i++) {
+                    char = string.charCodeAt(i)
+                    hash = ((hash << 5) - hash) + char
+                    hash = hash & hash
+                }
+                return hash
+            }
+
+
+
+
+
+            function hideWz() {
+                var divs = document.getElementsByTagName('div');
+
+                for (var i = 0; i < divs.length; i++) {
+                    var div = divs[i];
+                    
+                    var styles = window.getComputedStyle(div);
+                    if (styles.getPropertyValue('clear') === 'both') {
+                        div.style.display = 'none';
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

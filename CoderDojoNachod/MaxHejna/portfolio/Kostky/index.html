@@ -1,0 +1,253 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hra kostky</title>
+        <style>
+            body
+            {
+                transition: background-color 0.5s;
+                background-image: url(pozadi.png);
+            }
+            #hlavni
+            {
+                display: table;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                z-index: 2;
+            }
+            .stred
+            {
+                display: table-cell;
+                vertical-align: middle;
+            }
+            #hra
+            {
+                width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+                background-color: white;
+                border-left: 5px solid #0079b9;
+                border-right: 5px solid #0079b9;
+                padding: 20px;
+            }
+            #penize
+            {
+                font-family: Segoe UI;
+                font-weight: bold;
+                font-size: 26px;
+                text-align: center;
+                color: #00b0f0;
+            }
+            .kostky
+            {
+                overflow: auto;
+                width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .kostka
+            {
+                float: left;
+                width: 200px;
+            }
+            #kostka1, #kostka2
+            {
+                width: 96px;
+                height: 96px;
+                background-color: lightgray;
+                margin-left: auto;
+                margin-right: auto;
+                border: 5px solid #0079b9;
+                border-radius: 22%;
+            }
+            #slovne1, #slovne2
+            {
+                font-family: Segoe UI;
+                font-weight: bold;
+                text-align: center;
+                font-size: 20px;
+                color: #00b0f0;
+            }
+            .sazky
+            {
+                width: 340px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #soucet, #sazka
+            {
+                width: 80px;
+                height: 50px;
+                padding: 10px;
+                font-family: Segoe UI;
+                font-weight: bold;
+                font-size: 20px;
+                text-align: center;
+                border-radius: 10%;
+                border: 3px solid #0079b9;
+                color: #00b0f0;
+                transition: background-color 0.5s, color 0.5s;
+            }
+            #soucet:invalid, #sazka:invalid
+            {
+                background-color: red;
+                color: white;
+            }
+            #vsadit
+            {
+                width: 120px;
+                height: 76px;
+                padding: 10px;
+                font-family: Segoe UI;
+                font-weight: bold;
+                font-size: 20px;
+                text-align: center;
+                border-radius: 10%;
+                border: 3px solid #0079b9;
+                background-color: #00b0f0;
+                color: white;
+            }
+            body>div:last-child
+            {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="hlavni">
+            <div class="stred">
+                <div id="hra">         
+                    <h1 id="penize"></h1>          
+                    <div class="kostky">            
+                        <div class="kostka">
+                            <div id="kostka1"></div>
+                            <p id="slovne1"></p>
+                        </div>
+                        <div class="kostka">
+                            <div id="kostka2"></div>
+                            <p id="slovne2"></p>
+                        </div>
+                    </div>
+                    <div class="sazky">
+                        <input type="number" id="soucet" placeholder="součet">
+                        <input type="number" id="sazka" placeholder="sázka">
+                        <input type="button" id="vsadit" value="vsadit">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="button" id="start" value="začít">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            var penize;                                                             // proměnná pro ukládání stavu peněz
+            var nazvy = ["jedna", "dvě", "tři", "čtyři", "pět", "šest"];            // pomocné pole pro dosazování názvů
+            
+            $("#hlavni").hide();                                                    // na začátku skryjeme sekci se hrou
+            $("#hra").fadeOut();                                                    // v ní navíc skryjeme i samotnou hru
+            
+            $("#start").click(function() {                                          // po kliknutí na tlačítko start
+                penize = 100;                                                           // stav peněz resetujeme na 100 Kč
+                $("body").css("background-color", "white");                             // barvu pozadí resetujeme na bílou
+                $("#penize").text("Máte 100 Kč, zbývá vyhrát 100 Kč.");                 // uživatele informujeme o částce
+                $("#kostka1").css("background-image", "none");                          // obrázek kostky 1 zatím skryjeme
+                $("#kostka2").css("background-image", "none");                          // obrázek kostky 2 zatím skryjeme
+                $("#slovne1").text("...");                                              // do názvů čísel zatím dáme jen ...
+                $("#slovne2").text("...");                                              // do názvů čísel zatím dáme jen ...
+                $("#start").hide();                                                     // tlačítko #start při hře skryjeme
+                $("#hlavni").slideDown();                                               // zobrazíme sekci obsahující hru
+                $("#hra").fadeIn();                                                     // v ní navíc zobrazíme i tu hru
+            });
+            
+            $("#vsadit").click(function() {                                         // po kliknutí na tlačítko vsadit
+                var soucet = $("#soucet").val();                                        // zjišťujeme, co uživatel zadal jako součet
+                if (soucet == "")                                                       // pokud uživatel do vstupu součtu nic nezadal
+                {
+                    alert("Musíte zadat nějaký součet.");                                   // informujeme ho o tom a dál nepokračujeme
+                }
+                else                                                                    // pokračujeme, jen když do součtu něco zadal
+                {
+                    var soucet = parseInt(soucet);                                          // vstup řetězce textu převedeme na číslo
+                    if (soucet == NaN)                                                      // pokud se převod na číslo nepodařil
+                    {
+                        alert("Musíte zadat platné číslo.");                                    // informujeme uživatele a nepokračujeme
+                    }
+                    else if (soucet < 2)                                                    // jinak, pokud byl součet příliš malý
+                    {
+                        alert("Součet nemůže být menší než 2.");                                // informujeme uživatele a nepokračujeme
+                    }
+                    else if (soucet > 12)                                                   // jinak, pokud byl součet příliš velký
+                    {
+                        alert("Součet nemůže být větší než 12.");                               // informujeme uživatele a nepokračujeme
+                    }
+                    else                                                                    // pokračujeme, jen když bylo vše správně
+                    {
+                        var sazka = $("#sazka").val();                                          // zjišťujeme, jakou sázku uživatel zadal
+                        if (sazka == "")                                                        // pokud uživatel žádnou sázku nezadal
+                        {
+                            alert("Musíte zadat nějakou sázku.");                                   // informujeme ho a dál nepokračujeme
+                        }
+                        else                                                                    // pokračujeme, jen když do sázky něco zadal
+                        {
+                            var sazka = parseInt(sazka);                                            // vstup řetězce převedeme na číslo
+                            if (sazka == NaN)                                                       // pokud se převod na číslo nepodařil
+                            {
+                                alert("Musíte zadat platné číslo.");                                    // informujeme uživatele a nepokračujeme
+                            }
+                            else if (sazka <= 0)                                                    // jinak, pokud byla sázka příliš malá
+                            {
+                                alert("Sázka nemůže být záporná nebo 0.");                              // informujeme uživatele a nepokračujeme
+                            }
+                            else if (sazka > penize)                                                // jinak, pokud byla sázka příliš velká
+                            {
+                                alert("Na takovou sázku ale nemáte.");                                  // informujeme uživatele a nepokračujeme
+                            }
+                            else                                                                    // pokračujeme, jen když bylo vše správně
+                            {
+                                var cislo1 = Math.random() * 6 + 1;                                     // vygenerujeme si, co padlo na 1. kostce
+                                cislo1 = Math.floor(cislo1);                                            // vygenerované číslo zaokrouhlíme dolů
+                                $("#kostka1").css("background-image",
+                                                  "url(" + cislo1 + ".png" + ")");                      // podle 1. čísla změníme 1. obrázek
+                                $("#slovne1").text(nazvy[cislo1 - 1]);                                  // podle 1. čísla změníme též 1. text
+                                var cislo2 = Math.random() * 6 + 1;                                     // vygenerujeme si, co padlo na 2. kostce
+                                cislo2 = Math.floor(cislo2);                                            // vygenerované číslo zaokrouhlíme dolů
+                                $("#kostka2").css("background-image",
+                                                  "url(" + cislo2 + ".png" + ")");                      // podle 2. čísla změníme 2. obrázek
+                                $("#slovne2").text(nazvy[cislo2 - 1]);                                  // podle 2. čísla změníme též 2. text
+                                if (cislo1 + cislo2 == soucet)                                          // pokud uživatel uhodl součet kostek
+                                {
+                                    penize = penize + 3 * sazka;                                            // k jeho penězům 3x přičteme sázku
+                                    if (penize >= 200)                                                      // zkontrolujeme, zda již vyhrál
+                                    {
+                                        $("#hlavni").slideUp();                                                 // skryjeme prostor pro hru
+                                        $("#hra").fadeOut();                                                    // skryjeme i samotnou hru
+                                        $("#start").show();                                                     // zobrazíme tlačítko #start
+                                        $("body").css("background-color", "green");                             // pozadí nastavíme na zelené
+                                        alert("Gratulujeme, vyhráli jste! :-)");                                // uživateli oznámíme výhru
+                                    }
+                                }
+                                else                                                                    // jinak, tedy pokud součet neuhodl
+                                {
+                                    penize = penize - sazka;                                                // od jeho peněz odečteme sázku
+                                    if (penize <= 0)                                                        // zkontrolujeme, zda již prohrál
+                                    {
+                                        $("#hlavni").slideUp();                                                 // skryjeme prostor pro hru
+                                        $("#hra").fadeOut();                                                    // skryjeme i samotnou hru
+                                        $("#start").show();                                                     // zobrazíme tlačítko #start
+                                        $("body").css("background-color", "red");                               // pozadí nastavíme na červené
+                                        alert("Bohužel jste prohráli. :-(");                                    // uživateli oznámíme prohru
+                                    }
+                                }
+                                var jeste = 200 - penize;
+                                $("#penize").text("Máte " + penize + " Kč, vyhrajte " + jeste + " Kč"); // informujeme o aktuálním stavu peněz
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

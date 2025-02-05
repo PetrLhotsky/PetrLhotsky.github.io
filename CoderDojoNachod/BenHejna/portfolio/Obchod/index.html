@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obchod</title>
+
+    <style>
+        img {
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Chléb</h1>
+        <img src="https://www.rohlik.cz/cdn-cgi/image/f=auto,w=500,h=500,q=75/https://cdn.rohlik.cz/images/grocery/products/1413897/1413897-1633510705533.jpg">
+        Cena: 34 Kč, Počet: <input type="number" id="chleb">
+    </div>
+
+    <div>
+        <h1>Sýr</h1>
+        <img src="https://www.rohlik.cz/cdn-cgi/image/f=auto,w=500,h=500,q=75/https://cdn.rohlik.cz/images/grocery/products/712935/712935-1597138271.jpg">
+        Cena: 39 Kč, Počet: <input type="number" id="syr">
+    </div>
+
+    <div>
+        <h1>Šunka</h1>
+        <img src="https://www.rohlik.cz/cdn-cgi/image/f=auto,w=500,h=500,q=75/https://cdn.rohlik.cz/images/grocery/products/1388075/1388075-1603108172.jpg">
+        Cena: 52 Kč, Počet: <input type="number" id="sunka">
+    </div>
+
+    <div>
+        <h1>Vejce</h1>
+        <img src="https://www.rohlik.cz/cdn-cgi/image/f=auto,w=500,h=500,q=75/https://cdn.rohlik.cz/images/grocery/products/1340055/1340055-1585256257.jpg">
+        Cena: 69,90 Kč, Počet: <input type="number" id="vejce">
+    </div>
+
+    <h1>Potvrdit</h1>
+    <input type="button" id="potvrdit" value="vypočítat celkem" />
+    Celkem kusů: <span id="kusy"></span>, Celkem cena: <span id="cena"></span>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var chleb = 34,
+            syr = 39,
+            sunka = 52
+            vejce = 69.90;
+
+
+        $("#potvrdit").click(function() {
+            var chleb_ks = parseInt($("#chleb").val());
+            var syr_ks = parseInt($("#syr").val());
+            var sunka_ks = parseInt($("#sunka").val());
+            var vejce_ks = parseInt($("#vejce").val());
+
+            var kusy = 0 + chleb_ks + syr_ks + sunka_ks + vejce_ks;
+            $("#kusy").text(kusy);
+
+            var chleb_cena = chleb * chleb_ks;
+            var syr_cena = syr * syr_ks;
+            var sunka_cena = sunka * sunka_ks;
+            var vejce_cena = vejce * vejce_ks;
+
+            var cena = chleb_cena + syr_cena + sunka_cena + vejce_cena;
+            $("#cena").text(cena);
+        });
+    </script>
+</html>
+</body>

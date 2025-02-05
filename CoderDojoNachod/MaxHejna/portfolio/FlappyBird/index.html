@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Flappy Bird - CoderDojo Náchod</title>
+        
+        <style>
+            h1 {
+                font-family: 'Arial';
+            }
+            img {
+                display: none;
+            }
+            canvas {
+                border: 5px solid black;
+            }
+            body>div {
+                display: none !important;
+            }
+        </style>
+        
+    </head>
+    <body>
+        
+        <img src="fb.png" id="obrazek">
+        <img src="fb-nahoru.png" id="obrazeknahoru">
+        <img src="fb-dolu.png" id="obrazekdolu">
+        
+        <canvas width="500" height="500" id="pl"></canvas>
+        
+        <h1 id="skore">stiskněte mezerník</h1>
+        
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+        <script>
+            var platno = $("#pl")[0];
+            var kresleni = platno.getContext("2d");
+            
+            var normal = $("#obrazek")[0];
+            var nahoru = $("#obrazeknahoru")[0];
+            var dolu = $("#obrazekdolu")[0];
+            
+            var y = 225;
+            var zmenay = 0;
+            var stisknuto = false;
+            var prekazkax = 470;
+            var konecprvni = 100;
+            var skore = 0;
+            
+            kresleni.drawImage(normal, 10, y);
+            kresleni.fillStyle = "green";
+            
+            $("*").keyup(function(e) {
+                if (e.which != 32) return;
+                
+                zmenay = -3;
+                
+                if (stisknuto) return;
+
+                stisknuto = true;
+
+                var casovac = setInterval(function() {
+                    
+                    kresleni.clearRect(0, 0, 500, 500);                                             // smazání všeho na plátně
+
+                    y = y + zmenay;                                                                 // posunutí ptáčka (hráč)
+                    zmenay = zmenay + 0.09;                                                         // působení gravitace
+                    if (y > 450) {                                                                  // při dopadu na dolní stěnu
+                        y = 450;                                                                        // zůstane na zemi
+                        zmenay = 0;                                                                     // vypne gravitaci
+                        clearInterval(casovac);                                                         // vypne časovač
+                        $("body").css("background-color", "red");                                       // hráč prohraje
+                    }
+                    if (y < 0) {                                                                    // při dotyku na horní stěnu
+                        y = 0;                                                                          // zůstane u stropu
+                        zmenay = 0;                                                                     // resetuje gravitaci
+                    }
+                    
+                    if (zmenay > 0) kresleni.drawImage(dolu, 10, y);                                // obrázek směrem dolů
+                    else if (zmenay == 0) kresleni.drawImage(normal, 10, y);                        // obrázek směrem rovně
+                    else if (zmenay < 0) kresleni.drawImage(nahoru, 10, y);                         // obrázek směrem nahoru
+
+                    prekazkax--;                                                                    // posunutí překážky doleva
+                    if (prekazkax < -30) {                                                          // pokud dojede překážka doleva
+                        prekazkax = 500;                                                                // další bude začínat opět zprava
+                        konecprvni = Math.random() * 300;                                               // náhodná výška horní překážky
+                        
+                        skore++;                                                                        // navýšení proměnné skore o 1
+                        $("#skore").text(skore);                                                        // vypsání (aktualizace) skóre
+                    }
+                    if (prekazkax < 60 && prekazkax > 10) {                                         // pokud je ptáček mezi překážkou
+                        var zacatekmezery = konecprvni;
+                        var konecmezery = konecprvni + 150;
+                        if (y + 15 < zacatekmezery || y + 50 - 15 > konecmezery) {                      // pokud se překážky dotkne
+                            clearInterval(casovac);                                                         // vypne časovač
+                            $("body").css("background-color", "red");                                       // hráč prohraje
+                        }
+                    }
+
+                    kresleni.fillRect(prekazkax, 0, 30, konecprvni);                                // vykreslení horní překážky
+                    kresleni.fillRect(prekazkax, konecprvni + 150, 30, 500 - (konecprvni + 150));   // vykreslení dolní překážky
+                    
+                }, 5);   
+            });
+        </script>
+    </body>
+</html>

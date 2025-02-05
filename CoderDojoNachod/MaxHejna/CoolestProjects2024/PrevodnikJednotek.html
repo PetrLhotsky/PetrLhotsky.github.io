@@ -1,0 +1,258 @@
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item col-sm-3">
+                <a class="nav-link active" data-toggle="tab" href="#delka" role="tab" aria-selected="true">Length</a>
+            </li>
+            <li class="nav-item col-sm-3">
+                <a class="nav-link" data-toggle="tab" href="#hmotnost" role="tab" aria-selected="false">Weight</a>
+            </li>
+            <li class="nav-item col-sm-3">
+                <a class="nav-link" data-toggle="tab" href="#data" role="tab" aria-selected="false">Data</a>
+            </li>
+            <li class="nav-item col-sm-3">
+                <a class="nav-link" data-toggle="tab" href="#objem" role="tab" aria-selected="false">Volume</a>
+            </li>
+        </ul>
+
+
+
+        <div class="tab-content container">
+            <div class="tab-pane fade show active" id="delka" role="tabpanel">
+                <div id="delka-zadani">
+                    <div class="container mt-5">
+                        <h3>Original:</h3>
+                        <input type="number" class="form-control" id="delka-cislo" placeholder="Enter the length">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>From:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="mm" id="z-mm"> <label for="z-mm">millimeters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="cm" id="z-cm"> <label for="z-cm">centimeters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="dm" id="z-dm"> <label for="z-dm">decimeters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="m" id="z-m" checked> <label for="z-m">meters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="km" id="z-km"> <label for="z-km">kilometers</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>To:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="mm" id="na-mm"> <label for="na-mm">millimeters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="cm" id="na-cm"> <label for="na-cm">centimeters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="dm" id="na-dm"> <label for="na-dm">decimeters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="m" id="na-m" checked> <label for="na-m">meters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="km" id="na-km"> <label for="na-km">kilometers</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="delka-prevest" value="convert">
+                    </div>
+                </div>
+                <div id="delka-vysledek">
+                    <div class="container mt-5">
+                        <h3>Result:</h3>
+                        <h4 id="delka-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="tab-pane fade" id="hmotnost" role="tabpanel">
+                <div id="hmotnost-zadani">
+                    <div class="container mt-5">
+                        <h3>Original:</h3>
+                        <input type="number" class="form-control" id="hmotnost-cislo" placeholder="Enter the weight">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>From:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="mg" id="z-mg"> <label for="z-mg">milligrams</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="g" id="z-g"> <label for="z-g">grams</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="dg" id="z-dg"> <label for="z-dg">decagrams</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="kg" id="z-kg" checked> <label for="z-kg">kilograms</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="t" id="z-t"> <label for="z-t">tons</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>To:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="mg" id="na-mg"> <label for="na-mg">milligrams</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="g" id="na-g"> <label for="na-g">grams</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="dg" id="na-dg"> <label for="na-dg">decagrams</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="kg" id="na-kg" checked> <label for="na-kg">kilograms</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="t" id="na-t"> <label for="na-t">tons</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="hmotnost-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="hmotnost-vysledek">
+                    <div class="container mt-5">
+                        <h3>Result:</h3>
+                        <h4 id="hmotnost-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="tab-pane fade" id="data" role="tabpanel">
+                <div id="data-zadani">
+                    <div class="container mt-5">
+                        <h3>Original:</h3>
+                        <input type="number" class="form-control" id="data-cislo" placeholder="Enter the data">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>From:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="b" id="z-b"> <label for="z-b">bytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="kb" id="z-kb"> <label for="z-kb">kilobytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="mb" id="z-mb" checked> <label for="z-mb">megabytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="gb" id="z-gb"> <label for="z-gb">gigabytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="tb" id="z-tb"> <label for="z-tb">terabytes</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>To:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="b" id="na-b"> <label for="na-b">bytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="kb" id="na-kb"> <label for="na-kb">kilobytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="mb" id="na-mb" checked> <label for="na-mb">megabytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="gb" id="na-gb"> <label for="na-gb">gigabytes</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="tb" id="na-tb"> <label for="na-tb">terabytes</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="data-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="data-vysledek">
+                    <div class="container mt-5">
+                        <h3>Result:</h3>
+                        <h4 id="data-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+
+           
+           
+            <div class="tab-pane fade" id="objem" role="tabpanel">
+                <div id="objem-zadani">
+                    <div class="container mt-5">
+                        <h3>Original:</h3>
+                        <input type="number" class="form-control" id="objem-cislo" placeholder="Enter the volume">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>From:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="ml" id="z-ml"> <label for="z-ml">milliliters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="cl" id="z-cl"> <label for="z-cl">centiliters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="dl" id="z-dl" checked> <label for="z-dl">deciliters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="l" id="z-l"> <label for="z-l">liters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="hl" id="z-hl"> <label for="z-hl">hectoliters</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>To:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="ml" id="na-ml"> <label for="na-ml">milliliters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="cl" id="na-cl"> <label for="na-cl">centiliters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="dl" id="na-dl" checked> <label for="na-dl">deciliters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="l" id="na-l"> <label for="na-l">liters</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="hl" id="na-hl"> <label for="na-hl">hectoliters</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="objem-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="objem-vysledek">
+                    <div class="container mt-5">
+                        <h3>Result:</h3>
+                        <h4 id="objem-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+        </div>

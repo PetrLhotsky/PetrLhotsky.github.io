@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Bena Hejny</title>
+    <style>
+        * {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            --bg-color: #66ccff;
+        }
+
+        @keyframes bg-color {
+            from { background-color: white; }
+            to { background-color: var(--bg-color); }
+        }
+
+        @keyframes zoom-in {
+            from { font-size: 20px; }
+            to { font-size: 40px; }
+        }
+
+        @keyframes color {
+            from { color: white; }
+            to { color: black; }
+        }
+
+        body {
+            animation: bg-color 1s;
+            background-color: var(--bg-color);
+
+            padding: 20px;
+            margin: 0;
+            margin-top: 20px;
+        }
+
+        h1 {
+            animation: zoom-in 1s;
+            font-size: 40px;
+
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        #intro {
+            animation: color 1s;
+            color: black;
+
+            margin: 0;
+            margin-bottom: 40px;
+            font-size: 20px;
+        }
+
+        main {
+            overflow: auto;
+            width: 960px;
+            margin: 0 auto;
+        }
+
+        section {
+            float: left;
+            width: 470px;
+            height: 313px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            transition: box-shadow 0.5s;
+        }
+
+        a:nth-child(2n) section {
+            margin-right: 0;
+        }
+
+        a:nth-last-child(2) section, a:last-child section {
+            margin-bottom: 0;
+        }
+
+        section img {
+            width: 100%;
+            height: 233px;
+            transition: filter 0.5s;
+            border-radius: 10px;
+        }
+
+        section p {
+            margin: 0;
+            margin-top: 20px;
+            font-size: 20px;
+            transition: font-size 0.5s;
+        }
+
+        section:hover {
+            box-shadow: 0px 5px 5px #999;
+        }
+
+        section:hover img {
+            filter: contrast(150%);
+        }
+
+        section:hover p {
+            font-size: 30px;
+        }
+
+        span {
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+        }
+
+        #hra {
+            background-color: green;
+        }
+
+        #aplikace {
+            background-color: darkblue;
+        }
+
+        #algoritmus {
+            background-color: red;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        @media all and (max-width: 1020px) {
+            main {
+                width: 100%;
+            }
+
+            section {
+                float: none;
+                margin: 0 auto 20px auto !important;
+            }
+
+            @media all and (max-width: 530px) {
+                section {
+                    width: 100%;
+                    height: auto;
+                    padding-bottom: 20px;
+                }
+
+                section img {
+                    height: auto;
+                }
+
+                section p {
+                    font-size: 14px;
+                }
+
+                section:hover p {
+                    font-size: 14px;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Vítejte v portfoliu projektů Bena Hejny</h1>
+    <p id="intro">Naleznete zde všechny mé webové aplikace a hry, naprogramované v HTML, CSS a JavaScript</p>
+    <main>
+        <a href="portfolio/Odpocet/index.html">
+            <section>
+                <img src="portfolio/Odpocet.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Odpočet</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Obchod/index.html">
+            <section>
+                <img src="portfolio/Obchod.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Obchod</p>
+            </section>
+        </a>
+
+        <a href="portfolio/VyherniGenerator/index.html">
+            <section>
+                <img src="portfolio/VyherniGenerator.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Výherní generátor [AI]</p>
+            </section>
+        </a>
+
+        <a href="portfolio/DriftovaniAutem/index.html">
+            <section>
+                <img src="portfolio/DriftovaniAutem.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Driftování autem [AI]</p>
+            </section>
+        </a>
+
+        <a href="portfolio/FotbalovyKviz/index.html">
+            <section>
+                <img src="portfolio/FotbalovyKviz.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Fotbalový kvíz [AI]</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Denik/index.html">
+            <section>
+                <img src="portfolio/Denik.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Deník [AI]</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Click/index.html">
+            <section>
+                <img src="portfolio/Click.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Click (s míčem)</p>
+            </section>
+        </a>
+
+        <a href="portfolio/KamenNuzkyPapir/index.html">
+            <section>
+                <img src="portfolio/KamenNuzkyPapir.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Kámen, nůžky, papír</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Geometrie/index.html">
+            <section>
+                <img src="portfolio/Geometrie.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Geometrie</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Postreh/index.html">
+            <section>
+                <img src="portfolio/Postreh.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Postřeh</p>
+            </section>
+        </a>
+
+        <a href="portfolio/HadaniCisla/index.html">
+            <section>
+                <img src="portfolio/HadaniCisla.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Hádání čísla [AI]</p>
+            </section>
+        </a>
+
+        <a href="portfolio/NejrychlejsiKlikani/index.html">
+            <section>
+                <img src="portfolio/NejrychlejsiKlikani.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Nejrychlejší klikání [AI]</p>
+            </section>
+        </a>
+    </main>
+</body>
+</html>

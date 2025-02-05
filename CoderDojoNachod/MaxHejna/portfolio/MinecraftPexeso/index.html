@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Pexeso</title>
+
+        <style>
+            #karty {
+                width: 480px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .karta {
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                float: left;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                background-size: cover;
+            }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+
+        <div id="karty">
+            <div id="karta1" class="karta"></div>
+            <div id="karta2" class="karta"></div>
+            <div id="karta3" class="karta"></div>
+            <div id="karta4" class="karta"></div>
+            <div id="karta5" class="karta"></div>
+            <div id="karta6" class="karta"></div>
+            <div id="karta7" class="karta"></div>
+            <div id="karta8" class="karta"></div>
+            <div id="karta9" class="karta"></div>
+            <div id="karta10" class="karta"></div>
+            <div id="karta11" class="karta"></div>
+            <div id="karta12" class="karta"></div>
+            <div id="karta13" class="karta"></div>
+            <div id="karta14" class="karta"></div>
+            <div id="karta15" class="karta"></div>
+            <div id="karta16" class="karta"></div>
+        </div>
+
+        <h1 id="pocetotocenych"></h1>
+        <h1 id="pocetparuotocenejch"></h1>
+
+        <script>
+
+var pole = []
+var obrazek = []
+
+var pocetotocenejch = 0
+
+var prvniotocena = 0
+var druhaotocena = 0
+
+var prvnicislo = 0
+var druhecislo = 0
+
+var deklikat = 1
+
+var pocetvotocenych = 0
+var pocetparu = 0
+var neotacetpary = 0
+
+var poslednipromena = []
+
+
+
+for (var i = 1; i <= 16; i++) {
+    var promena = 0
+
+    do {
+        promena = Math.round(Math.random() * 15 + 1)
+    } while (pole.includes(promena))
+
+    pole.push(promena)
+    obrazek.push(promena)
+}
+
+
+
+$(".karta").click(function(e) {
+    neotacetpary = 0
+
+    if (deklikat == 1) {
+        pocetotocenejch = pocetotocenejch + 1
+        var id = $(this).attr('id');
+
+        if (!poslednipromena.includes(id)) {
+            var cislo = parseInt(id.replace("karta", ""))
+            $("#" + id).css("background-image", "url(\"" + obrazek[cislo - 1] + ".webp\")")
+
+            console.log(pocetotocenejch)
+
+            if (pocetotocenejch == 1) {
+                prvniotocena = id
+                prvnicislo = obrazek[cislo - 1]
+            }
+
+            if (pocetotocenejch == 2) {
+                druhaotocena = id
+                druhecislo = obrazek[cislo - 1]
+
+                if (druhaotocena == prvniotocena) {
+                    pocetotocenejch = 1
+                }
+
+                else {
+                    console.log("další tah")
+                    console.log(prvnicislo, druhecislo)
+
+                    deklikat = 0
+
+                    pocetvotocenych = pocetvotocenych + 1
+                    $("#pocetotocenych").text("Počet otočení: " + pocetvotocenych + "")
+
+                    if (druhecislo % 2 == 0) {
+                        if (prvnicislo % 2 == 1) {
+                            if (druhecislo == prvnicislo + 1) {
+                                pocetparu = pocetparu + 1
+                                $("#pocetparuotocenejch").text("Počet párů: " + pocetparu + "")
+
+                                neotacetpary = 1
+                                poslednipromena.push(prvniotocena, druhaotocena)
+                                
+                                
+                            }
+                        }
+                    }
+
+                    if (druhecislo % 2 == 1) {
+                        if (prvnicislo % 2 == 0) {
+                            if (druhecislo == prvnicislo - 1) {
+                                pocetparu = pocetparu + 1
+                                $("#pocetparuotocenejch").text("Počet párů: " + pocetparu + "")
+
+                                neotacetpary = 1
+                                poslednipromena.push(prvniotocena, druhaotocena)
+                                
+                            }
+                        }
+                    }
+                   
+                    if (neotacetpary == 0) {
+                        setTimeout(function() {
+                            $("#" + prvniotocena).css("background-image", "none")
+                            $("#" + druhaotocena).css("background-image", "none")
+
+                            deklikat = 1
+                        }, 2000);
+                    }
+                    
+                    else {
+                        deklikat = 1
+                    }
+
+                    pocetotocenejch = 0
+                }
+            }
+        }
+    }
+})
+        </script>
+    </body>
+</html>

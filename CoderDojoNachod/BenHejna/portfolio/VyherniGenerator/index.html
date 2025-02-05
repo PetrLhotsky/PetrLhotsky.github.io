@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Výherní generátor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            transition: background-color 1s; /* Přechodová animace pro změnu barvy pozadí */
+        }
+
+        /* Trojúhelník */
+        #trojuhelnik {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 87px solid #ff0000; /* Červená barva */
+            cursor: pointer;
+        }
+
+        /* Zobrazení náhodného čísla */
+        #randomNumberDisplay {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Výherní text */
+        #vyhralText {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Výherní Generátor padnu li tyto čísla   98 65 32 5 4 68 45 74 73 65 12 41 52 14 78 8 4 68   tak jseš borec a můžeš tuto apku opustit  a klikej pomalu  </h1>
+
+    <!-- SVG element pro trojúhelník -->
+    <svg id="trojuhelnik" onclick="generateRandomNumber()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 87"></svg>
+
+    <!-- Zobrazení náhodného čísla -->
+    <div id="randomNumberDisplay"></div>
+
+    <!-- Výherní text -->
+    <div id="vyhralText"></div>
+
+    <img src="ad.gif" alt="ad">
+
+    <!-- Skript pro generaci náhodného čísla a kontrolu výhry -->
+    <script>
+        function generateRandomNumber() {
+            // Generování náhodného čísla v rozmezí 1 až 100
+            var randomNumber = Math.floor(Math.random() * 100) + 1;
+
+            // Zobrazení náhodného čísla v divu
+            document.getElementById('randomNumberDisplay').innerText = 'Padlo číslo: ' + randomNumber;
+
+            // Kontrola výhry
+            if ([98, 65, 32, 5, 4, 68, 45, 74, 73, 65, 12, 41, 52, 14, 78, 8, 4, 68].includes(randomNumber)) {
+                document.body.style.backgroundColor = '#ff0000'; /* Červené pozadí */
+                document.getElementById('vyhralText').innerText = 'Vyhrál jsi ode mne 0.00001 Kč!';
+            } else {
+                document.body.style.backgroundColor = ''; /* Vrácení původní barvy pozadí */
+                document.getElementById('vyhralText').innerText = '';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Převodník</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item col-sm-3">
+                <a class="nav-link active" data-toggle="tab" href="#delka" role="tab" aria-selected="true">Délka</a>
+            </li>
+            <li class="nav-item col-sm-3">
+                <a class="nav-link" data-toggle="tab" href="#hmotnost" role="tab" aria-selected="false">Hmotnost</a>
+            </li>
+            <li class="nav-item col-sm-3">
+                <a class="nav-link" data-toggle="tab" href="#data" role="tab" aria-selected="false">Data</a>
+            </li>
+            <li class="nav-item col-sm-3">
+                <a class="nav-link" data-toggle="tab" href="#objem" role="tab" aria-selected="false">Objem</a>
+            </li>
+        </ul>
+
+
+
+        <div class="tab-content container">
+            <div class="tab-pane fade show active" id="delka" role="tabpanel">
+                <div id="delka-zadani">
+                    <div class="container mt-5">
+                        <h3>Původní:</h3>
+                        <input type="number" class="form-control" id="delka-cislo" placeholder="Zadejte délku">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Z:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="mm" id="z-mm"> <label for="z-mm">milimetrů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="cm" id="z-cm"> <label for="z-cm">centimetrů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="dm" id="z-dm"> <label for="z-dm">decimetrů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="m" id="z-m" checked> <label for="z-m">metrů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-z" value="km" id="z-km"> <label for="z-km">kilometrů</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Na:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="mm" id="na-mm"> <label for="na-mm">milimetry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="cm" id="na-cm"> <label for="na-cm">centimetry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="dm" id="na-dm"> <label for="na-dm">decimetry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="m" id="na-m" checked> <label for="na-m">metry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="delka-na" value="km" id="na-km"> <label for="na-km">kilometry</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="delka-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="delka-vysledek">
+                    <div class="container mt-5">
+                        <h3>Výsledek:</h3>
+                        <h4 id="delka-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="tab-pane fade" id="hmotnost" role="tabpanel">
+                <div id="hmotnost-zadani">
+                    <div class="container mt-5">
+                        <h3>Původní:</h3>
+                        <input type="number" class="form-control" id="hmotnost-cislo" placeholder="Zadejte hmotnost">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Z:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="mg" id="z-mg"> <label for="z-mg">miligramů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="g" id="z-g"> <label for="z-g">gramů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="dg" id="z-dg"> <label for="z-dg">dekagramů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="kg" id="z-kg" checked> <label for="z-kg">kilogramů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-z" value="t" id="z-t"> <label for="z-t">tun</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Na:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="mg" id="na-mg"> <label for="na-mg">miligramy</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="g" id="na-g"> <label for="na-g">gramy</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="dg" id="na-dg"> <label for="na-dg">dekagramy</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="kg" id="na-kg" checked> <label for="na-kg">kilogramy</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="hmotnost-na" value="t" id="na-t"> <label for="na-t">tuny</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="hmotnost-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="hmotnost-vysledek">
+                    <div class="container mt-5">
+                        <h3>Výsledek:</h3>
+                        <h4 id="hmotnost-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="tab-pane fade" id="data" role="tabpanel">
+                <div id="data-zadani">
+                    <div class="container mt-5">
+                        <h3>Původní:</h3>
+                        <input type="number" class="form-control" id="data-cislo" placeholder="Zadejte data">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Z:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="b" id="z-b"> <label for="z-b">bajtů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="kb" id="z-kb"> <label for="z-kb">kilobajtů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="mb" id="z-mb" checked> <label for="z-mb">megabajtů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="gb" id="z-gb"> <label for="z-gb">gigabajtů</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-z" value="tb" id="z-tb"> <label for="z-tb">terabajtů</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Na:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="b" id="na-b"> <label for="na-b">bajty</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="kb" id="na-kb"> <label for="na-kb">kilobajty</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="mb" id="na-mb" checked> <label for="na-mb">megabajty</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="gb" id="na-gb"> <label for="na-gb">gigabajty</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="data-na" value="tb" id="na-tb"> <label for="na-tb">terabajty</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="data-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="data-vysledek">
+                    <div class="container mt-5">
+                        <h3>Výsledek:</h3>
+                        <h4 id="data-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+
+           
+           
+            <div class="tab-pane fade" id="objem" role="tabpanel">
+                <div id="objem-zadani">
+                    <div class="container mt-5">
+                        <h3>Původní:</h3>
+                        <input type="number" class="form-control" id="objem-cislo" placeholder="Zadejte objem">
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Z:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="ml" id="z-ml"> <label for="z-ml">mililitry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="cl" id="z-cl"> <label for="z-cl">centilitry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="dl" id="z-dl" checked> <label for="z-dl">decilitry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="l" id="z-l"> <label for="z-l">litry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-z" value="hl" id="z-hl"> <label for="z-hl">hektolitry</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <h3>Na:</h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="ml" id="na-ml"> <label for="na-ml">mililitry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="cl" id="na-cl"> <label for="na-cl">centilitry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="dl" id="na-dl" checked> <label for="na-dl">decilitry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="l" id="na-l"> <label for="na-l">litry</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="radio" name="objem-na" value="hl" id="na-hl"> <label for="na-hl">hektolitry</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-5">
+                        <input type="button" class="form-control" id="objem-prevest" value="převést">
+                    </div>
+                </div>
+                <div id="objem-vysledek">
+                    <div class="container mt-5">
+                        <h3>Výsledek:</h3>
+                        <h4 id="objem-napis">...</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+        <script>
+            $("#delka-prevest").click(() => {
+                var z = $("input[name=delka-z]:checked").val()
+                var na = $("input[name=delka-na]:checked").val()
+                var cislo = $("#delka-cislo").val()
+                var nasobek = 0
+                var delenec = 0
+
+
+
+                if (z=="mm") {
+                nasobek = 1/1000
+                }
+                if (z=="cm") {
+                    nasobek = 1/100
+                }
+                if (z=="dm") {
+                    nasobek = 1/10
+                }
+                if (z=="m") {
+                    nasobek = 1/1
+                }
+                if (z=="km") {
+                    nasobek = 1*1000
+                }
+
+
+                if (na=="mm") {
+                delenec = 1*1000
+                }
+                if (na=="cm") {
+                delenec = 1*100
+                }
+                if (na=="dm") {
+                delenec = 1*10
+                }
+                if (na=="m") {
+                delenec = 1*1
+                }
+                if (na=="km") {
+                delenec = 1/1000
+                }
+                
+                $("#delka-napis").text(nasobek*cislo*delenec+" "+na)
+
+
+                
+                
+
+
+                
+            })
+
+            $("#hmotnost-prevest").click(() => {
+                var z = $("input[name=hmotnost-z]:checked").val()
+                var na = $("input[name=hmotnost-na]:checked").val()
+                var cislo = $("#hmotnost-cislo").val()
+                var nasobek = 0
+                var delenec = 0
+
+
+
+                if (z=="mg") {
+                nasobek = 1/1000
+                }
+                if (z=="g") {
+                    nasobek = 1/1
+                }
+                if (z=="dkg") {
+                    nasobek = 1*10
+                }
+                if (z=="kg") {
+                    nasobek = 1*1000
+                }
+                if (z=="t") {
+                    nasobek = 1*1000000
+                }
+
+
+                if (na=="mg") {
+                delenec = 1*1000
+                }
+                if (na=="g") {
+                delenec = 1*1
+                }
+                if (na=="dkg") {
+                delenec = 1/10
+                }
+                if (na=="kg") {
+                delenec = 1/1000
+                }
+                if (na=="t") {
+                delenec = 1/1000000
+                }
+                
+                $("#hmotnost-napis").text(nasobek*cislo*delenec+" "+na)
+
+            })
+
+            $("#data-prevest").click(() => {
+                var z = $("input[name=data-z]:checked").val()
+                var na = $("input[name=data-na]:checked").val()
+                var cislo = $("#data-cislo").val()
+                var nasobek = 0
+                var delenec = 0
+
+
+
+                if (z=="b") {
+                nasobek = 1*1
+                }
+                if (z=="kb") {
+                    nasobek = 1*1024
+                }
+                if (z=="mb") {
+                    nasobek = 1*1048576
+                }
+                if (z=="gb") {
+                    nasobek = 1*1073741824
+                }
+                if (z=="tb") {
+                    nasobek = 1*1099511627776
+                }
+
+
+                if (na=="b") {
+                delenec = 1/1
+                }
+                if (na=="kb") {
+                delenec = 1/1024
+                }
+                if (na=="mb") {
+                delenec = 1/1048576
+                }
+                if (na=="gb") {
+                delenec = 1/1073741824
+                }
+                if (na=="tb") {
+                delenec = 1/1099511627776
+                }
+                
+                $("#data-napis").text(nasobek*cislo*delenec+" "+na)
+
+            })
+
+
+            $("#objem-prevest").click(() => {
+                var z = $("input[name=objem-z]:checked").val()
+                var na = $("input[name=objem-na]:checked").val()
+                var cislo = $("#objem-cislo").val()
+                var nasobek = 0
+                var delenec = 0
+
+
+
+                if (z=="ml") {
+                nasobek = 1/1000
+                }
+                if (z=="cl") {
+                    nasobek = 1/100
+                }
+                if (z=="dl") {
+                    nasobek = 1/10
+                }
+                if (z=="l") {
+                    nasobek = 1*1
+                }
+                if (z=="hl") {
+                    nasobek = 1*100
+                }
+
+
+                if (na=="ml") {
+                delenec = 1*1000
+                }
+                if (na=="cl") {
+                delenec = 1*100
+                }
+                if (na=="dl") {
+                delenec = 1*10
+                }
+                if (na=="l") {
+                delenec = 1/1
+                }
+                if (na=="hl") {
+                delenec = 1/100
+                }
+                
+                $("#objem-napis").text(nasobek*cislo*delenec+" "+na)
+
+            })
+        </script>
+    </body>
+</html>

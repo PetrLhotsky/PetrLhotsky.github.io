@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click</title>
+
+    <style>
+
+        /* kód jazyka CSS */
+    body{
+        background-color: blue ;
+    }  
+    h1{text-align: center;
+        
+
+    }
+    h2{text-align: center;
+        margin: 50px 0;
+
+    }
+    h3{text-align: center;
+
+
+    }
+
+    img{width: 200px;
+   margin: auto;
+    display: block;
+
+    }
+    img:active{
+        width: 250px;
+    }
+    li{
+
+    width: 100%;
+    text-align: center;
+    margin: 0%;
+    padding: 0%;
+    list-style: none;
+    }
+    ul{
+        margin: 0%;
+    padding: 0%;
+    }
+        /* úkol 1d: formátovat nadpis hry */
+        /* úkol 1e: formátovat obrázek míče */
+        /* úkol 1f: formátovat zobrazení skóre */
+
+        /* úkol 2: formátovat menu obchodu */
+
+    </style>
+</head>
+<body>
+
+    <!-- kód jazyka HTML -->
+     <h1>💀💀☠️☠️☠️ best aplikace</h1>
+     <h2>Shop  very good   </h2>
+     <ul>
+        <li id="a">+1 bod za kliknutí   -10kč </li>
+        <li id="b">+1 bod za vteřinu   -100 kč  </li>
+        <li id="c">+2 bod za kliknutí    -1000kč  </li>
+        <li id="d">+100 bod za vteřinu      5000kč  </li>
+     </ul>
+     <img src="míč.png" alt="">
+     <h2>Score:</h2>
+     <h3>0</h3>
+
+    <!-- úkol 1a: vložit nadpis hry -->
+    <!-- úkol 1b: vložit obrázek míče -->
+    <!-- úkol 1c: vložit zobrazení skóre -->
+
+    <!-- úkol 2: vytvořit menu obchodu -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        var plusScore=0
+        var bonus=1
+        var vteřinu=0
+        $("img").click(function(){
+            plusScore+=bonus
+            $("h3").text(plusScore)
+        })
+        $("*").keydown(function(e){
+            if(e.keyCode==32){
+
+            
+            plusScore+=bonus
+            $("h3").text(plusScore)
+        }
+
+        })
+        $("#a").click(function(){
+           bonus+=1 
+           plusScore-=10
+            $("h3").text(plusScore)
+        })
+
+        $("#b").click(function(){
+           vteřinu+=1 
+           plusScore-=100
+            $("h3").text(plusScore)
+        })
+
+        $("#c").click(function(){
+           bonus+=2
+           plusScore-=1000
+            $("h3").text(plusScore)
+        })
+
+        $("#d").click(function(){
+           vteřinu+=100
+           plusScore-=5000
+            $("h3").text(plusScore)
+        })
+        setInterval(function(){
+        plusScore+=vteřinu
+        $("h3").text(plusScore)
+        },1000)
+        // kód jazyka JavaScript
+
+        // úkol 1a: nastavit událost PŘI KLIKNUTÍ na MÍČ
+        // úkol 1b: při kliknutí PŘIČÍTAT proměnnou SKÓRE
+        // úkol 1c: po přičtení ZOBRAZIT proměnnou SKÓRE
+
+        // úkol 2: učinit menu obchodu funkčním
+
+    </script>
+</html>
+</body>

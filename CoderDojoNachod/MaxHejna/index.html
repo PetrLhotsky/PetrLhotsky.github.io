@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Maxe Hejny</title>
+    <style>
+        * {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            --bg-color: #66ccff;
+        }
+
+        @keyframes bg-color {
+            from { background-color: white; }
+            to { background-color: var(--bg-color); }
+        }
+
+        @keyframes zoom-in {
+            from { font-size: 20px; }
+            to { font-size: 40px; }
+        }
+
+        @keyframes color {
+            from { color: white; }
+            to { color: black; }
+        }
+
+        body {
+            animation: bg-color 1s;
+            background-color: var(--bg-color);
+
+            padding: 20px;
+            margin: 0;
+            margin-top: 20px;
+        }
+
+        h1 {
+            animation: zoom-in 1s;
+            font-size: 40px;
+
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        #intro {
+            animation: color 1s;
+            color: black;
+
+            margin: 0;
+            margin-bottom: 40px;
+            font-size: 20px;
+        }
+
+        main {
+            overflow: auto;
+            width: 960px;
+            margin: 0 auto;
+        }
+
+        section {
+            float: left;
+            width: 470px;
+            height: 313px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            transition: box-shadow 0.5s;
+        }
+
+        a:nth-child(2n) section {
+            margin-right: 0;
+        }
+
+        a:nth-last-child(2) section, a:last-child section {
+            margin-bottom: 0;
+        }
+
+        section img {
+            width: 100%;
+            height: 233px;
+            transition: filter 0.5s;
+            border-radius: 10px;
+        }
+
+        section p {
+            margin: 0;
+            margin-top: 20px;
+            font-size: 20px;
+            transition: font-size 0.5s;
+        }
+
+        section:hover {
+            box-shadow: 0px 5px 5px #999;
+        }
+
+        section:hover img {
+            filter: contrast(150%);
+        }
+
+        section:hover p {
+            font-size: 30px;
+        }
+
+        span {
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+        }
+
+        #hra {
+            background-color: green;
+        }
+
+        #aplikace {
+            background-color: darkblue;
+        }
+
+        #algoritmus {
+            background-color: red;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        @media all and (max-width: 1020px) {
+            main {
+                width: 100%;
+            }
+
+            section {
+                float: none;
+                margin: 0 auto 20px auto !important;
+            }
+
+            @media all and (max-width: 530px) {
+                section {
+                    width: 100%;
+                    height: auto;
+                    padding-bottom: 20px;
+                }
+
+                section img {
+                    height: auto;
+                }
+
+                section p {
+                    font-size: 14px;
+                }
+
+                section:hover p {
+                    font-size: 14px;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Vítejte v portfoliu projektů Maxe Hejny</h1>
+    <p id="intro">Naleznete zde všechny mé webové aplikace a hry, naprogramované v HTML, CSS a JavaScript</p>
+    <main>
+        <a href="portfolio/Snake/index.html">
+            <section>
+                <img src="portfolio/Snake.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Snake</p>
+            </section>
+        </a>
+
+        <a href="portfolio/FlappyBird/index.html">
+            <section>
+                <img src="portfolio/FlappyBird.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Flappy Bird</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Ping-Pong/index.html">
+            <section>
+                <img src="portfolio/Ping-Pong.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Ping-Pong</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Pexeso/index.html">
+            <section>
+                <img src="portfolio/Pexeso.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Pexeso</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Kostky/index.html">
+            <section>
+                <img src="portfolio/Kostky.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Kostky</p>
+            </section>
+        </a>
+
+        <a href="portfolio/HrA/index.html">
+            <section>
+                <img src="portfolio/HrA.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Bitva dvou států</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Ukolnicek/index.html">
+            <section>
+                <img src="portfolio/Ukolnicek.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Úkolníček</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Matematika/index.html">
+            <section>
+                <img src="portfolio/Matematika.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Matematika</p>
+            </section>
+        </a>
+
+        <a href="portfolio/MatematickyKviz/index.html">
+            <section>
+                <img src="portfolio/MatematickyKviz.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Matematický kvíz</p>
+            </section>
+        </a>
+
+        <a href="portfolio/PrevodnikJednotek/index.html">
+            <section>
+                <img src="portfolio/PrevodnikJednotek.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Převodník jednotek</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Losovac/index.html">
+            <section>
+                <img src="portfolio/Losovac.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Losovač</p>
+            </section>
+        </a>
+
+        <a href="portfolio/StatistikaZnamek/index.html">
+            <section>
+                <img src="portfolio/StatistikaZnamek.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Statistika známek</p>
+            </section>
+        </a>
+
+        <a href="portfolio/ScitaniZlomku/index.html">
+            <section>
+                <img src="portfolio/ScitaniZlomku.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Sčítání zlomků</p>
+            </section>
+        </a>
+
+        <a href="portfolio/KvizVyjmenovanychSlov/index.html">
+            <section>
+                <img src="portfolio/KvizVyjmenovanychSlov.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Vyjmenovaná slova</p>
+            </section>
+        </a>
+
+        <a href="portfolio/EratosthenovoSito/index.html">
+            <section>
+                <img src="portfolio/EratosthenovoSito.jpg" alt="Náhled" title="Náhled">
+                <p><span id="algoritmus">#algoritmus</span> Eratosthenovo síto</p>
+            </section>
+        </a>
+
+        <a href="portfolio/NejvetsiDelitel/index.html">
+            <section>
+                <img src="portfolio/NejvetsiDelitel.jpg" alt="Náhled" title="Náhled">
+                <p><span id="algoritmus">#algoritmus</span> Největší sp. dělitel</p>
+            </section>
+        </a>
+
+        <a href="portfolio/MinecraftPexeso/index.html">
+            <section>
+                <img src="portfolio/MinecraftPexeso.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Minecraft pexeso</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Prekladac/index.html">
+            <section>
+                <img src="portfolio/Prekladac.jpg" alt="Náhled" title="Náhled">
+                <p><span id="aplikace">#aplikace</span> Překladač CS ↔ EN</p>
+            </section>
+        </a>
+
+        <a href="portfolio/TreninkPameti/index.html">
+            <section>
+                <img src="portfolio/TreninkPameti.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Trénink paměti</p>
+            </section>
+        </a>
+
+        <a href="CoolestProjects2024/soutez.html">
+            <section>
+                <img src="portfolio/CoolestProjects2024.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Coolest Projects 2024</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Tetris/index.html">
+            <section>
+                <img src="portfolio/Tetris.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Tetris</p>
+            </section>
+        </a>
+
+        <a href="portfolio/SubstitucniSifra/index.html">
+            <section>
+                <img src="portfolio/SubstitucniSifra.jpg" alt="Náhled" title="Náhled">
+                <p><span id="algoritmus">#algoritmus</span> Substituční šifra</p>
+            </section>
+        </a>
+
+        <a href="portfolio/TranspozicniSifra/index.html">
+            <section>
+                <img src="portfolio/TranspozicniSifra.jpg" alt="Náhled" title="Náhled">
+                <p><span id="algoritmus">#algoritmus</span> Transpoziční šifra</p>
+            </section>
+        </a>
+
+        <a href="portfolio/Sibenice/index.html">
+            <section>
+                <img src="portfolio/Sibenice.jpg" alt="Náhled" title="Náhled">
+                <p><span id="hra">#hra</span> Šibenice</p>
+            </section>
+        </a>
+    </main>
+</body>
+</html>

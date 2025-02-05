@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotbalový kvíz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .answer {
+            margin: 10px 0;
+        }
+
+        .answer input {
+            margin-right: 10px;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>Fotbalový Kvíz</h1>
+        <div class="question" id="question"></div>
+        <div class="answers">
+            <div class="answer">
+                <input type="radio" name="answer" value="A" id="a">
+                <label for="a" id="labelA"></label>
+            </div>
+            <div class="answer">
+                <input type="radio" name="answer" value="B" id="b">
+                <label for="b" id="labelB"></label>
+            </div>
+            <div class="answer">
+                <input type="radio" name="answer" value="C" id="c">
+                <label for="c" id="labelC"></label>
+            </div>
+            <div class="answer">
+                <input type="radio" name="answer" value="D" id="d">
+                <label for="d" id="labelD"></label>
+            </div>
+        </div>
+        <button class="submit-btn" onclick="submitAnswer()">Odeslat</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: 'Kdo vyhrál Mistrovství světa ve fotbale v roce 2018?',
+                a: 'Německo',
+                b: 'Brazílie',
+                c: 'Francie',
+                d: 'Argentina',
+                correct: 'C'
+            },
+            {
+                question: 'Kdo je historicky nejlepší střelec fotbalové Ligy mistrů?',
+                a: 'Cristiano Ronaldo',
+                b: 'Lionel Messi',
+                c: 'Robert Lewandowski',
+                d: 'Karim Benzema',
+                correct: 'A'
+            },
+            {
+                question: 'Ve kterém roce se poprvé konalo Mistrovství světa ve fotbale?',
+                a: '1920',
+                b: '1930',
+                c: '1940',
+                d: '1950',
+                correct: 'B'
+            },
+            {
+                question: 'Který klub má přezdívku "Rudí ďáblové"?',
+                a: 'FC Barcelona',
+                b: 'Real Madrid',
+                c: 'Manchester United',
+                d: 'Liverpool',
+                correct: 'C'
+            },
+            {
+                question: 'Který tým vyhrál Premier League v roce 2020?',
+                a: 'Manchester United',
+                b: 'Liverpool',
+                c: 'Chelsea',
+                d: 'Manchester City',
+                correct: 'B'
+            },
+            {
+                question: 'Kdo je kapitánem argentinské reprezentace?',
+                a: 'Paulo Dybala',
+                b: 'Sergio Agüero',
+                c: 'Ángel Di María',
+                d: 'Lionel Messi',
+                correct: 'D'
+            },
+            {
+                question: 'Který hráč má nejvíce Zlatých míčů?',
+                a: 'Cristiano Ronaldo',
+                b: 'Lionel Messi',
+                c: 'Michel Platini',
+                d: 'Johan Cruyff',
+                correct: 'B'
+            },
+            {
+                question: 'Kolik týmů se účastní Mistrovství světa ve fotbale?',
+                a: '24',
+                b: '32',
+                c: '48',
+                d: '64',
+                correct: 'B'
+            },
+            {
+                question: 'Kdo vyhrál EURO 2016?',
+                a: 'Francie',
+                b: 'Portugalsko',
+                c: 'Španělsko',
+                d: 'Itálie',
+                correct: 'B'
+            },
+            {
+                question: 'Kdo byl trenérem Chelsea, když tým vyhrál Ligu mistrů 2021?',
+                a: 'Frank Lampard',
+                b: 'Jose Mourinho',
+                c: 'Thomas Tuchel',
+                d: 'Antonio Conte',
+                correct: 'C'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuiz() {
+            deselectAnswers();
+            const currentQuizData = quizData[currentQuestion];
+            document.getElementById('question').innerText = currentQuizData.question;
+            document.getElementById('labelA').innerText = currentQuizData.a;
+            document.getElementById('labelB').innerText = currentQuizData.b;
+            document.getElementById('labelC').innerText = currentQuizData.c;
+            document.getElementById('labelD').innerText = currentQuizData.d;
+        }
+
+        function deselectAnswers() {
+            document.querySelectorAll('input[name="answer"]').forEach(input => input.checked = false);
+        }
+
+        function getSelected() {
+            const answer = document.querySelector('input[name="answer"]:checked');
+            return answer ? answer.value : null;
+        }
+
+        function submitAnswer() {
+            const answer = getSelected();
+            if (answer) {
+                if (answer === quizData[currentQuestion].correct) {
+                    score++;
+                }
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    loadQuiz();
+                } else {
+                    document.querySelector('.quiz-container').innerHTML = `
+            <h2>Odpověděl jsi správně na ${score} z ${quizData.length} otázek.</h2>
+            <button class="submit-btn" onclick="location.reload()">Zkusit znovu</button>
+          `;
+                }
+            } else {
+                document.getElementById('result').textContent = 'Vyber odpověď!';
+                document.getElementById('result').style.color = 'red';
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+
+</html>

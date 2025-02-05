@@ -1,0 +1,24 @@
+formulářová verze
+
+tabulková verze jako záloha
+
+našeptávač cest nespolehlivý
+nový - jako vedlejší výdaje?
+
+možná jen pro název
+
+-
+
+stav nádrže - začátek dalšího měsíce jako konec předchozího
+
+-
+
+vedlejší náklady - chybějící datumy
+
+-
+
+spolujezdec auta (vyplňuje jen stravné), MHD
+
+-
+
+jen v nové app, Tabulky Google jsou plán B

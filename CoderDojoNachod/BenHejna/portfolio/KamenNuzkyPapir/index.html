@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kámen, nůžky, papír</title>
+
+    <style>
+        body{
+            background-color:blue;
+        }
+
+        /* kód jazyka CSS */
+
+        /* úkol 2a: nastavit velikost obrázků knp */
+
+        /* úkol 2b: na začátku skrýt obrázky knp */
+
+    </style>
+</head>
+<body>
+
+    <!-- kód jazyka HTML 👌😊-->
+
+    <!-- úkol 1a: vložit hlavní nadpis hry -->
+     <h1>Kamen Nužky Papír 🪨✂️📰</h1>
+    <!-- úkol 1b: vložit sekce PC/hráč -->
+     <h2>Počítač💻💻</h2>
+     <h3 id="pocitac"></h3>
+    <!-- úkol 1c: vložit pole pro zadání -->
+     <h2>Hráč🥷🕵️‍♂️🧙‍♂️🧙‍♂️🧙‍♂️🧙‍♂️🧙‍♂️</h2>
+    <!-- úkol 1d: vložit potvrzovací tlačítko -->
+     <img id="kamen" src="kamen (1).png" alt=""> <img id="nuzky" src="nuzky.png" alt="">    <img id="papir" src="papir.png" alt="">
+     <h1 id="vysledek"></h1>
+    <!-- úkol 1e: vložit skore -->
+    <h3 id="vyhra">vyhra</h3>
+    <h3 id="prohra">prohra</h3>
+    <h3 id="remiza">remiza</h3>
+    <!-- úkol 1f: vložit nadpis pro výsledek -->
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+    var vyhra=0
+    var prohra=0
+    var remiza=0
+        // kód jazyka JavaScript
+
+        // úkol 3a: nastavit událost PŘI KLIKNUTÍ na TLAČÍTKO
+        $("#kamen").click(function() { 
+           var computer=Math.floor(Math.random()*3+1 )
+        var pocitac
+        var vysledek
+           if(computer==1){
+            pocitac="kámen🪨🪨"
+            vysledek="remíza😊😓"
+            remiza++
+           }
+           if(computer==2){
+            pocitac="Nůžky✂️✂️"
+            vysledek="výhra🎈🎉🎉🎁"
+            vyhra++
+           }
+           if(computer==3){
+            pocitac="Papír📰📰"
+            vysledek="prohra😓😓🤨"
+            prohra++
+           }
+           $("#pocitac").text(pocitac)
+           $("#vysledek").text(vysledek)
+           $("#vyhra").text("vyhra:"+vyhra)
+           $("#prohra").text("prohra:"+prohra)
+           $("#remiza").text("remiza:"+remiza)
+        })
+        $("#nuzky").click(function() { 
+            var computer=Math.floor(Math.random()*3+1 )
+        var pocitac
+        var vysledek
+           if(computer==1){
+            pocitac="kámen🪨🪨"
+            vysledek="prohra😓😓🤨"
+            prohra++
+           }
+           if(computer==2){
+            pocitac="Nůžky✂️✂️"
+            vysledek="remíza😊😓"
+            remiza++
+           }
+           if(computer==3){
+            pocitac="Papír📰📰"
+            vysledek="výhra🎈🎉🎉🎁"
+            vyhra++
+           }
+           $("#pocitac").text(pocitac)
+           $("#vysledek").text(vysledek)
+           $("#vyhra").text("vyhra:"+vyhra)
+           $("#prohra").text("prohra:"+prohra)
+           $("#remiza").text("remiza:"+remiza)
+           
+        })
+        $("#papir").click(function() { 
+            var computer=Math.floor(Math.random()*3+1 )
+        var pocitac
+        var vysledek
+           if(computer==1){
+            pocitac="kámen🪨🪨"
+            vysledek="výhra🎈🎉🎉🎁"
+            vyhra++
+           }
+           if(computer==2){
+            pocitac="Nůžky✂️✂️"
+            vysledek="prohra😓😓🤨"
+            prohra++
+           }
+           if(computer==3){
+            pocitac="Papír📰📰"
+            vysledek="remíza😊😓"
+            remiza++
+           }
+           $("#pocitac").text(pocitac)
+           $("#vysledek").text(vysledek)
+           $("#vyhra").text("vyhra:"+vyhra)
+           $("#prohra").text("prohra:"+prohra)
+           $("#remiza").text("remiza:"+remiza)
+        })
+        // úkol 3b: při kliknutí DETEKOVAT zadání UŽIVATELE
+        // úkol 3c: VYGENEROVAT (náhodný) výběr knp POČÍTAČE
+        // úkol 3d: zobrazit příslušné obrázky hráče a počítače
+        // úkol 3e: porovnat logikou hry knp, kdo vyhrál
+        // úkol 3f: zobrazit výsledek anebo přičíst body
+
+    </script>
+</html>
+</body>

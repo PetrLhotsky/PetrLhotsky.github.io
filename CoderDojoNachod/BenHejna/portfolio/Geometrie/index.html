@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometrie</title>
+
+    <style>
+
+        /* kód jazyka CSS */
+        #sekce-ctverec,
+        #sekce-obdelnik,
+        #sekce-kruh,
+        #sekce-trojhuhelnik{
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- kód jazyka HTML -->
+    <h3>Udělal Benjamin Hejna    a jeho ucitel</h3>
+    <p>V případě poruchy či chybi volej na číslo 734 407 434  nebo na gmail benjaminhejna@gmail.com ;</p>
+
+     <h1>Geometrie</h1>
+     <h3>vyberte si nejprve geometrický útvar a potom tam napiste jakou bude mit délku</h3>
+     <button id="ctverec">ctverec</button>
+     <button id="obdelnik">obdelnik</button>
+     <button id="kruh">kruh</button>
+     <button id="trojhuhelnik">trojhuhelnik</button>
+     <div id="sekce-ctverec"> 
+        a=<input type="text" id="ctverec-a">
+     <button id="potvrdit-ctverec">potvrdit</button>
+     </div >
+     <div id="sekce-obdelnik">
+        a=<input type="text" id="obdelnik-a">
+        b=<input type="text" id="obdelnik-b">
+     <button id="potvrdit-obdelnik">potvrdit</button>
+     </div>
+     <div id="sekce-kruh">
+        polomer(r)=<input type="text" id="kruh-r">
+        <button id="potvrdit-kruh">potvrdit</button>
+     </div>
+     <div id="sekce-trojhuhelnik">
+        a=<input type="text" id="trojuhelnik-a">
+        b=<input type="text" id="trojuhelnik-b">
+        c=<input type="text" id="trojuhelnik-c">
+     <button id="potvrdit-trojuhelnik">potvrdit</button>
+     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script>
+
+        // kód jazyka JavaScri
+        $("#ctverec").click(function() { 
+            $("#sekce-ctverec").slideDown()
+            $("#ctverec").slideUp()
+            $("#obdelnik").slideUp()
+            $("#kruh").slideUp()
+            $("#trojhuhelnik").slideUp()
+         })
+
+         $("#potvrdit-ctverec").click(function() {
+            var a= $("#ctverec-a").val()
+            var obvod= a*4
+            var obsah= a*a
+            alert("obvod je "+obvod)
+            alert("obsah je "+obsah)
+        })
+        $("#obdelnik").click(function() { 
+            $("#sekce-obdelnik").slideDown()
+            $("#ctverec").slideUp()
+            $("#obdelnik").slideUp()
+            $("#kruh").slideUp()
+            $("#trojhuhelnik").slideUp()
+         })
+         $("#potvrdit-obdelnik").click(function() {
+            var a= $("#obdelnik-a").val()
+            var b= $("#obdelnik-b").val()
+            var obvod= a*2+b*2
+            var obsah= a*b
+            alert("obvod je "+obvod)
+            alert("obsah je "+obsah)
+        })
+         $("#kruh").click(function() { 
+            $("#sekce-kruh").slideDown()
+            $("#ctverec").slideUp()
+            $("#obdelnik").slideUp()
+            $("#kruh").slideUp()
+            $("#trojhuhelnik").slideUp()
+          })
+          $("#potvrdit-kruh").click(function() {
+            var r= $("#kruh-r").val()
+            var obvod= 2*3.14*r
+            var obsah= 3.14*r*r
+            alert("obvod je "+obvod)
+            alert("obsah je "+obsah)
+        })
+          $("#trojhuhelnik").click(function() { 
+            $("#sekce-trojhuhelnik").slideDown()
+            $("#ctverec").slideUp()
+            $("#obdelnik").slideUp()
+            $("#kruh").slideUp()
+            $("#trojhuhelnik").slideUp() 
+           })
+           $("#potvrdit-trojuhelnik").click(function() {
+            var a=parseInt( $("#trojuhelnik-a").val())
+            var b=parseInt( $("#trojuhelnik-b").val())
+            var c=parseInt( $("#trojuhelnik-c").val())
+         var obvod= a+b+c
+            var s= (a+b+c)/2
+            var obsah =  Math.sqrt(s*(s-a)*(s-b)*(s-c))
+            alert("obvod je "+obvod)
+            alert("obsah je "+obsah)
+        })
+    </script>
+</html>
+</body>

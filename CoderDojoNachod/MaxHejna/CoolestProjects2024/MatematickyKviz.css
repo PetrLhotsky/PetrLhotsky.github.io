@@ -1,0 +1,89 @@
+body {
+    background-color: rgb(120, 255, 201);
+    font-family: sans-serif;
+}
+
+h1 {
+    color: hsl(0, 0%, 9%);
+    font-size: 56px;
+    text-align: center;
+}
+
+#menu {
+    width: 1350px;
+    height: 180px;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#level1, #level2, #level3 {
+    width: 450px;
+    height: 180px;
+    float: left;
+    background-color: rgb(255, 98, 0);
+    font-size: 20.1px;
+    color: black;
+    text-align: center;
+}
+
+#pocetprikladu {
+    width: 1000px;
+    height: 100px;
+    margin-left:auto ;
+    margin-right: auto;
+    display: block;
+}
+
+#pocet, #procenta, #znamka {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 50px;
+    color: #0474fb;
+    text-align: center;
+}
+
+#hra {
+    display: none;
+}
+
+#casovac {
+    padding-top: 0px;
+}
+
+#panel1, #panel2, #panel3 {
+    width: 1170px;
+    height: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(136, 255, 0);
+    color: rgba(255, 0, 0, 0.508);
+}
+
+h2 {
+    text-align: center;
+    padding-top: 75px;
+    font-size: 33px;
+}
+
+#odpoved {
+    width: 288px;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#vysledek {
+    width: 100px;
+    height: 30px;
+    float: left;
+    margin-right: 10px;
+    font-size: 15px;
+    text-align: center;
+}
+
+#potvrdit {
+    width: 170px;
+    height: 35px;
+    float: left;
+}
