@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - Psi</title>
+</head>
+
+<style>
+    img {
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
+<body>
+    <h1>Vaše Plemeno</h1>
+    <h2 id="nenalezeno"></h2>
+
+    <input type="text" class="form-control" id="zadatplemeno" placeholder="Zadejte Plemeno">
+    <input type="number" class="form-control" id="pocet" value="">
+    <input type="button" class="form-control" id="potvrdit" value="potvrdit">
+
+    <img alt="" id="Plemeno0">
+    <img alt="" id="Plemeno1">
+    <img alt="" id="Plemeno2">
+    <img alt="" id="Plemeno3">
+    <img alt="" id="Plemeno4">
+    <img alt="" id="Plemeno5">
+    <img alt="" id="Plemeno6">
+    <img alt="" id="Plemeno7">
+    <img alt="" id="Plemeno8">
+    <img alt="" id="Plemeno9">
+    <img alt="" id="Plemeno10">
+    <img alt="" id="Plemeno11">
+    <img alt="" id="Plemeno12">
+    <img alt="" id="Plemeno13">
+    <img alt="" id="Plemeno14">
+    <img alt="" id="Plemeno15">
+    <img alt="" id="Plemeno16">
+    <img alt="" id="Plemeno17">
+    <img alt="" id="Plemeno18">
+    <img alt="" id="Plemeno19">
+    <img alt="" id="Plemeno20">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        api_psi_ukol()
+
+        $("#potvrdit").click(() => {
+            var plemeno = $("#zadatplemeno").val()
+            var pocet = $("#pocet").val()
+            var opakovani = 0
+            var povolenaplemena = ["affenpinscher", "african", "airedale", "akita", "appenzeller", "australian kelpie", "australian shepherd", "bakharwal indian", "basenji", "beagle", "bluetick", "borzoi", "bouvier", "boxer", "brabancon", "briard", "buhund norwegian", "bulldog boston", "bulldog english", "bulldog french", "bullterrier staffordshire", "cattledog australian", "cavapoo", "chihuahua", "chippiparai indian", "chow", "clumber", "cockapoo", "collie border", "coonhound", "corgi cardigan", "cotondetulear", "dachshund", "dalmatian", "dane great", "danish swedish", "deerhound scottish", "dhole", "dingo", "doberman", "elkhound norwegian", "entlebucher", "eskimo", "finnish lapphund", "frise bichon", "gaddi indian", "germanshepherd", "greyhound indian", "greyhound italian", "groenendael", "havanese", "hound afghan", "hound basset", "hound blood", "hound english", "hound ibizan", "hound plott", "hound walker", "husky", "keeshond", "kelpie", "kombai", "komondor", "kuvasz", "labradoodle", "labrador", "leonberg", "lhasa", "malamute", "malinois", "maltese", "mastiff bull", "mastiff english", "mastiff indian", "mastiff tibetan", "mexicanhairless", "mix", "mountain bernese", "mountain swiss", "mudhol indian", "newfoundland", "otterhound", "ovcharka caucasian", "papillon", "pariah indian", "pekinese", "pembroke", "pinscher miniature", "pitbull", "pointer german", "pointer germanlonghair", "pomeranian", "poodle medium", "poodle miniature", "poodle standard", "poodle toy", "pug", "puggle", "pyrenees", "rajapalayam indian", "redbone", "retriever chesapeake", "retriever curly", "retriever flatcoated", "retriever golden", "ridgeback rhodesian", "rottweiler", "saluki", "samoyed", "schipperke", "schnauzer giant", "schnauzer miniature", "segugio italian", "setter english", "setter gordon", "setter irish", "sharpei", "sheepdog english", "sheepdog indian", "sheepdog shetland", "shiba", "shihtzu", "spaniel blenheim", "spaniel brittany", "spaniel cocker", "spaniel irish", "spaniel japanese", "spaniel sussex", "spaniel welsh", "spitz indian", "spitz japanese", "springer english", "stbernard", "terrier american", "terrier australian", "terrier bedlington", "terrier border", "terrier cairn", "terrier dandie", "terrier fox", "terrier irish", "terrier kerryblue", "terrier lakeland", "terrier norfolk", "terrier norwich", "terrier patterdale", "terrier russell", "terrier scottish", "terrier sealyham", "terrier silky", "terrier tibetan", "terrier toy", "terrier welsh", "terrier westhighland", "terrier wheaten", "terrier yorkshire", "tervuren", "vizsla", "waterdog spanish", "weimaraner", "whippet", "wolfhound irish"]
+            var povolenaplemenacz = ["affenpinčr", "africký", "airedale", "akita", "appenzellský", "australský kelpie", "australský ovčák", "bakharwal indický", "basenji", "beagle", "bluetick", "borzoj", "bouvier", "boxer", "brabantský", "briard", "norwegian buhund", "boston bulldog", "anglický bulldog", "francouzský bulldog", "staffordshirský bullterrier", "australský cattledog", "cavapoo", "čivava", "chippiparai indický", "čau", "clumber", "cockapoo", "border kolie", "coonhound", "cardiganský corgi", "cotondetulear", "dachshund", "dalmatin", "velký dane", "dánský švédský", "skotský deerhound", "dhole", "dingo", "dobrman", "norwegian elkhound", "entlebucher", "eskimácký", "finský lapphund", "bichon frise", "gaddi indický", "německý ovčák", "indický greyhound", "italský greyhound", "groenendael", "havanéz", "afghánský hound", "basset hound", "blood hound", "anglický hound", "ibizanský hound", "plott hound", "walker hound", "husky", "keeshond", "kelpie", "kombai", "komondor", "kuvasz", "labradoodle", "labrador", "leonberger", "lhasa apso", "malamut", "malinois", "malťan", "bull mastif", "anglický mastif", "indický mastif", "tibetský mastif", "mexický naháč", "míšenec", "bernský hory", "švýcarský hory", "indický mudhol", "novofoundland", "otterhound", "caucasijský ovčák", "papillon", "indický pariah", "pekingský psík", "pembroke", "miniaturní pinscher", "pitbull", "německý pointer", "německý dlouhosrstý pointer", "pomeranian", "střední pudl", "miniaturní pudl", "standardní pudl", "toypudl", "mops", "puggle", "pyreneje", "indický rajapalayam", "redbone", "chesapeakský retrívr", "kudrnatý retrívr", "ploskočí retrívr", "zlatý retrívr", "rhodesian ridgeback", "rottweiler", "saluki", "samojed", "schipperke", "obří schnauzer", "miniaturní schnauzer", "italský segugio", "anglický setter", "gordon setter", "irský setter", "shar pei", "anglický ovčák", "indický ovčák", "shetlandský ovčák", "shiba inu", "shih tzu", "blenheim španěl", "brittany španěl", "kokeršpaněl", "irský španěl", "japonský španěl", "sussex španěl", "welsh španěl", "indický spitz", "japonský spitz", "anglický springer", "st. bernard", "americký teriér", "australský teriér", "bedlington teriér", "border teriér", "cairn teriér", "dandie dinmont teriér", "fox teriér", "irský teriér", "kerryblue teriér", "lakeland teriér", "norfolkský teriér", "norwich teriér", "patterdale teriér", "russell teriér", "skotský teriér", "sealyham teriér", "silky teriér", "tibetský teriér", "toy teriér", "welsh teriér", "westhighland teriér", "wheaten teriér", "yorkshirský teriér", "tervuren", "vizsla", "španělský vodní pes", "weimaraner", "whippet", "irský vlkodav"]
+            var pokracuj = 0
+            var plemenofinal = ""
+            var pocitat = 0
+
+            povolenaplemena.forEach(element => {
+                if (element == plemeno) {
+                    pokracuj = pokracuj + 1
+                    plemenofinal = plemeno
+                    console.log(plemenofinal)
+                }
+
+            })
+
+            if (pokracuj == 0) {
+                povolenaplemenacz.forEach(element2 => {
+                    if (element2 == plemeno) {
+                        pokracuj = pokracuj + 1
+                        plemeno = povolenaplemena[pocitat];
+                        console.log(plemeno, pocitat)
+                    }
+                    else {
+                        pocitat = pocitat + 1
+                    }
+                })
+            }
+
+            if (pokracuj == 1) {
+                plemeno = plemeno.replace(/ /g, "/");
+
+                if (pocet > 2) {
+
+                }
+                else {
+                    pocet = 3
+                }
+
+                $.ajax({
+                    url: "https://dog.ceo/api/breed/" + plemeno + "/images/random/" + pocet + "",
+
+                    success: function (data) {
+                        data.message.forEach(skibidi => {
+                            $("#Plemeno" + opakovani + "").attr("src", skibidi)
+                            opakovani = opakovani + 1
+                        })
+
+                        console.log(data)
+                    }
+                })
+            }
+
+            else {
+
+                if (pocet > 2) {
+
+                }
+                else {
+                    pocet = 3
+                }
+
+                $.ajax({
+                    url: "https://dog.ceo/api/breeds/image/random/" + pocet + "",
+
+                    success: function (data) {
+                        data.message.forEach(skibidi => {
+                            $("#Plemeno" + opakovani + "").attr("src", skibidi)
+                            opakovani = opakovani + 1
+                        })
+
+                        console.log(data)
+                    }
+                })
+
+                $("#nenalezeno").text("Vaše plemeno nebylo bohužel nalezeno. Zkuste prosím změnit požadavek")
+            }
+        })
+
+
+        function api_mapy(text, lat, lon, key) {
+            $.ajax({
+                url: "https://api.tomtom.com/search/2/search/" + text + ".json?lat=" + lat + "&lon=" + lon + "&minFuzzyLevel=1&maxFuzzyLevel=2&categorySet=7315&view=Unified&relatedPois=off&key=" + key,
+
+                success: function (data) {
+                    console.log(data)
+                }
+
+            })
+        }
+
+
+
+        function api_csu(katalog, key) {
+            $.ajax({
+                url: "https://api.apitalks.store/czso.cz/" + katalog,
+
+                headers: {
+                    'x-api-key': key
+                },
+
+                success: function (data) {
+                    console.log(data)
+                }
+            })
+        }
+
+
+
+        function api_csu_id(obec, key) {
+            $.ajax({
+                url: 'https://api.apitalks.store/czso.cz/mestsky-obvod-mestska-cast',
+                method: 'GET',
+
+                headers: {
+                    'x-api-key': key
+                },
+                data: {
+                    filter: JSON.stringify({
+                        where: {
+                            nazev: obec
+                        }
+                    })
+                },
+
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        console.log(data[0].id);
+                    } else {
+                        console.log('Obec nebyla nalezena.');
+                    }
+                },
+
+                error: function (error) {
+                    console.error('Chyba při získávání dat: ', error);
+                }
+            });
+        }
+
+        function api_psi_ukol() {
+            // dokumentace k API: https://dog.ceo/dog-api/documentation/
+            
+            /////////////// 1. do HTML přidat textové pole pro zadání názvu plemene psa
+            /////////////// 2. do HTML přidat číselné pole pro výběr počtu obrázků 1 až 20
+            /////////////// 3. do HTML přidat tlačítko pro potvrzení obou těchto zadání
+            /////////////// 4. v JS navázat funkci "po kliknutí na tlačítko" a načíst pole
+
+            /////////////// 5. pokud je pole pro zadání názvu plemene psa prázdné, tak:
+            /////////////// a. dotázat se API na náhodné obrázky (dog.ceo/api/breeds/image/random/3)
+            /////////////// b. zobrazit obrázky uživateli v galerii (HTML příkaz img + práce v JS)
+
+            // 6. pokud je pole pro zadání názvu plemene psa vyplněné, tak:
+            // a. zkontrolovat, zda je validní dle seznamu (dog.ceo/api/breeds/list/all)
+            // b. pokud není validní, oznámit uživateli chybu a nic dalšího neprovádět
+            ///////////// c. pokud je validní, dotázat se API na obrázky (dog.ceo/api/breed/hound/images/random/3)
+            //////////// d. zobrazit obrázky uživateli v galerii (HTML příkaz img + práce v JS)
+        }
+    </script>
+</body>
+
+</html>
