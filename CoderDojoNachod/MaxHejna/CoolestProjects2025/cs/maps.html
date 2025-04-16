@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - Mapy</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #e1c6f2, #fff98c);
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+            background: linear-gradient(90deg, #00f5ff, #ff00e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            text-align: center;
+            animation: glowText 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowText {
+            from {
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            }
+
+            to {
+                text-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
+            }
+        }
+
+        input[type="text"],
+        input[type="button"] {
+            width: 80%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #000;
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        input[type="text"]:focus,
+        input[type="button"]:hover {
+            border: 2px solid #00fff0;
+            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        input[type="button"] {
+            background: rgba(0, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background: #00fff0;
+            color: #000;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #00f5ff;
+            text-align: center;
+            background: linear-gradient(90deg, #00f5ff, #ff00e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            input[type="text"],
+            input[type="button"] {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Vyhledej oblíbená místa v mapách i aktuální počasí</h1>
+
+    <input type="text" class="form-control" id="place" placeholder="Zadejte hledanou lokaci">
+    <input type="button" class="form-control" id="help" value="Nápověda: seznam míst">
+
+    <input type="text" class="form-control" id="lat" placeholder="Zadejte zeměpisnou šířku">
+    <input type="text" class="form-control" id="lon" placeholder="Zadejte zeměpisnou délku">
+
+    <input type="button" class="form-control" id="submit" value="Potvrdit">
+
+    <input type="button" class="form-control" id="prev" value="Předchozí výsledek">
+    <input type="button" class="form-control" id="next" value="Další výsledek">
+
+    <h2 id="address"></h2>
+
+    <input type="button" class="form-control" id="linkMaps" value="Ukázat v Mapách Google">
+    <input type="button" class="form-control" id="linkWeather" value="Počasí v daném místě">
+
+    <h2 id="category"></h2>
+    <h2 id="phone"></h2>
+    <h2 id="link"></h2>
+    <h2 id="name"></h2>
+    <h2 id="score"></h2>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#help").click(() => {
+            window.open("maps_list.html", "_blank")
+        })
+
+        // https://developer.tomtom.com/search-api/api-explorer
+
+        var places
+        var index
+        var linkMaps
+        var linkWeather
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    $("#lat").val(position.coords.latitude)
+                    $("#lon").val(position.coords.longitude)
+                },
+                (error) => {
+                    console.error("Chyba při získávání polohy: ", error.message)
+                }
+            )
+        }
+        else {
+            console.log("Geolokace není v tomto prohlížeči podporována.")
+        }
+
+        $("#submit").click(() => {
+            var place = $("#place").val()
+            var lat = $("#lat").val()
+            var lon = $("#lon").val()
+            api_maps(place, lat, lon, "v2sabdoIRQJjJdKB4VQluYgumn4B1qnn")
+        })
+
+        function api_maps(place, lat, lon, key) {
+            $.ajax({
+                // request
+                url: "https://api.tomtom.com/search/2/search/" + place + ".json?lat=" + lat + "&lon=" + lon + "&minFuzzyLevel=1&maxFuzzyLevel=2&view=Unified&relatedPois=off&key=" + key,
+
+                // response
+                success: function(data) {
+                    console.log(data)
+
+                    places = data
+                    index = 0
+                    refresh_result()
+                }
+            })
+        }
+
+        function refresh_result() {
+            linkMaps = places.results[index].address.freeformAddress.replace(/,/g, "")
+            linkMaps = linkMaps.replace(/ /g, "+")
+            linkWeather = places.results[index].address.municipality
+            $("#address").text("Adresa: " + places.results[index].address.freeformAddress)
+            $("#category").text("Je to: " + places.results[index].poi.categories)
+            $("#phone").text("Telefon: " + places.results[index].poi.phone)
+            $("#link").text("Web: " + places.results[index].poi.url)
+            $("#name").text("Název:" + places.results[index].poi.name)
+            $("#score").text("Hodnocení: " + places.results[index].score)
+        }
+
+        $("#prev").click(() => {
+            index = index - 1
+
+            if (index == -1) {
+                index = 9
+            }
+
+            refresh_result()
+        })
+
+        $("#next").click(() => {
+            index = index + 1
+
+            if (index == 10) {
+                index = 0
+            }
+
+            refresh_result()
+        })
+
+        $("#linkMaps").click(() => {
+            console.log(linkMaps)
+            window.open("https://www.google.com/maps/place/ " + linkMaps, "_blank")
+        })
+
+        $("#linkWeather").click(() => {
+            console.log(linkWeather)
+            window.open("maps_weather.html?q=" + linkWeather, "_blank")
+        })
+    </script>
+</body>
+</html>

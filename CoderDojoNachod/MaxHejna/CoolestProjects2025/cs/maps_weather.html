@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - Počasí</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid #1a73e8;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #1557b0;
+        }
+
+        .location-info {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .weather-card {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .weather-title {
+            font-size: 1.2em;
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+
+        .weather-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .weather-unit {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .thermometer {
+            width: 40px;
+            height: 200px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .thermometer::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1a73e8;
+            transition: height 1s ease-in-out;
+            border-radius: 20px;
+        }
+
+        .thermometer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .temperature-scale {
+            position: absolute;
+            left: -25px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .thermometer-wrapper {
+            position: relative;
+            height: 200px;
+            margin: 0 20px;
+        }
+
+        .weather-icon {
+            width: 64px;
+            height: 64px;
+            margin: 10px auto;
+        }
+
+        .weather-description {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timestamp {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="search-container">
+                <input type="text" id="city" class="search-input" placeholder="Zadejte lokalitu..." value="Praha">
+                <button id="submit" class="search-button">Potvrdit</button>
+            </div>
+            <div class="location-info" id="locationInfo"></div>
+        </div>
+
+        <div class="weather-grid">
+            <div class="weather-card">
+                <div class="weather-title">Aktuální teplota</div>
+                <div class="thermometer-container">
+                    <div class="thermometer-wrapper">
+                        <div class="temperature-scale">
+                            <span>40°</span>
+                            <span>30°</span>
+                            <span>20°</span>
+                            <span>10°</span>
+                            <span>0°</span>
+                            <span>-10°</span>
+                        </div>
+                        <div class="thermometer" id="tempThermometer"></div>
+                    </div>
+                    <div class="weather-value" id="temperature"></div>
+                </div>
+            </div>
+
+            <div class="weather-card">
+                <div class="weather-title">Pocitová teplota</div>
+                <div class="thermometer-container">
+                    <div class="thermometer-wrapper">
+                        <div class="temperature-scale">
+                            <span>40°</span>
+                            <span>30°</span>
+                            <span>20°</span>
+                            <span>10°</span>
+                            <span>0°</span>
+                            <span>-10°</span>
+                        </div>
+                        <div class="thermometer" id="feelsThermometer"></div>
+                    </div>
+                    <div class="weather-value" id="feelslike"></div>
+                </div>
+            </div>
+
+            <div class="weather-card">
+                <div class="weather-title">Počasí</div>
+                <div class="weather-description">
+                    <img id="weatherIcon" class="weather-icon" alt="Ikona">
+                    <div class="weather-value" id="weather"></div>
+                </div>
+            </div>
+
+            <div class="weather-card">
+                <div class="weather-title">Vítr</div>
+                <div class="weather-value" id="wind"></div>
+            </div>
+
+            <div class="weather-card">
+                <div class="weather-title">Vlhkost</div>
+                <div class="weather-value" id="humidity"></div>
+            </div>
+
+            <div class="weather-card">
+                <div class="weather-title">Tlak</div>
+                <div class="weather-value" id="pressure"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search)
+        const param = params.get('q')
+
+        if (param != null) {
+            $("#city").val(param)
+            api_weather(param, "9ae867a7b61da070059a70a5776fb33b")
+        }
+
+        $("#submit").click(() => {
+            var city = $("#city").val()
+            api_weather(city, "9ae867a7b61da070059a70a5776fb33b")
+        })
+
+        function api_weather(city, key) {
+            $.ajax({
+                // request
+                url: "http://api.weatherstack.com/current?access_key=" + key + "&query=" + city,
+
+                // response
+                success: function(data) {
+                    console.log(data)
+                    refresh_result(data)
+                }
+            })
+        }
+
+        function refresh_result(data) {
+            $("#locationInfo").text(data.location.name)
+
+            $("#temperature").text(data.current.temperature)
+
+            const tempHeight = thermometer_height(data.current.temperature)
+            $('#tempThermometer').css('--height', `${tempHeight}%`)
+            $('#tempThermometer').css('background', `linear-gradient(to top, #1a73e8 ${tempHeight}%, #e0e0e0 ${tempHeight}%)`)
+
+            $("#feelslike").text(data.current.feelslike)
+
+            const feelsHeight = thermometer_height(data.current.feelslike)
+            $('#feelsThermometer').css('--height', `${feelsHeight}%`)
+            $('#feelsThermometer').css('background', `linear-gradient(to top, #1a73e8 ${feelsHeight}%, #e0e0e0 ${feelsHeight}%)`);
+
+            $("#weatherIcon").attr("src", data.current.weather_icons[0])
+
+            $("#weather").text(data.current.weather_descriptions[0])
+
+            $("#wind").text(data.current.wind_speed)
+
+            $("#humidity").text(data.current.humidity)
+
+            $("#pressure").text(data.current.pressure)
+        }
+
+        function thermometer_height(temperature) {
+            const min = -10
+            const max = 40
+
+            const scale = Math.max(min, Math.min(max, temperature))
+
+            return ((scale - min) / (max - min)) * 100
+        }
+    </script>
+</body>
+</html>

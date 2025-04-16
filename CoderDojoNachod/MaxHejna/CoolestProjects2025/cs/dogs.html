@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - Psi</title>
+
+    <style>
+        img {
+            width: 250px;
+            height: 300px;
+        }
+
+        :root {
+            --primary-color: #6a48ff;
+            --secondary-color: #ff7043;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --accent-color: #43d2ff;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: radial-gradient(circle at top right, var(--accent-color), var(--primary-color));
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 2;
+        }
+
+        .paw-icon {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .search-container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 72, 255, 0.2);
+        }
+
+        button {
+            padding: 1rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background-color: #5539e0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 72, 255, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f85a29;
+            box-shadow: 0 5px 15px rgba(255, 112, 67, 0.3);
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dog-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .dog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .dog-info {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .dog-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .notification {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            background-color: #ffebee;
+            color: #d32f2f;
+            display: none;
+        }
+
+        .notification.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(106, 72, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: white;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Vyhledej obrázky svého oblíbeného psího plemene</h1>
+            <p style="color: white; margin-bottom: 1rem; position: relative; z-index: 2;">
+                Objevte různá plemena psů podle vašich preferencí
+            </p>
+            <svg class="paw-icon" style="top: 10%; left: 5%; width: 100px; height: 100px;"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="white"
+                    d="M256 224c-79.37 0-192 122.8-192 200.9 0 34.9 26.81 55.1 71.25 55.1 48.4 0 92.34-16.1 120.8-16.1 28.38 0 72.35 16.1 120.8 16.1 44.4 0 71.25-20.2 71.25-55.1 0-78.07-112.6-200.9-192-200.9zm-147.2-68.38c-23.95-13.83-36.57-44.56-28.12-68.75 8.45-24.19 36.9-36.11 63.32-26.59 26.42 9.52 47.4 39.1 38.95 63.29-8.45 24.19-30.3 41.95-54.25 28.09zm129.4-53.4c0-31.1 25.9-56.28 57.83-56.28 31.93 0 57.83 25.19 57.83 56.28s-25.9 56.28-57.83 56.28c-31.93 0-57.83-25.19-57.83-56.28zm76.58 145.8c-30.12-17.38-40.9-49.07-24.13-70.69 16.77-21.62 58.02-27.38 88.13-9.99 30.12 17.38 45.24 51.66 28.47 73.28-16.77 21.62-62.35 24.77-92.47 7.39zm97.72-145.8c0-31.1 25.9-56.28 57.83-56.28 31.93 0 57.83 25.19 57.83 56.28s-25.9 56.28-57.83 56.28c-31.93 0-57.83-25.19-57.83-56.28zm74.28 68.38c-23.95 13.83-45.8-3.9-54.25-28.09-8.45-24.19 12.53-53.77 38.95-63.29 26.42-9.52 54.87 2.4 63.32 26.59 8.45 24.19-4.17 54.92-28.12 68.75z" />
+            </svg>
+            <svg class="paw-icon" style="top: 60%; right: 10%; width: 80px; height: 80px;"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="white"
+                    d="M256 224c-79.37 0-192 122.8-192 200.9 0 34.9 26.81 55.1 71.25 55.1 48.4 0 92.34-16.1 120.8-16.1 28.38 0 72.35 16.1 120.8 16.1 44.4 0 71.25-20.2 71.25-55.1 0-78.07-112.6-200.9-192-200.9zm-147.2-68.38c-23.95-13.83-36.57-44.56-28.12-68.75 8.45-24.19 36.9-36.11 63.32-26.59 26.42 9.52 47.4 39.1 38.95 63.29-8.45 24.19-30.3 41.95-54.25 28.09zm129.4-53.4c0-31.1 25.9-56.28 57.83-56.28 31.93 0 57.83 25.19 57.83 56.28s-25.9 56.28-57.83 56.28c-31.93 0-57.83-25.19-57.83-56.28zm76.58 145.8c-30.12-17.38-40.9-49.07-24.13-70.69 16.77-21.62 58.02-27.38 88.13-9.99 30.12 17.38 45.24 51.66 28.47 73.28-16.77 21.62-62.35 24.77-92.47 7.39zm97.72-145.8c0-31.1 25.9-56.28 57.83-56.28 31.93 0 57.83 25.19 57.83 56.28s-25.9 56.28-57.83 56.28c-31.93 0-57.83-25.19-57.83-56.28zm74.28 68.38c-23.95 13.83-45.8-3.9-54.25-28.09-8.45-24.19 12.53-53.77 38.95-63.29 26.42-9.52 54.87 2.4 63.32 26.59 8.45 24.19-4.17 54.92-28.12 68.75z" />
+            </svg>
+        </header>
+
+        <div class="search-container">
+            <div id="notification" class="notification"></div>
+
+            <div class="input-group">
+                <input type="text" id="breed" placeholder="Zadejte plemeno psa">
+                <input type="number" id="count" placeholder="Zadejte počet obrázků" min="1" max="20">
+            </div>
+
+            <div class="action-buttons">
+                <button id="help" class="btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                    Nápověda: seznam plemen
+                </button>
+
+                <button id="submit" class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                    Vyhledat plemeno
+                </button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>
+                Hledáme psí plemena...
+            </p>
+        </div>
+
+        <h2 id="notFound"
+            style="display: none; color: white; text-align: center; margin: 2rem 0; background-color: rgba(0,0,0,0.1); padding: 1rem; border-radius: 12px;">
+        </h2>
+
+        <div id="results" class="results">
+            <img alt="" id="breed0">
+            <img alt="" id="breed1">
+            <img alt="" id="breed2">
+            <img alt="" id="breed3">
+            <img alt="" id="breed4">
+            <img alt="" id="breed5">
+            <img alt="" id="breed6">
+            <img alt="" id="breed7">
+            <img alt="" id="breed8">
+            <img alt="" id="breed9">
+            <img alt="" id="breed10">
+            <img alt="" id="breed11">
+            <img alt="" id="breed12">
+            <img alt="" id="breed13">
+            <img alt="" id="breed14">
+            <img alt="" id="breed15">
+            <img alt="" id="breed16">
+            <img alt="" id="breed17">
+            <img alt="" id="breed18">
+            <img alt="" id="breed19">
+            <img alt="" id="breed20">
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Maxmilián Hejna | Všechna práva vyhrazena</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#help").click(() => {
+            window.open("dogs_list.html", "_blank")
+        })
+
+        // https://dog.ceo/dog-api/documentation/
+
+        $("#submit").click(() => {
+            var breed = $("#breed").val()
+            var count = $("#count").val()
+
+            var breedsEN = ["affenpinscher", "african", "airedale", "akita", "appenzeller", "australian kelpie", "australian shepherd", "bakharwal indian", "basenji", "beagle", "bluetick", "borzoi", "bouvier", "boxer", "brabancon", "briard", "buhund norwegian", "bulldog boston", "bulldog english", "bulldog french", "bullterrier staffordshire", "cattledog australian", "cavapoo", "chihuahua", "chippiparai indian", "chow", "clumber", "cockapoo", "collie border", "coonhound", "corgi cardigan", "cotondetulear", "dachshund", "dalmatian", "dane great", "danish swedish", "deerhound scottish", "dhole", "dingo", "doberman", "elkhound norwegian", "entlebucher", "eskimo", "finnish lapphund", "frise bichon", "gaddi indian", "germanshepherd", "greyhound indian", "greyhound italian", "groenendael", "havanese", "hound afghan", "hound basset", "hound blood", "hound english", "hound ibizan", "hound plott", "hound walker", "husky", "keeshond", "kelpie", "kombai", "komondor", "kuvasz", "labradoodle", "labrador", "leonberg", "lhasa", "malamute", "malinois", "maltese", "mastiff bull", "mastiff english", "mastiff indian", "mastiff tibetan", "mexicanhairless", "mix", "mountain bernese", "mountain swiss", "mudhol indian", "newfoundland", "otterhound", "ovcharka caucasian", "papillon", "pariah indian", "pekinese", "pembroke", "pinscher miniature", "pitbull", "pointer german", "pointer germanlonghair", "pomeranian", "poodle medium", "poodle miniature", "poodle standard", "poodle toy", "pug", "puggle", "pyrenees", "rajapalayam indian", "redbone", "retriever chesapeake", "retriever curly", "retriever flatcoated", "retriever golden", "ridgeback rhodesian", "rottweiler", "saluki", "samoyed", "schipperke", "schnauzer giant", "schnauzer miniature", "segugio italian", "setter english", "setter gordon", "setter irish", "sharpei", "sheepdog english", "sheepdog indian", "sheepdog shetland", "shiba", "shihtzu", "spaniel blenheim", "spaniel brittany", "spaniel cocker", "spaniel irish", "spaniel japanese", "spaniel sussex", "spaniel welsh", "spitz indian", "spitz japanese", "springer english", "stbernard", "terrier american", "terrier australian", "terrier bedlington", "terrier border", "terrier cairn", "terrier dandie", "terrier fox", "terrier irish", "terrier kerryblue", "terrier lakeland", "terrier norfolk", "terrier norwich", "terrier patterdale", "terrier russell", "terrier scottish", "terrier sealyham", "terrier silky", "terrier tibetan", "terrier toy", "terrier welsh", "terrier westhighland", "terrier wheaten", "terrier yorkshire", "tervuren", "vizsla", "waterdog spanish", "weimaraner", "whippet", "wolfhound irish"]
+            var breedsCS = ["affenpinčr", "africký", "airedale", "akita", "appenzellský", "australský kelpie", "australský ovčák", "bakharwal indický", "basenji", "beagle", "bluetick", "borzoj", "bouvier", "boxer", "brabantský", "briard", "norwegian buhund", "boston bulldog", "anglický bulldog", "francouzský bulldog", "staffordshirský bullterrier", "australský cattledog", "cavapoo", "čivava", "chippiparai indický", "čau", "clumber", "cockapoo", "border kolie", "coonhound", "cardiganský corgi", "cotondetulear", "dachshund", "dalmatin", "velký dane", "dánský švédský", "skotský deerhound", "dhole", "dingo", "dobrman", "norwegian elkhound", "entlebucher", "eskimácký", "finský lapphund", "bichon frise", "gaddi indický", "německý ovčák", "indický greyhound", "italský greyhound", "groenendael", "havanéz", "afghánský hound", "basset hound", "blood hound", "anglický hound", "ibizanský hound", "plott hound", "walker hound", "husky", "keeshond", "kelpie", "kombai", "komondor", "kuvasz", "labradoodle", "labrador", "leonberger", "lhasa apso", "malamut", "malinois", "malťan", "bull mastif", "anglický mastif", "indický mastif", "tibetský mastif", "mexický naháč", "míšenec", "bernský hory", "švýcarský hory", "indický mudhol", "novofoundland", "otterhound", "caucasijský ovčák", "papillon", "indický pariah", "pekingský psík", "pembroke", "miniaturní pinscher", "pitbull", "německý pointer", "německý dlouhosrstý pointer", "pomeranian", "střední pudl", "miniaturní pudl", "standardní pudl", "toypudl", "mops", "puggle", "pyreneje", "indický rajapalayam", "redbone", "chesapeakský retrívr", "kudrnatý retrívr", "ploskočí retrívr", "zlatý retrívr", "rhodesian ridgeback", "rottweiler", "saluki", "samojed", "schipperke", "obří schnauzer", "miniaturní schnauzer", "italský segugio", "anglický setter", "gordon setter", "irský setter", "shar pei", "anglický ovčák", "indický ovčák", "shetlandský ovčák", "shiba inu", "shih tzu", "blenheim španěl", "brittany španěl", "kokeršpaněl", "irský španěl", "japonský španěl", "sussex španěl", "welsh španěl", "indický spitz", "japonský spitz", "anglický springer", "st. bernard", "americký teriér", "australský teriér", "bedlington teriér", "border teriér", "cairn teriér", "dandie dinmont teriér", "fox teriér", "irský teriér", "kerryblue teriér", "lakeland teriér", "norfolkský teriér", "norwich teriér", "patterdale teriér", "russell teriér", "skotský teriér", "sealyham teriér", "silky teriér", "tibetský teriér", "toy teriér", "welsh teriér", "westhighland teriér", "wheaten teriér", "yorkshirský teriér", "tervuren", "vizsla", "španělský vodní pes", "weimaraner", "whippet", "irský vlkodav"]
+
+            var results = 0
+            var breedFinal = ""
+            var index = 0
+            var imgNumber = 0
+
+            breedsEN.forEach(element => {
+                if (element == breed) {
+                    results = results + 1
+                    console.log(element)
+                }
+            })
+
+            if (results == 0) {
+                breedsCS.forEach(element => {
+                    if (element == breed) {
+                        results = results + 1
+                        breed = breedsEN[index]
+                        console.log(element, breedsEN[index])
+                    }
+                    index = index + 1
+                })
+            }
+
+            if (count <= 2) {
+                count = 3
+            }
+
+            if (results == 1) {
+                breed = breed.replace(/ /g, "/")
+
+                $.ajax({
+                    // request
+                    url: "https://dog.ceo/api/breed/" + breed + "/images/random/" + count,
+
+                    // response
+                    success: function(data) {
+                        console.log(data)
+
+                        data.message.forEach(skibidi => {
+                            $("#breed" + imgNumber).attr("src", skibidi)
+                            imgNumber = imgNumber + 1
+                        })
+                    }
+                })
+            }
+
+            else {
+                $.ajax({
+                    // request
+                    url: "https://dog.ceo/api/breeds/image/random/" + count,
+
+                    // response
+                    success: function(data) {
+                        console.log(data)
+
+                        data.message.forEach(skibidi => {
+                            $("#breed" + imgNumber).attr("src", skibidi)
+                            imgNumber = imgNumber + 1
+                        })
+                    }
+                })
+
+                $("#nenalezeno").text("Vaše plemeno nebylo bohužel nalezeno. Byly vyhledány náhodné obrázky psů.")
+            }
+        })
+    </script>
+</body>
+</html>
