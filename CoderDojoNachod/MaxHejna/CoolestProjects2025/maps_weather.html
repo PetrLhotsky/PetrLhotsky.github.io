@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API - Počasí</title>
+    <title>API - Maps - Weather</title>
 
     <style>
         body {
@@ -163,15 +163,15 @@
     <div class="container">
         <div class="header">
             <div class="search-container">
-                <input type="text" id="city" class="search-input" placeholder="Zadejte lokalitu..." value="Praha">
-                <button id="submit" class="search-button">Potvrdit</button>
+                <input type="text" id="city" class="search-input" placeholder="Enter the location..." value="Praha">
+                <button id="submit" class="search-button">Submit</button>
             </div>
             <div class="location-info" id="locationInfo"></div>
         </div>
 
         <div class="weather-grid">
             <div class="weather-card">
-                <div class="weather-title">Aktuální teplota</div>
+                <div class="weather-title">Current temperature</div>
                 <div class="thermometer-container">
                     <div class="thermometer-wrapper">
                         <div class="temperature-scale">
@@ -189,7 +189,7 @@
             </div>
 
             <div class="weather-card">
-                <div class="weather-title">Pocitová teplota</div>
+                <div class="weather-title">Feeling temperature</div>
                 <div class="thermometer-container">
                     <div class="thermometer-wrapper">
                         <div class="temperature-scale">
@@ -207,7 +207,7 @@
             </div>
 
             <div class="weather-card">
-                <div class="weather-title">Počasí</div>
+                <div class="weather-title">Weather</div>
                 <div class="weather-description">
                     <img id="weatherIcon" class="weather-icon" alt="Ikona">
                     <div class="weather-value" id="weather"></div>
@@ -215,17 +215,17 @@
             </div>
 
             <div class="weather-card">
-                <div class="weather-title">Vítr</div>
+                <div class="weather-title">Wind</div>
                 <div class="weather-value" id="wind"></div>
             </div>
 
             <div class="weather-card">
-                <div class="weather-title">Vlhkost</div>
+                <div class="weather-title">Humidity</div>
                 <div class="weather-value" id="humidity"></div>
             </div>
 
             <div class="weather-card">
-                <div class="weather-title">Tlak</div>
+                <div class="weather-title">Pressure</div>
                 <div class="weather-value" id="pressure"></div>
             </div>
         </div>

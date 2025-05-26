@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API - Mapy</title>
+    <title>API - Maps</title>
 
     <style>
         * {
@@ -113,23 +113,23 @@
 </head>
 
 <body>
-    <h1>Vyhledej oblíbená místa v mapách i aktuální počasí</h1>
+    <h1>Find your favourite places on maps and the current weather</h1>
 
-    <input type="text" class="form-control" id="place" placeholder="Zadejte hledanou lokaci">
-    <input type="button" class="form-control" id="help" value="Nápověda: seznam míst">
+    <input type="text" class="form-control" id="place" placeholder="Enter the location you are looking for">
+    <input type="button" class="form-control" id="help" value="Help: list of locations">
 
-    <input type="text" class="form-control" id="lat" placeholder="Zadejte zeměpisnou šířku">
-    <input type="text" class="form-control" id="lon" placeholder="Zadejte zeměpisnou délku">
+    <input type="text" class="form-control" id="lat" placeholder="Enter the latitude">
+    <input type="text" class="form-control" id="lon" placeholder="Enter the longitude">
 
-    <input type="button" class="form-control" id="submit" value="Potvrdit">
+    <input type="button" class="form-control" id="submit" value="Confirm">
 
-    <input type="button" class="form-control" id="prev" value="Předchozí výsledek">
-    <input type="button" class="form-control" id="next" value="Další výsledek">
+    <input type="button" class="form-control" id="prev" value="Previous result">
+    <input type="button" class="form-control" id="next" value="Next result">
 
     <h2 id="address"></h2>
 
-    <input type="button" class="form-control" id="linkMaps" value="Ukázat v Mapách Google">
-    <input type="button" class="form-control" id="linkWeather" value="Počasí v daném místě">
+    <input type="button" class="form-control" id="linkMaps" value="Show on Google Maps">
+    <input type="button" class="form-control" id="linkWeather" value="Weather in the location">
 
     <h2 id="category"></h2>
     <h2 id="phone"></h2>
@@ -157,12 +157,12 @@
                     $("#lon").val(position.coords.longitude)
                 },
                 (error) => {
-                    console.error("Chyba při získávání polohy: ", error.message)
+                    console.error("Error getting position: ", error.message)
                 }
             )
         }
         else {
-            console.log("Geolokace není v tomto prohlížeči podporována.")
+            console.log("Geolocation is not supported in this browser.")
         }
 
         $("#submit").click(() => {
@@ -192,12 +192,12 @@
             linkMaps = places.results[index].address.freeformAddress.replace(/,/g, "")
             linkMaps = linkMaps.replace(/ /g, "+")
             linkWeather = places.results[index].address.municipality
-            $("#address").text("Adresa: " + places.results[index].address.freeformAddress)
-            $("#category").text("Je to: " + places.results[index].poi.categories)
-            $("#phone").text("Telefon: " + places.results[index].poi.phone)
+            $("#address").text("Address: " + places.results[index].address.freeformAddress)
+            $("#category").text("Category: " + places.results[index].poi.categories)
+            $("#phone").text("Phone: " + places.results[index].poi.phone)
             $("#link").text("Web: " + places.results[index].poi.url)
-            $("#name").text("Název:" + places.results[index].poi.name)
-            $("#score").text("Hodnocení: " + places.results[index].score)
+            $("#name").text("Name:" + places.results[index].poi.name)
+            $("#score").text("Rating: " + places.results[index].score)
         }
 
         $("#prev").click(() => {

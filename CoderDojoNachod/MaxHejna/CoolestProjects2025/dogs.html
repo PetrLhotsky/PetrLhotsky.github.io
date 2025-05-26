@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API - Psi</title>
+    <title>API - Dogs</title>
 
     <style>
         img {
@@ -250,9 +250,9 @@
 <body>
     <div class="container">
         <header>
-            <h1>Vyhledej obrázky svého oblíbeného psího plemene</h1>
+            <h1>Find pictures of your favourite dog breed</h1>
             <p style="color: white; margin-bottom: 1rem; position: relative; z-index: 2;">
-                Objevte různá plemena psů podle vašich preferencí
+                Discover different dog breeds according to your preferences
             </p>
             <svg class="paw-icon" style="top: 10%; left: 5%; width: 100px; height: 100px;"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -270,8 +270,8 @@
             <div id="notification" class="notification"></div>
 
             <div class="input-group">
-                <input type="text" id="breed" placeholder="Zadejte plemeno psa">
-                <input type="number" id="count" placeholder="Zadejte počet obrázků" min="1" max="20">
+                <input type="text" id="breed" placeholder="Enter the breed of dog">
+                <input type="number" id="count" placeholder="Enter the number of images" min="1" max="20">
             </div>
 
             <div class="action-buttons">
@@ -281,7 +281,7 @@
                         <path
                             d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z" />
                     </svg>
-                    Nápověda: seznam plemen
+                    Help: list of breeds
                 </button>
 
                 <button id="submit" class="btn-primary">
@@ -290,7 +290,7 @@
                         <path
                             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
-                    Vyhledat plemeno
+                    Find a breed
                 </button>
             </div>
         </div>
@@ -298,7 +298,7 @@
         <div id="loading" class="loading">
             <div class="loading-spinner"></div>
             <p>
-                Hledáme psí plemena...
+                We are looking for dog breeds...
             </p>
         </div>
 
@@ -332,7 +332,7 @@
     </div>
 
     <footer>
-        <p>© 2025 Maxmilián Hejna | Všechna práva vyhrazena</p>
+        <p>© 2025 Maxmilián Hejna | All rights reserved</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -412,7 +412,7 @@
                     }
                 })
 
-                $("#nenalezeno").text("Vaše plemeno nebylo bohužel nalezeno. Byly vyhledány náhodné obrázky psů.")
+                $("#nenalezeno").text("Unfortunately, your breed has not been found. Random pictures of dogs were found.")
             }
         })
     </script>
