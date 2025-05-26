@@ -249,7 +249,7 @@
         function api_weather(city, key) {
             $.ajax({
                 // request
-                url: "http://api.weatherstack.com/current?access_key=" + key + "&query=" + city,
+                url: "https://api.weatherstack.com/current?access_key=" + key + "&query=" + city,
 
                 // response
                 success: function(data) {
