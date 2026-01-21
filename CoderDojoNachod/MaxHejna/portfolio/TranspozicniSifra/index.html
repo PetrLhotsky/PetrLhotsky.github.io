@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dešifrování transpoziční šifry</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>Dešifrování transpoziční šifry</h1>
+    <input type="text" class="form-control" id="preklad" placeholder="Zadejte šifrovaný text">
+    <input type="text" class="form-control" id="cislonasloupce" placeholder="Zadejte počet sloupců">
+    <input type="button" class="form-control" id="potvrdit" value="Dešifrovat">
+    <h2 id="vysledek"></h2>
+    <script>
+        $("#potvrdit").click(() => {
+            let sifra = $("#preklad").val(); // Šifrovaný text
+            let sloupce = parseInt($("#cislonasloupce").val()); // Počet sloupců
+            let radky = Math.ceil(sifra.length / sloupce); // Počet řádků
+            let pole = Array(radky).fill("").map(() => Array(sloupce).fill("")); // Maticové pole
+
+            // Rozdělení textu do sloupců
+            let index = 0;
+            for (let sloupec = 0; sloupec < sloupce; sloupec++) {
+                for (let radek = 0; radek < radky; radek++) {
+                    if (index < sifra.length) {
+                        pole[radek][sloupec] = sifra[index];
+                        index++;
+                    }
+                }
+            }
+
+            // Sestavení textu po řádcích
+            let desifrovanyText = "";
+            for (let radek = 0; radek < radky; radek++) {
+                desifrovanyText += pole[radek].join("");
+            }
+
+            // Odstranění přebytečných "x" (přidaných během šifrování)
+            desifrovanyText = desifrovanyText.replace(/x+$/, "");
+
+            // Zobrazení výsledku
+            $("#vysledek").text(desifrovanyText);
+        });
+    </script>
+</body>
+
+</html>

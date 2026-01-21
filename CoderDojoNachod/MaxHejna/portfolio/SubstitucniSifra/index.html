@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesarova šifra</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>Caesarova šifra</h1>
+
+    <h2>Šifrování</h2>
+    <input type="text" class="form-control" id="preklad" placeholder="Zadejte překlad">
+    <input type="text" class="form-control" id="cislonachad" placeholder="Zadejte Číslo">
+    <input type="button" class="form-control" id="potvrdit" value="potvrdit">
+    <h2 id="vysledek"></h2>
+
+    <script>
+        var pole = []
+
+        $("#potvrdit").click(() => {
+            var preklad = $("#preklad").val()
+            var cislochad = parseInt($("#cislonachad").val())
+
+            preklad = [...preklad]
+
+            preklad.forEach(function (b) {
+                var codeuvodni = (b.charCodeAt(0))
+                var codenovy = codeuvodni + cislochad
+
+                var codefinalnapismeno = String.fromCharCode(codenovy)
+
+
+                pole.push(codefinalnapismeno)
+
+
+            });
+
+            $("#vysledek").text(pole)
+        })
+    </script>
+
+    <h2>Dešifrování</h2>
+    <input type="text" class="form-control" id="preklad2" placeholder="Zadejte překlad">
+    <input type="text" class="form-control" id="cislonachad2" placeholder="Zadejte Číslo">
+    <input type="button" class="form-control" id="potvrdit2" value="potvrdit">
+    <h2 id="vysledek2"></h2>
+
+    <script>
+        var pole2 = []
+
+        $("#potvrdit2").click(() => {
+            var preklad2 = $("#preklad2").val()
+            var cislochad2 = parseInt($("#cislonachad2").val())
+
+            preklad2 = [...preklad2]
+
+            preklad2.forEach(function (b) {
+                var codeuvodni = (b.charCodeAt(0))
+                var codenovy = codeuvodni - cislochad2
+
+                var codefinalnapismeno = String.fromCharCode(codenovy)
+
+
+                pole2.push(codefinalnapismeno)
+
+
+            });
+
+            $("#vysledek2").text(pole2)
+        })
+    </script>
+</body>
+
+</html>
