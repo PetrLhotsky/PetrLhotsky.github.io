@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hledání min</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg,
+                    #1e1e1e,
+                    #2f2f2f,
+                    #1e1e1e,
+                    #3a3a3a);
+            background-size: 400% 400%;
+            animation: bgShift 12s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #menu {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            font-family: Arial;
+            text-align: center;
+            width: 300px;
+            animation: menuShow 0.4s ease-out forwards;
+        }
+
+        @keyframes menuShow {
+            0% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #menu::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 15px;
+            background: linear-gradient(270deg,
+                    #ff0000,
+                    #00ff00,
+                    #0000ff);
+            background-size: 400% 400%;
+            animation: borderFlow 4s linear infinite;
+            z-index: -1;
+        }
+
+        #menu::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: white;
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        @keyframes borderFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #menu h3 {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        #velikost {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #hodnota {
+            display: inline-block;
+            margin: 5px 0 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        #hrat {
+            width: 100%;
+            padding: 10px;
+            border: 1px #007bff solid;
+            border-radius: 8px;
+            background-color: transparent;
+            color: #007bff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        #hrat:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #grid {
+            display: grid;
+            gap: 2px;
+            padding: 1px;
+        }
+
+        .cell {
+            display: grid;
+            width: 55px;
+            height: 55px;
+            border-radius: 5px;
+            background: rgb(112, 112, 112);
+            font-family: Arial;
+            text-align: center;
+            place-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 0.4s ease forwards;
+            animation-delay: calc(var(--i) * 0.005s);
+            transition: all 0.1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+
+            }
+        }
+
+        .cell:not(:empty) {
+            background: rgb(178, 178, 178);
+            cursor: not-allowed;
+        }
+
+        .cell:hover {
+            background: rgb(178, 178, 178);
+        }
+
+        .cell:active {
+            background: rgb(112, 112, 112);
+        }
+
+        .cookie-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .cookie-overlay.hidden {
+            display: none;
+        }
+
+        .cookie-popup {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @media (min-width: 768px) {
+            .cookie-overlay {
+                align-items: center;
+            }
+
+            .cookie-popup {
+                border-radius: 20px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .cookie-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cookie-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .cookie-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .cookie-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-accept {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-accept:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-decline {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-decline:hover {
+            background: #cbd5e0;
+        }
+
+        .btn-settings {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-settings:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1001;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="menu">
+        <h3>Jak velká má být Vaše louka?</h3>
+        <input type="range" min="5" max="22" id="velikost" value="10" placeholder="Vyberte si velikost"
+            oninput="$('#hodnota').text(this.value)">
+        <span id="hodnota">10</span>
+        <input type="button" value="Hrát" id="hrat">
+    </div>
+
+    <div id="grid" style="display: none"></div>
+
+    <div class="cookie-overlay" id="cookieOverlay" style="display: none">
+        <div class="cookie-popup">
+            <div class="cookie-header">
+                <div class="cookie-icon">🍪</div>
+                <h2 class="cookie-title">Používáme soubory cookies</h2>
+            </div>
+
+            <p class="cookie-description">
+                Naše webové stránky používají soubory cookies pro zlepšení vašeho uživatelského zážitku,
+                personalizaci obsahu a analýzu návštěvnosti. Cookies nám pomáhají pochopit, jak naše
+                stránky používáte, a zlepšovat naše služby. Kliknutím na "Přijmout vše" souhlasíte
+                s používáním všech cookies.
+            </p>
+
+            <div class="cookie-buttons">
+                <button class="btn btn-accept" onclick="acceptCookies()">✓ Přijmout vše</button>
+                <button class="btn btn-decline" onclick="declineCookies()">✗ Odmítnout</button>
+                <!--<button class="btn btn-settings" onclick="showSettings()">⚙ Nastavení</button>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="successMessage"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        let cookiePreference = null;
+
+        function acceptCookies() {
+            cookiePreference = 'accepted';
+            hideCookiePopup();
+            showMessage('Cookies byly přijaty ✓');
+        }
+
+        function declineCookies() {
+            cookiePreference = 'declined';
+            hideCookiePopup();
+            showMessage('Cookies byly odmítnuty');
+            location.href = "https://www.google.com/search?q=error+because+cookies+didn%27t+accept&sca_esv=59623aa993e8ccae&rlz=1C1VDKB_csCZ1104CZ1104&sxsrf=ANbL-n4YqcQjaLOUIDBU_bWvviRPl-z-hA%3A1768931627219&ei=K8FvafXoDJeE9u8P1Zn2yQM&oq=error+because+cookies+didn%27t+acce&gs_lp=Egxnd3Mtd2l6LXNlcnAiIWVycm9yIGJlY2F1c2UgY29va2llcyBkaWRuJ3QgYWNjZSoCCAEyBRAhGKABMgUQIRigAUjoqwFQ2RFY16IBcAN4AZABAJgBhwGgAc8ZqgEFMjUuMTC4AQPIAQD4AQGYAiagAo0bwgIKEAAYsAMY1gQYR8ICDRAAGIAEGLADGEMYigXCAgoQIxiABBgnGIoFwgIEECMYJ8ICCxAAGIAEGLEDGIMBwgIOEC4YgAQYsQMY0QMYxwHCAgsQLhiABBixAxiDAcICCBAAGIAEGLEDwgIKEAAYgAQYQxiKBcICDRAAGIAEGLEDGEMYigXCAhAQABiABBixAxhDGIMBGIoFwgIFEC4YgATCAgUQABiABMICCxAuGIAEGMcBGK8BwgIIEAAYgAQYywHCAhoQLhiABBjHARivARiXBRjcBBjeBBjgBNgBAcICCBAuGIAEGMsBwgIIEAAYExgWGB7CAgoQABgTGBYYChgewgIHEAAYgAQYE8ICBhAAGBYYHsICCBAAGIAEGKIEwgIFEAAY7wXCAgUQIRifBcICBxAhGKABGArCAgQQIRgVmAMAiAYBkAYKugYGCAEQARgUkgcFMjQuMTSgB9nKAbIHBTIxLjE0uAf8GsIHCTAuMjIuMTQuMsgHeYAIAA&sclient=gws-wiz-serp"
+        }
+
+        function showSettings() {
+            showMessage('Nastavení cookies (tato funkce by otevřela detailní nastavení)');
+        }
+
+        function hideCookiePopup() {
+            const overlay = document.getElementById('cookieOverlay');
+            overlay.classList.add('hidden');
+        }
+
+        function showMessage(text) {
+            const message = document.getElementById('successMessage');
+            message.textContent = text;
+            message.classList.add('show');
+
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // Pro demo účely - zobrazit popup znovu po 5 sekundách
+        setTimeout(() => {
+            if (cookiePreference === null) {
+                document.getElementById('cookieOverlay').classList.remove('hidden');
+            }
+        }, 100);
+
+
+
+        var pole = []
+        var polemin = []
+        var polehrac = []
+
+        var mina = "💣"
+        var louka = "🌹"
+
+        var velikost
+        var velikostpole
+
+
+
+        function nacist() {
+            velikost = JSON.parse(localStorage.getItem('velikost')) || [];
+            pole = JSON.parse(localStorage.getItem('pole')) || [];
+            polemin = JSON.parse(localStorage.getItem('polemin')) || [];
+            polehrac = JSON.parse(localStorage.getItem('polehrac')) || [];
+
+            if (velikost == "" || velikost == null || velikost == undefined) {
+                //je-li to prázdné tak se nic neděje, když by to bylo tak se skipuje
+                return
+            }
+
+            hrat()
+
+            polehrac.forEach(cislo => {
+                if (pole[cislo] == 0) {
+                    umistiSymbol(cislo, louka)
+                }
+                else {
+                    umistiSymbol(cislo, pole[cislo])
+                }
+            });
+        }
+
+        nacist()
+
+
+
+        $("#hrat").click(hrat)
+
+        function hrat() {
+            var novahra = 0
+
+            if (velikost == "" || velikost == null || velikost == undefined) {
+                velikost = parseInt($("#velikost").val())
+                novahra = 1
+            }
+
+            velikostpole = velikost * velikost
+
+            $("#grid").css("grid-template-columns", "repeat(" + velikost + ", 55px)")
+
+            for (let i = 0; i < velikostpole; i++) {
+                $("#grid").append('<div class="cell" id="' + i + '" style="--i: ' + i + '"></div>')
+            }
+
+            $("#menu").slideUp(200, () => $("#grid").slideDown(200))
+
+            if (novahra == 1) {
+                pole = Array(velikostpole).fill(0)
+
+                polemin = generovaniMin()
+                polemin.forEach(x => {
+                    pole[x] = -1
+                })
+
+                generovaniCisel(polemin)
+
+                var poleodkryti = odkryti()
+                poleodkryti.forEach(x => {
+                    if (pole[x] == -1) {
+                        //umistiSymbol(x, mina)
+                    }
+                    else if (pole[x] == 0) {
+                        umistiSymbol(x, louka)
+                        polehrac.push(x)
+                    }
+                    else {
+                        umistiSymbol(x, pole[x])
+                        polehrac.push(x)
+                    }
+                })
+            }
+        }
+
+        function generovaniMin() {
+
+            function nahodnaCisla(n, min, max) {
+                const cisla = new Set();
+
+                while (cisla.size < n) {
+                    const nahodneCislo = Math.floor(Math.random() * (max - min + 1)) + min;
+                    cisla.add(nahodneCislo);
+                }
+
+                return Array.from(cisla);
+            }
+
+            const pocetmin = Math.floor(velikostpole / 6 + Math.random() * 6 - 3)
+            return nahodnaCisla(pocetmin, 1 - 1, velikostpole - 1)
+        }
+
+        function generovaniCisel(polemin) {
+            for (var x = 0; x < velikostpole; x++) {
+                if (polemin.includes(x)) {
+                    continue
+                }
+
+                var okolohradku = okolnipole(x)
+                var pocitani = 0
+
+                okolohradku.forEach(y => {
+                    if (polemin.includes(y)) {
+                        pocitani += 1
+                    }
+                })
+
+                pole[x] = pocitani
+            }
+        }
+
+        function odkryti() {
+            var start = Math.floor(Math.random() * velikostpole)
+            var delka = Math.floor(Math.random() * velikostpole / velikost / 2.8) + 2
+            var polecisel = []
+            for (var x = 0; x < delka; x++) {
+                for (var y = 0; y < delka; y++) {
+                    polecisel.push(start + velikost * x + y)
+                }
+            }
+            return polecisel
+        }
+
+
+
+        $(document).on("click", ".cell", hrac)
+
+        function hrac(policko) {
+            var id = parseInt(policko.target.id)
+
+            if (polehrac.includes(id)) {
+                alert("OBSAZENO")
+                return
+            }
+
+            polehrac.push(id)
+
+            if (pole[id] == -1) {
+                umistiSymbol(id, mina)
+                prohral()
+            }
+            else if (pole[id] == 0) {
+                umistiSymbol(id, louka)
+            }
+            else {
+                umistiSymbol(id, pole[id])
+            }
+
+            if (polehrac.length == velikostpole - polemin.length) {
+                konec()
+                return
+            }
+        }
+
+
+
+        function umistiSymbol(id, symbol, ulozeni = true) {
+            $("#" + id + "").text(symbol)
+
+            if (ulozeni == true) {
+                ulozit()
+            }
+        }
+
+
+
+        function konec() {
+            alert("Konec hry. Vyhráli jste")
+            $(document).off("click", ".cell", hrac)
+            localStorage.clear();
+        }
+
+        function prohral() {
+            alert("Konec hry. Prohráli jste")
+            polemin.forEach(x => {
+                pole[x] = -1
+                umistiSymbol(x, mina)
+            })
+            $(document).off("click", ".cell", hrac)
+            localStorage.clear();
+        }
+
+
+
+        function okolnipole(x) {
+            var poleokolo = []
+
+            if (x - (velikost + 1) >= 0 && Math.floor(x / velikost) - 1 == Math.floor((x - (velikost + 1)) / velikost)) {
+                poleokolo.push(x - (velikost + 1))
+            }
+            if (x - velikost >= 0 && Math.floor(x / velikost) - 1 == Math.floor((x - velikost) / velikost)) {
+                poleokolo.push(x - velikost)
+            }
+            if (x - (velikost - 1) >= 0 && Math.floor(x / velikost) - 1 == Math.floor((x - (velikost - 1)) / velikost)) {
+                poleokolo.push(x - (velikost - 1))
+            }
+            if (x - 1 >= 0 && Math.floor(x / velikost) == Math.floor((x - 1) / velikost)) {
+                poleokolo.push(x - 1)
+            }
+            if (x + 1 <= velikostpole - 1 && Math.floor(x / velikost) == Math.floor((x + 1) / velikost)) {
+                poleokolo.push(x + 1)
+            }
+            if (x + (velikost - 1) <= velikostpole - 1 && Math.floor(x / velikost) + 1 == Math.floor((x + (velikost - 1)) / velikost)) {
+                poleokolo.push(x + (velikost - 1))
+            }
+            if (x + velikost <= velikostpole - 1 && Math.floor(x / velikost) + 1 == Math.floor((x + velikost) / velikost)) {
+                poleokolo.push(x + velikost)
+            }
+            if (x + (velikost + 1) <= velikostpole - 1 && Math.floor(x / velikost) + 1 == Math.floor((x + (velikost + 1)) / velikost)) {
+                poleokolo.push(x + (velikost + 1))
+            }
+
+            return poleokolo
+        }
+
+
+
+        function ulozit() {
+            localStorage.setItem('pole', JSON.stringify(pole));
+            localStorage.setItem('polehrac', JSON.stringify(polehrac));
+            localStorage.setItem('polemin', JSON.stringify(polemin));
+            localStorage.setItem('velikost', JSON.stringify(velikost));
+        }
+    </script>
+</body>
+
+</html>

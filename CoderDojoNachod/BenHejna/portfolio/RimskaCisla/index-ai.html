@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Římská čísla</title>
+
+<style>
+:root {
+  --pink: #ff4ecd;
+  --blue: #3cf2ff;
+  --purple: #7b5cff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(circle at 20% 20%, #1b1f55, transparent 40%),
+    radial-gradient(circle at 80% 80%, #3a0f55, transparent 45%),
+    linear-gradient(180deg, #05060f, #0a0d22);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow: hidden;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.container {
+  width: 400px;
+  padding: 36px;
+  border-radius: 22px;
+  background: rgba(10,12,30,0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 60px rgba(123,92,255,0.35);
+}
+
+h1 {
+  margin: 0 0 26px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--pink), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+label {
+  font-size: 13px;
+  color: #cfd3ff;
+}
+
+input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+}
+
+button {
+  margin-top: 22px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink), var(--blue));
+}
+
+.result {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  text-align: center;
+}
+
+#rimska {
+  margin-top: 12px;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 6px;
+  background: linear-gradient(90deg, #fff, #9cf3ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.error {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #ff6b8a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>ŘÍMSKÝ KONVERTOR</h1>
+
+  <label for="cislo">Zadej číslo (1–3999)</label>
+  <input type="number" id="cislo" placeholder="např. 1987">
+
+  <button id="prevest">⚡ PŘEVÉST ⚡</button>
+
+  <div class="result">
+    <div id="rimska">–</div>
+    <div id="chyba" class="error"></div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+function toRoman(num) {
+  const map = [
+    [1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],
+    [100,"C"],[90,"XC"],[50,"L"],[40,"XL"],
+    [10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]
+  ];
+
+  let res = "";
+  for (const [v,s] of map) {
+    while (num >= v) {
+      res += s;
+      num -= v;
+    }
+  }
+  return res;
+}
+
+$("#prevest").click(function () {
+  $("#chyba").text("");
+  $("#rimska").text("–");
+
+  let raw = $("#cislo").val();
+  let cislo = Math.floor(Number(raw));
+
+  if (!raw || isNaN(cislo) || cislo < 1 || cislo > 3999) {
+    $("#chyba").text("Zadej celé číslo v rozsahu 1–3999.");
+    return;
+  }
+
+  $("#rimska").text(toRoman(cislo));
+});
+</script>
+
+</body>
+</html>
