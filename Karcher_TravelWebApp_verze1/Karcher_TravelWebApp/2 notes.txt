@@ -1,9 +1,0 @@
-PH -> PHM
-
-rámeček
-
-nový stav tachometru
-
-166->177
-
-Disk -> ukládání
