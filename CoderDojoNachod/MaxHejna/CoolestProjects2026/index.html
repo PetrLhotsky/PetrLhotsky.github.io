@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playfolio - Logic Games by Maxmilian Hejna</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020617;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.66);
+      --soft: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.14);
+      --cyan: #a5f3fc;
+      --pink: #f5d0fe;
+      --amber: #fde68a;
+      --radius-xl: 32px;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body.loading {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    ::selection {
+      background: var(--cyan);
+      color: #020617;
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(34, 211, 238, 0.18), transparent 38%),
+        radial-gradient(circle at 70% 65%, rgba(217, 70, 239, 0.16), transparent 35%),
+        #020617;
+      transition: opacity 0.85s ease, visibility 0.85s ease;
+    }
+
+    .loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-card {
+      position: relative;
+      width: min(86vw, 380px);
+      padding: 34px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 38px;
+      background: rgba(255, 255, 255, 0.08);
+      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(28px);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .loader-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: conic-gradient(from 180deg, transparent, rgba(165, 243, 252, 0.7), rgba(245, 208, 254, 0.7), transparent 70%);
+      animation: spin 2.5s linear infinite;
+      opacity: 0.6;
+    }
+
+    .loader-inner {
+      position: relative;
+      z-index: 1;
+      border-radius: 30px;
+      background: rgba(2, 6, 23, 0.72);
+      padding: 34px 24px;
+    }
+
+    .loader-logo {
+      display: grid;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 18px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 34px;
+      animation: float 2.5s ease-in-out infinite;
+    }
+
+    .loader h1 {
+      font-size: 28px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .loader p {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .loading-bar {
+      height: 8px;
+      margin-top: 24px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .loading-progress {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--pink), var(--amber));
+      animation: load 1.75s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .background::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 35%),
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 100% 100%, 64px 64px, 64px 64px;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.55;
+      animation: blobMove 12s ease-in-out infinite;
+    }
+
+    .blob-1 {
+      left: -130px;
+      top: 90px;
+      width: 340px;
+      height: 340px;
+      background: rgba(34, 211, 238, 0.28);
+    }
+
+    .blob-2 {
+      right: -170px;
+      top: 300px;
+      width: 420px;
+      height: 420px;
+      background: rgba(217, 70, 239, 0.24);
+      animation-delay: 1.5s;
+    }
+
+    .blob-3 {
+      left: 36%;
+      bottom: -190px;
+      width: 480px;
+      height: 480px;
+      background: rgba(99, 102, 241, 0.24);
+      animation-delay: 3s;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(2, 6, 23, 0.45);
+      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(28px);
+    }
+
+    .nav-wrap {
+      display: flex;
+      width: min(100% - 40px, 1200px);
+      margin: 0 auto;
+      padding: 16px 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand,
+    .nav-links,
+    .socials,
+    .hero-actions,
+    .pills,
+    .card-head,
+    .footer-inner {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+    }
+
+    .brand-icon,
+    .icon-box,
+    .social {
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 18px;
+      font-size: 20px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .nav-links {
+      gap: 6px;
+    }
+
+    .nav-links a {
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 0 24px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #020617;
+      box-shadow: 0 20px 45px rgba(34, 211, 238, 0.18);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+    }
+
+    .btn-ghost {
+      border-color: var(--border);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: min(100% - 40px, 1200px);
+      margin: 0 auto 16px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      background: rgba(2, 6, 23, 0.76);
+      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(28px);
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 18px;
+      color: rgba(255, 255, 255, .8);
+    }
+
+    .mobile-menu a:hover {
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+    }
+
+    .section {
+      position: relative;
+      width: min(100% - 40px, 1200px);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      min-height: 100vh;
+      padding: 150px 0 90px;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 24px;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 14px;
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 20px 50px rgba(34, 211, 238, 0.06);
+    }
+
+    h1 {
+      max-width: 850px;
+      font-size: clamp(46px, 8vw, 92px);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--cyan), var(--pink), var(--amber));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      max-width: 690px;
+      margin-top: 28px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      gap: 12px;
+      margin-top: 34px;
+      flex-wrap: wrap;
+    }
+
+    .pills {
+      gap: 9px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 10px 15px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 14px;
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+    }
+
+    .dashboard-wrap {
+      position: relative;
+    }
+
+    .dashboard-glow {
+      position: absolute;
+      inset: -24px;
+      border-radius: 48px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, .2), rgba(217, 70, 239, .2), rgba(251, 191, 36, .18));
+      filter: blur(28px);
+    }
+
+    .dashboard {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 42px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(28px);
+    }
+
+    .window-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red {
+      background: rgba(252, 165, 165, 0.85);
+    }
+
+    .dot.yellow {
+      background: rgba(253, 224, 71, 0.85);
+    }
+
+    .dot.green {
+      background: rgba(110, 231, 183, 0.85);
+    }
+
+    .badge {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      padding: 7px 12px;
+      color: rgba(255, 255, 255, .6);
+      font-size: 12px;
+    }
+
+    .dash-card,
+    .mini-stat,
+    .preview,
+    .feature-panel {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      background: rgba(15, 23, 42, 0.54);
+      padding: 22px;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    .dash-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .dash-card small,
+    .mini-stat small,
+    .preview p {
+      color: rgba(255, 255, 255, .56);
+    }
+
+    .dash-card h2 {
+      margin-top: 5px;
+      font-size: 26px;
+    }
+
+    .trophy {
+      font-size: 34px;
+    }
+
+    .progress {
+      height: 12px;
+      overflow: hidden;
+      margin-top: 22px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .progress span {
+      display: block;
+      width: 82%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      transform-origin: left;
+      animation: progressIn 1.2s ease 1s both;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .mini-stat {
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .mini-stat .icon {
+      display: block;
+      margin-bottom: 30px;
+      font-size: 24px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 32px;
+    }
+
+    .preview {
+      margin-top: 16px;
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .preview-icon {
+      display: grid;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 20px;
+      background: rgba(2, 6, 23, .46);
+      font-size: 24px;
+      animation: iconFloat 2.6s ease-in-out infinite;
+    }
+
+    .preview-icon:nth-child(2) {
+      animation-delay: .25s;
+    }
+
+    .preview-icon:nth-child(3) {
+      animation-delay: .5s;
+    }
+
+    .preview-icon:nth-child(4) {
+      animation-delay: .75s;
+    }
+
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      margin-bottom: 14px;
+      color: rgba(165, 243, 252, .72);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+    }
+
+    h2.section-title {
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .section-desc {
+      max-width: 560px;
+      color: rgba(255, 255, 255, .62);
+      line-height: 1.7;
+    }
+
+    code {
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .1);
+      padding: 2px 6px;
+    }
+
+    .games {
+      padding: 95px 0;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .game-card {
+      position: relative;
+      min-height: 430px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, .07);
+      padding: 4px;
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(26px);
+      backdrop-filter: blur(26px);
+      transform: translateY(28px);
+      opacity: 0;
+      transition: transform .55s ease, opacity .55s ease, border-color .25s ease;
+    }
+
+    .game-card.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      border-color: rgba(255, 255, 255, .28);
+    }
+
+    .game-card::before,
+    .game-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transition: .5s ease;
+    }
+
+    .game-card::after {
+      right: -64px;
+      top: -64px;
+      left: auto;
+      bottom: auto;
+      width: 176px;
+      height: 176px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .2);
+      filter: blur(35px);
+    }
+
+    .game-card:hover::after {
+      transform: scale(1.25);
+    }
+
+    .game-card.cyan::before {
+      background: linear-gradient(135deg, rgba(103, 232, 249, .25), rgba(96, 165, 250, .2), rgba(99, 102, 241, .25));
+    }
+
+    .game-card.orange::before {
+      background: linear-gradient(135deg, rgba(252, 211, 77, .25), rgba(251, 146, 60, .2), rgba(244, 63, 94, .25));
+    }
+
+    .game-card.purple::before {
+      background: linear-gradient(135deg, rgba(253, 224, 71, .25), rgba(217, 70, 239, .2), rgba(168, 85, 247, .25));
+    }
+
+    .game-card.green::before {
+      background: linear-gradient(135deg, rgba(110, 231, 183, .25), rgba(45, 212, 191, .2), rgba(34, 211, 238, .25));
+    }
+
+    .game-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      height: 100%;
+      min-height: 422px;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 30px;
+      background: rgba(2, 6, 23, 0.38);
+      padding: 26px;
+      -webkit-backdrop-filter: blur(26px);
+      backdrop-filter: blur(26px);
+    }
+
+    .card-head {
+      justify-content: space-between;
+      margin-bottom: 36px;
+    }
+
+    .icon-box {
+      width: 58px;
+      height: 58px;
+      border-radius: 24px;
+      font-size: 28px;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      color: rgba(255, 255, 255, .74);
+      transition: .25s ease;
+    }
+
+    .game-card:hover .arrow {
+      transform: rotate(12deg);
+      color: #fff;
+    }
+
+    .game-number {
+      margin-bottom: 10px;
+      color: rgba(207, 250, 254, .72);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .game-card h3 {
+      font-size: 30px;
+      letter-spacing: -.035em;
+    }
+
+    .game-card .subtitle {
+      margin-top: 9px;
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .game-card .description {
+      flex: 1;
+      margin-top: 22px;
+      color: rgba(255, 255, 255, .62);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .tag {
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      padding: 7px 11px;
+      color: rgba(255, 255, 255, .76);
+      font-size: 12px;
+    }
+
+    .features {
+      padding: 70px 0 90px;
+    }
+
+    .feature-panel {
+      border-radius: 42px;
+      background: rgba(255, 255, 255, .07);
+      padding: 48px;
+      box-shadow: var(--shadow);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .feature-label {
+      color: rgba(245, 208, 254, .72);
+    }
+
+    .feature-panel h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -.045em;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-item {
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 26px;
+      background: rgba(2, 6, 23, .35);
+      padding: 22px;
+      color: rgba(255, 255, 255, .76);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    footer {
+      padding: 80px 0 42px;
+    }
+
+    .footer-inner {
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    footer p:last-child {
+      margin-top: 6px;
+      color: rgba(255, 255, 255, .55);
+      font-size: 14px;
+    }
+
+    .socials {
+      gap: 10px;
+    }
+
+    .social {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .72);
+      transition: .25s ease;
+    }
+
+    .social:hover {
+      background: #fff;
+      color: #020617;
+      transform: translateY(-2px);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: 0.75s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes load {
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes blobMove {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(24px, -18px) scale(1.08);
+      }
+
+      66% {
+        transform: translate(-18px, 22px) scale(.94);
+      }
+    }
+
+    @keyframes iconFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes progressIn {
+      from {
+        transform: scaleX(0);
+      }
+
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    @media (max-width: 1050px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .game-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: grid;
+        place-items: center;
+      }
+
+      .hero {
+        padding-top: 130px;
+      }
+
+      h1 {
+        letter-spacing: -.055em;
+      }
+
+      .section-title-row {
+        display: block;
+      }
+
+      .section-desc {
+        margin-top: 18px;
+      }
+
+      .game-grid,
+      .feature-list,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-panel {
+        padding: 30px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body class="loading">
+  <div class="loader" aria-label="Načítání stránky">
+    <div class="loader-card">
+      <div class="loader-inner">
+        <div class="loader-logo">🎮</div>
+        <h1>Playfolio</h1>
+        <p>Loading, Please Wait...</p>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="background" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-wrap">
+      <a href="#top" class="brand">
+        <span class="brand-icon">🎮</span>
+        <span>PLAYFOLIO</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#portfolio">Intro</a>
+        <a href="#hry">Logic Games</a>
+        <a href="#kontakt">Contact</a>
+      </div>
+
+      <a href="#hry" class="btn btn-primary nav-cta">Play Games</a>
+      <button class="menu-btn" type="button" aria-label="Menu">☰</button>
+    </div>
+
+    <div class="mobile-menu">
+      <a href="#portfolio">Intro</a>
+      <a href="#hry">Logic Games</a>
+      <a href="#kontakt">Contact</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section id="portfolio" class="section hero">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">✨ Playfolio - Logic Games by Maxmilian Hejna</div>
+        <h1>A Showcase of <span class="gradient-text">My Recent Programming Projects</span>.</h1>
+        <p class="lead">Welcome to this interactive website, which showcases my various projects, features, and four logic game worlds:
+          Tic-Tac-Toe, Minesweeper, Pac-Man, and Sudoku.</p>
+
+        <div class="hero-actions">
+          <a href="#hry" class="btn btn-primary">Browse Games</a>
+          <a href="#kontakt" class="btn btn-ghost">Contact</a>
+        </div>
+
+        <div class="pills">
+          <span class="pill">HTML</span>
+          <span class="pill">CSS</span>
+          <span class="pill">jQuery</span>
+          <span class="pill">UI/UX</span>
+          <span class="pill">Logical Thinkink</span>
+          <span class="pill">Game Design</span>
+        </div>
+      </div>
+
+      <div class="dashboard-wrap reveal">
+        <div class="dashboard-glow"></div>
+        <div class="dashboard">
+          <div class="window-top">
+            <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span
+                class="dot green"></span></div>
+            <span class="badge">dashboard</span>
+          </div>
+
+          <div class="dash-card">
+            <div class="dash-main">
+              <div>
+                <small>Total Number of Projects</small>
+                <h2>40+</h2>
+              </div>
+              <span class="trophy">🏆</span>
+            </div>
+            <div class="progress"><span></span></div>
+          </div>
+
+          <div class="mini-grid">
+            <div class="mini-stat"><span class="icon">⏱️</span><strong>4</strong><small>Games Published Here</small></div>
+            <div class="mini-stat"><span class="icon">👥</span><strong>∞</strong><small>Opportunities for Growth</small></div>
+          </div>
+
+          <div class="preview">
+            <p>Mini Preview</p>
+            <div class="preview-grid">
+              <div class="preview-icon">⭕</div>
+              <div class="preview-icon">💣</div>
+              <div class="preview-icon">👻</div>
+              <div class="preview-icon">🧠</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hry" class="section games">
+      <div class="section-title-row reveal">
+        <div>
+          <p class="section-label">Showcase</p>
+          <h2 class="section-title">Choose a Game</h2>
+        </div>
+        <p class="section-desc">Each card takes you straight to the game.</p>
+      </div>
+
+      <div class="game-grid">
+        <a href="tic-tac-toe/" class="game-card cyan">
+          <div class="game-inner">
+            <div class="card-head"><span class="icon-box">⭕</span><span class="arrow">↗</span></div>
+            <p class="game-number">Logic Game 1</p>
+            <h3>Tic-Tac-Toe</h3>
+            <p class="subtitle">A well-known logic game played against a bot.</p>
+            <p class="description">An endless battle of Xs and Os with adjustable board size and the option to save your game in progress. Can you beat the bot?</p>
+            <div class="tags"><span class="tag">2 players</span><span class="tag">5×5 / 22×22</span><span
+                class="tag">Strategy</span></div>
+          </div>
+        </a>
+
+        <a href="minesweeper/" class="game-card orange">
+          <div class="game-inner">
+            <div class="card-head"><span class="icon-box">💣</span><span class="arrow">↗</span></div>
+            <p class="game-number">Logic Game 2</p>
+            <h3>Minesweeper</h3>
+            <p class="subtitle">Uncover the entire grid and avoid the mines.</p>
+            <p class="description">A thrilling game with adjustable board size and the option to save your progress. Be careful, every move could mean the failure!</p>
+            <div class="tags"><span class="tag">1 player</span><span class="tag">5×5 / 22×22</span><span
+                class="tag">Logic</span></div>
+          </div>
+        </a>
+
+        <a href="pac-man/" class="game-card purple">
+          <div class="game-inner">
+            <div class="card-head"><span class="icon-box">👻</span><span class="arrow">↗</span></div>
+            <p class="game-number">Logic Game 3</p>
+            <h3>Pac-Man</h3>
+            <p class="subtitle">A popular retro arcade game with a modern look.</p>
+            <p class="description">A legendary chase where you have to escape from ghosts while collecting all the points. Will you use the power-ups?</p>
+            <div class="tags"><span class="tag">1 player</span><span class="tag">Collecting</span><span class="tag">Arcade</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="sudoku/" class="game-card green">
+          <div class="game-inner">
+            <div class="card-head"><span class="icon-box">🧠</span><span class="arrow">↗</span></div>
+            <p class="game-number">Logic Game 4</p>
+            <h3>Sudoku</h3>
+            <p class="subtitle">A great logical challenge for your brain.</p>
+            <p class="description">An elegant Sudoku puzzle where numbers cannot be repeated in columns, rows, or 3x3 squares. Fill in the blanks and win!</p>
+            <div class="tags"><span class="tag">1 player</span><span class="tag">9x9 board</span><span class="tag">Focus</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section id="kontakt" class="section features">
+      <div class="feature-panel reveal">
+        <div class="feature-grid">
+          <div>
+            <p class="section-label feature-label">Playfolio</p>
+            <h2>Logic Games by Maxmilian Hejna</h2>
+          </div>
+          <div class="feature-list">
+            <div class="feature-item">maxmilian.hejna@gmail.com</div>
+            <div class="feature-item">Červený Kostelec, Czechia</div>
+            <div class="feature-item">Member of Code Club Česko</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="kontakt" class="section">
+    <div class="footer-inner">
+      <div>
+        <strong>Playfolio © <span id="year"></span></strong>
+      </div>
+      <div class="socials">
+        <a href="mailto:maxmilian.hejna@gmail.com" class="social" aria-label="Email">✉</a>
+        <a href="https://petrlhotsky.github.io/CoderDojoNachod/MaxHejna/" class="social" aria-label="Website" target="_blank" rel="noopener">⌘</a>
+        <a href="#top" class="social" aria-label="To the Top">↟</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    $(function () {
+      $('#year').text(new Date().getFullYear());
+
+      setTimeout(function () {
+        $('.loader').addClass('is-hidden');
+        $('body').removeClass('loading');
+      }, 1850);
+
+      $('.menu-btn').on('click', function () {
+        $('.mobile-menu').stop(true, true).slideToggle(220);
+        $(this).text($(this).text() === '☰' ? '×' : '☰');
+      });
+
+      $('.mobile-menu a, .nav-links a, .brand, .btn').on('click', function () {
+        $('.mobile-menu').slideUp(180);
+        $('.menu-btn').text('☰');
+      });
+
+      function revealOnScroll() {
+        var windowBottom = $(window).scrollTop() + $(window).height() * 0.88;
+
+        $('.reveal, .game-card').each(function (index) {
+          var $el = $(this);
+          if ($el.offset().top < windowBottom) {
+            setTimeout(function () {
+              $el.addClass('is-visible');
+            }, index * 70);
+          }
+        });
+      }
+
+      revealOnScroll();
+      $(window).on('scroll resize', revealOnScroll);
+
+      $('.game-card').on('mousemove', function (e) {
+        var rect = this.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var rotateX = ((y / rect.height) - 0.5) * -7;
+        var rotateY = ((x / rect.width) - 0.5) * 7;
+        $(this).css('transform', 'translateY(-8px) scale(1.015) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)');
+      });
+
+      $('.game-card').on('mouseleave', function () {
+        $(this).css('transform', '');
+      });
+    });
+  </script>
+</body>
+
+</html>
