@@ -1,0 +1,606 @@
+<!-- PLÁNY: -->
+<!-- Duch a hráč na stejném řádku == rachejtle -->
+
+<!doctype html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac Man</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg,
+                    #1e1e1e,
+                    #2f2f2f,
+                    #1e1e1e,
+                    #3a3a3a);
+            background-size: 400% 400%;
+            animation: bgShift 12s ease-in-out infinite;
+        }
+
+        #body {
+            color: #00fff7;
+        }
+
+        @keyframes bgShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #platno {
+            border-radius: 20px;
+            background-color: lightgray;
+            box-shadow:
+                0 10px 30px rgba(255, 255, 255, 0.25),
+                0 4px 10px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <canvas id="platno" width="920" height="480"></canvas>
+    <h2 id="body">Your Score: </h2>
+
+    <img src="https://opengameart.org/sites/default/files/oga-textures/147056/wall.png" alt="zed" id="zed" width="40"
+        height="40" style="display: none">
+
+    <img src="https://png.pngtree.com/png-vector/20240519/ourmid/pngtree-mossy-overgrowth-adorns-the-weathered-old-concrete-surface-in-this-seamless-png-image_12327351.png"
+        alt="cesta" id="cesta" width="40" height="40" style="display: none">
+
+    <img src="https://www.pngall.com/wp-content/uploads/2/Dot-PNG-Picture.png" alt="puntik" id="puntik" width="40"
+        height="40" style="display: none">
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Pacman_HD.png" alt="pacman" id="pacman" width="40"
+        height="40" style="display: none">
+
+    <img src="https://cdn-icons-png.flaticon.com/512/11710/11710196.png" alt="duch" id="duch" width="40" height="40"
+        style="display: none;">
+
+    <img src="https://www.nicepng.com/png/full/220-2202047_pixilart-simple-by-lazergaming-pixel-sword.png" alt="mec"
+        id="mec" width="40" height="40" style="display: none">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        var platno = document.getElementById("platno").getContext("2d")
+        var zed = document.getElementById("zed")            // 0
+        var cesta = document.getElementById("cesta")        // 1
+        var puntik = document.getElementById("puntik")
+        var pacman = document.getElementById("pacman")
+        var duch = document.getElementById("duch")
+        var duch2 = document.getElementById("duch")
+        var duch3 = document.getElementById("duch")
+        var mec = document.getElementById("mec")
+
+        var krok = 40
+        var sirka = 920 / krok      // 23
+        var vyska = 480 / krok      // 12
+
+        var pole                    // 0 = zeď, 1 = cesta
+        var puntiky                 // -1 = s puntíkem, -2 = bez puntíku
+        var casovac
+
+        var hracX = 1
+        var hracY = Math.floor(Math.random() * (vyska - 2)) + 1
+
+        var duchX = 12
+        var duchY = Math.floor(Math.random() * (vyska - 2)) + 1
+        var kamjit = Math.floor(Math.random() * 4)
+        var kdyjit = 4
+        var duchzije = 1
+
+        var duchX2 = 11
+        var duchY2 = Math.floor(Math.random() * (vyska - 2)) + 1
+        var kamjit2 = Math.floor(Math.random() * 4)
+        var kdyjit2 = 3
+        var duchzije2 = 1
+
+        var duchX3 = 20
+        var duchY3 = Math.floor(Math.random() * (vyska - 2)) + 1
+        var kamjit3 = Math.floor(Math.random() * 4)
+        var kdyjit3 = 5
+        var duchzije3 = 1
+
+        var posunX = 0
+        var posunY = 0
+        var smer = 0
+        var pocetpuntiku = 0
+
+        var mecX
+        var mecY
+        var sebrano = 0
+        var sebranocas = 0
+
+        var body = 0
+
+
+
+        hrat()
+
+        function hrat() {
+            vygenerovatMapu()
+            vygenerovatPuntiky()
+            prekreslit()
+            generovatmec()
+            casovac = setInterval(prekreslit, 200)
+        }
+
+        function vygenerovatMapu() {
+            pole = Array(sirka * vyska).fill(1)
+
+            // obvodové zdi
+
+            for (var i = 0; i < sirka; i++) {
+                umistiSymbol(i, 0, zed)
+            }
+
+            for (var i = 1; i < vyska - 1; i++) {
+                umistiSymbol(0, i, zed)
+                umistiSymbol(sirka - 1, i, zed)
+            }
+
+            for (var i = 0; i < sirka; i++) {
+                umistiSymbol(i, vyska - 1, zed)
+            }
+
+            // první čtverec
+
+            for (var i = 3; i < 5; i++) {
+                for (var j = 3; j < 5; j++) {
+                    umistiSymbol(i, j, zed)
+                }
+            }
+
+            // druhý čtverec
+
+            for (var i = 9; i < 11; i++) {
+                for (var j = 3; j < 5; j++) {
+                    umistiSymbol(i, j, zed)
+                }
+            }
+
+            // linka vlevo
+
+            for (var i = 3; i < 11; i++) {
+                for (var j = vyska - 5; j < vyska - 3; j++)
+                    umistiSymbol(i, j, zed)
+            }
+
+            // linka vpravo zhora
+
+            for (var i = 1; i < vyska / 2 - 2; i++) {
+                umistiSymbol(sirka - 10, i, zed)
+            }
+
+            // linka vpravo zdola
+
+            for (var i = vyska / 2 + 2; i < vyska - 1; i++) {
+                umistiSymbol(sirka - 10, i, zed)
+            }
+
+            // linka vpravo vodorovná
+
+            for (var i = sirka - 10; i < sirka - 3; i++) {
+                umistiSymbol(i, vyska / 2 - 3, zed)
+            }
+        }
+
+        function vygenerovatPuntiky() {
+            puntiky = Array(sirka * vyska).fill(-1)
+
+            pole.forEach((p, i) => {
+                if (p == 0) {
+                    puntiky[i] = -2
+                }
+            })
+
+            puntiky[hracY * sirka + hracX] = -2
+        }
+
+        function prekreslit() {
+            body = Math.floor(body * 100) / 100
+            $("#body").text("Your Score: " + body)
+            if (sebrano == 1) {
+                if (sebranocas == 25) {
+                    if (duchzije == 0 && duchzije2 == 0 && duchzije3 == 0) {
+
+                    }
+                    else {
+                    generovatmec()
+                    }
+                    
+                    sebrano = 0
+                    sebranocas = 0
+                }
+                else {
+                    sebranocas = sebranocas + 1
+                }
+            }
+            if (duchzije == 0 && duchzije2 == 0 && duchzije3 == 0) {
+
+            }
+            else {
+                body = body + 0.05
+            }
+
+            hracJit()
+
+            duchjit()
+            duchjit2()
+            duchjit3()
+
+            if (sebrano == 1) {
+                if ((duchX === hracX && duchY === hracY)) {
+                    body = body + 10
+                    duchzije = 0
+                }
+                if ((duchX2 === hracX && duchY2 === hracY)) {
+                    body = body + 10
+                    duchzije2 = 0
+                }
+                if ((duchX3 === hracX && duchY3 === hracY)) {
+                    body = body + 10
+                    duchzije3 = 0
+                }
+            }
+            else if ((duchX === hracX && duchY === hracY && duchzije === 1) ||
+                (duchX2 === hracX && duchY2 === hracY && duchzije2 === 1) ||
+                (duchX3 === hracX && duchY3 === hracY && duchzije3 === 1)) {
+                prohral()
+            }
+
+            if (puntiky[(hracY) * 23 + hracX] == -1) {
+                puntiky[(hracY) * 23 + hracX] = -2
+                body = body + 0.5
+
+                pocetpuntiku = 0
+                puntiky.forEach((p, i) => {
+                    if (p == -1) {
+                        pocetpuntiku = pocetpuntiku + 1
+
+                    }
+                })
+                if (pocetpuntiku == 0) {
+                    vyhral()
+                }
+            }
+
+            platno.clearRect(0, 0, sirka * krok, vyska * krok)
+            pole.forEach((p, i) => vykresliSymbol_id(i, p))
+
+            puntiky.forEach((p, i) => {
+                if (p == -1) {
+                    vykresliSymbol_id(i, p)
+                }
+            })
+
+            platno.save();
+            platno.translate(hracX * krok + 20, hracY * krok + 20);
+            platno.rotate(smer * Math.PI / 180);
+            platno.drawImage(pacman, -20, -20, 40, 40);
+            platno.restore();
+
+            if (duchzije === 1) {
+                vykresliSymbol_xy(duchX, duchY, duch)
+            }
+            if (duchzije2 === 1) {
+                vykresliSymbol_xy(duchX2, duchY2, duch2)
+            }
+            if (duchzije3 === 1) {
+                vykresliSymbol_xy(duchX3, duchY3, duch3)
+            }
+
+
+            if ((mecX != hracX || mecY != hracY) && sebrano === 0) {
+                if (duchzije == 0 && duchzije2 == 0 && duchzije3 == 0) {
+
+                }
+                else {
+                    vykresliSymbol_xy(mecX, mecY, mec)
+                }
+
+            }
+            else {
+                sebrano = 1
+                body = body + 5
+            }
+        }
+
+
+
+        function hracJit() {
+            if (pole[(hracY + posunY) * sirka + (hracX + posunX)] == 1) {
+                hracX = hracX + posunX
+                hracY = hracY + posunY
+            }
+        }
+
+        function vzdalenost(y, x) {
+            var a = Math.abs(hracY - y)
+            var b = Math.abs(hracX - x)
+            var c = Math.round(Math.sqrt(a * a + b * b))
+            return c
+        }
+
+        function duchjit() {
+            var c = vzdalenost(duchY, duchX)
+
+            if (sebrano == 1) {
+                kamjit = Math.floor(Math.random() * 4)
+            }
+            else if (c < 5) {
+                if (hracY < duchY) {
+                    kamjit = 1
+                }
+                if (hracY > duchY) {
+                    kamjit = 0
+                }
+                if (hracX < duchX) {
+                    kamjit = 3
+                }
+                if (hracX > duchX) {
+                    kamjit = 2
+                }
+            }
+
+            if (kdyjit == 4) {
+                kdyjit = 0
+                kamjit = Math.floor(Math.random() * 4)
+            }
+            else {
+                kdyjit = kdyjit + 1
+            }
+
+            if (kamjit == 0) {
+                duchY = duchY + 1
+            }
+            if (kamjit == 1) {
+                duchY = duchY - 1
+            }
+            if (kamjit == 2) {
+                duchX = duchX + 1
+            }
+            if (kamjit == 3) {
+                duchX = duchX - 1
+            }
+
+            if (pole[(duchY) * 23 + duchX] == 0) {
+                if (kamjit == 0) duchY = duchY - 1
+                if (kamjit == 1) duchY = duchY + 1
+                if (kamjit == 2) duchX = duchX - 1
+                if (kamjit == 3) duchX = duchX + 1
+
+                var novySmer
+                do {
+                    novySmer = Math.floor(Math.random() * 4)
+                } while (novySmer === kamjit)
+
+                kamjit = novySmer
+                kdyjit = 0
+            }
+        }
+
+        function duchjit2() {
+            var c2 = vzdalenost(duchY2, duchX2)
+
+            if (sebrano == 1) {
+                kamjit2 = Math.floor(Math.random() * 4)
+            }
+            else if (c2 < 5) {
+                if (hracY < duchY2) {
+                    kamjit2 = 1
+                }
+                if (hracY > duchY2) {
+                    kamjit2 = 0
+                }
+                if (hracX < duchX2) {
+                    kamjit2 = 3
+                }
+                if (hracX > duchX2) {
+                    kamjit2 = 2
+                }
+            }
+
+            if (kdyjit2 == 3) {
+                kdyjit2 = 0
+                kamjit2 = Math.floor(Math.random() * 4)
+            }
+            else {
+                kdyjit2 = kdyjit2 + 1
+            }
+
+            if (kamjit2 == 0) {
+                duchY2 = duchY2 + 1
+            }
+            if (kamjit2 == 1) {
+                duchY2 = duchY2 - 1
+            }
+            if (kamjit2 == 2) {
+                duchX2 = duchX2 + 1
+            }
+            if (kamjit2 == 3) {
+                duchX2 = duchX2 - 1
+            }
+
+            if (pole[(duchY2) * 23 + duchX2] == 0) {
+                if (kamjit2 == 0) duchY2 = duchY2 - 1
+                if (kamjit2 == 1) duchY2 = duchY2 + 1
+                if (kamjit2 == 2) duchX2 = duchX2 - 1
+                if (kamjit2 == 3) duchX2 = duchX2 + 1
+
+                var novySmer
+                do {
+                    novySmer = Math.floor(Math.random() * 4)
+                } while (novySmer === kamjit2)
+
+                kamjit2 = novySmer
+                kdyjit2 = 0
+            }
+        }
+
+        function duchjit3() {
+            var c3 = vzdalenost(duchY3, duchX3)
+
+            if (sebrano == 1) {
+                kamjit3 = Math.floor(Math.random() * 4)
+            }
+            else if (c3 < 5) {
+                if (hracY < duchY3) {
+                    kamjit3 = 1
+                }
+                if (hracY > duchY3) {
+                    kamjit3 = 0
+                }
+                if (hracX < duchX3) {
+                    kamjit3 = 3
+                }
+                if (hracX > duchX3) {
+                    kamjit3 = 2
+                }
+            }
+
+            if (kdyjit3 == 5) {
+                kdyjit3 = 0
+                kamjit3 = Math.floor(Math.random() * 4)
+            }
+            else {
+                kdyjit3 = kdyjit3 + 1
+            }
+
+            if (kamjit3 == 0) {
+                duchY3 = duchY3 + 1
+            }
+            if (kamjit3 == 1) {
+                duchY3 = duchY3 - 1
+            }
+            if (kamjit3 == 2) {
+                duchX3 = duchX3 + 1
+            }
+            if (kamjit3 == 3) {
+                duchX3 = duchX3 - 1
+            }
+
+            if (pole[(duchY3) * 23 + duchX3] == 0) {
+                if (kamjit3 == 0) duchY3 = duchY3 - 1
+                if (kamjit3 == 1) duchY3 = duchY3 + 1
+                if (kamjit3 == 2) duchX3 = duchX3 - 1
+                if (kamjit3 == 3) duchX3 = duchX3 + 1
+
+                var novySmer
+                do {
+                    novySmer = Math.floor(Math.random() * 4)
+                } while (novySmer === kamjit3)
+
+                kamjit3 = novySmer
+                kdyjit3 = 0
+            }
+        }
+
+
+
+        $(document).on("keydown", hrac)
+
+        function hrac(event) {
+            switch (event.key) {
+                case "ArrowUp":
+                    //console.log("Šipka nahoru")
+                    if (pole[(hracY - 1) * sirka + hracX] == 1) {
+                        posunX = 0
+                        posunY = -1
+                        smer = 270
+                    }
+                    break
+
+                case "ArrowDown":
+                    //console.log("Šipka dolů")
+                    if (pole[(hracY + 1) * sirka + hracX] == 1) {
+                        posunX = 0
+                        posunY = +1
+                        smer = 90
+                    }
+                    break
+
+                case "ArrowLeft":
+                    //console.log("Šipka doleva")
+                    if (pole[hracY * sirka + (hracX - 1)] == 1) {
+                        posunX = -1
+                        posunY = 0
+                        smer = 180
+                    }
+                    break
+
+                case "ArrowRight":
+                    //console.log("Šipka doprava")
+                    if (pole[hracY * sirka + (hracX + 1)] == 1) {
+                        posunX = 1
+                        posunY = 0
+                        smer = 0
+                    }
+                    break
+
+            }
+        }
+
+
+
+        function umistiSymbol(x, y, symbol, ulozeni = true) {
+            pole[y * sirka + x] = symbol == zed ? 0 : symbol == 1 ? cesta : puntik
+        }
+
+        function vykresliSymbol_id(id, symbol) {
+            var x = id % sirka
+            var y = Math.floor(id / sirka)
+            var obrazek = symbol == 0 ? zed : symbol == 1 ? cesta : puntik
+            vykresliSymbol_xy(x, y, obrazek)
+        }
+
+        function vykresliSymbol_xy(x, y, obrazek) {
+            platno.drawImage(obrazek, x * krok, y * krok, 40, 40)
+        }
+
+
+        function generovatmec() {
+            do {
+                mecX = Math.floor(Math.random() * (sirka - 2)) + 1
+                mecY = Math.floor(Math.random() * (vyska - 2)) + 1
+            } while (pole[mecY * sirka + (mecX)] == 0)
+            puntiky[mecY * sirka + (mecX)] = -2
+        }
+
+
+        function vyhral() {
+            clearInterval(casovac)
+            alert("Game over. You win!")
+        }
+
+        function prohral() {
+            clearInterval(casovac)
+            alert("Game over. You lose!")
+        }
+    </script>
+</body>
+
+</html>
