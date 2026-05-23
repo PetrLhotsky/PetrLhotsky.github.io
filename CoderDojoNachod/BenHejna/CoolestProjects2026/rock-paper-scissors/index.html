@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kámen, nůžky, papír</title>
+    <title>Rock, Paper, Scissors</title>
 
     <style>
 
@@ -97,17 +97,17 @@
 </head>
 <body>
 
-    <h1>Kámen • Nůžky • Papír</h1>
+    <h1>Rock • Paper • Scissors</h1>
 
-    <h2>Počítač vybral:</h2>
+    <h2>Computer selected:</h2>
     <h3 id="pocitac">?</h3>
 
-    <h2>Vyber svůj tah</h2>
+    <h2>Choose your move</h2>
 
     <div class="buttons">
-        <img id="kamen" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/kamen%20(1).png" alt="Kámen">
-        <img id="nuzky" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/nuzky.png" alt="Nůžky">
-        <img id="papir" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/papir.png" alt="Papír">
+        <img id="kamen" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/kamen%20(1).png" alt="Rock">
+        <img id="nuzky" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/nuzky.png" alt="Scissors">
+        <img id="papir" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/papir.png" alt="Paper">
     </div>
 
     <h1 id="vysledek"></h1>
@@ -115,15 +115,15 @@
     <div class="scoreboard">
 
         <div class="box">
-            <h3 id="vyhra">Výhry: 0</h3>
+            <h3 id="vyhra">Wins: 0</h3>
         </div>
 
         <div class="box">
-            <h3 id="prohra">Prohry: 0</h3>
+            <h3 id="prohra">Losses: 0</h3>
         </div>
 
         <div class="box">
-            <h3 id="remiza">Remízy: 0</h3>
+            <h3 id="remiza">Draws: 0</h3>
         </div>
 
     </div>
@@ -156,19 +156,19 @@
         var vysledek
 
         if(computer==1){
-            pocitac="Kámen"
+            pocitac="Rock"
         }
 
         if(computer==2){
-            pocitac="Nůžky"
+            pocitac="Scissors"
         }
 
         if(computer==3){
-            pocitac="Papír"
+            pocitac="Paper"
         }
 
         if(hrac==computer){
-            vysledek="Remíza"
+            vysledek="Draw"
             remiza++
         }
 
@@ -177,20 +177,20 @@
             (hrac==2 && computer==3) ||
             (hrac==3 && computer==1)
         ){
-            vysledek="Vyhrál jsi"
+            vysledek="You won"
             vyhra++
         }
 
         else{
-            vysledek="Prohrál jsi"
+            vysledek="You lost"
             prohra++
         }
 
         $("#pocitac").text(pocitac)
         $("#vysledek").text(vysledek)
-        $("#vyhra").text("Výhry: "+vyhra)
-        $("#prohra").text("Prohry: "+prohra)
-        $("#remiza").text("Remízy: "+remiza)
+        $("#vyhra").text("Wins: "+vyhra)
+        $("#prohra").text("Losses: "+prohra)
+        $("#remiza").text("Draws: "+remiza)
 
     }
 
