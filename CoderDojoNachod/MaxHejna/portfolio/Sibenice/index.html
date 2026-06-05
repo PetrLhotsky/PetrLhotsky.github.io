@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Šibenice</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+        <style>
+          img{
+           display: none; 
+          }  
+          body{
+            background-color: rgb(40, 0, 143);
+          }
+        </style>
+        </head> 
+
+<body id="pozadi">
+    <h1>Šibenice</h1>
+    <h1 id="konec"></h1>
+    <h1 id="hadaneslovo"></h1>
+    <input type="text" class="form-control" id="zadatpismena" placeholder="Zadejte Písmeno">
+    <input type="button" class="form-control" id="potvrdit" value="potvrdit">
+    <h2 id="vysledek"></h2>
+    <img src="0.png" alt="" id="o0">
+    <img src="1.png" alt="" id="o1">
+    <img src="2.png" alt="" id="o2">
+    <img src="3.png" alt="" id="o3">
+    <img src="4.png" alt="" id="o4">
+    <img src="5.png" alt="" id="o5">
+    <img src="6.png" alt="" id="o6">
+    <img src="7.png" alt="" id="o7">
+    <img src="8.png" alt="" id="o8">
+    <img src="9.png" alt="" id="o9">
+    <img src="10.png" alt="" id="o10">
+    <img src="11.png" alt="" id="o11">
+    <img src="12.png" alt="" id="o12">
+    <script>
+        const slovaSibenice = [
+    "kočka", "pes", "strom", "dům", "auto", "vlak", "hrad", "město", "vesnice", "řeka",
+    "hora", "les", "letadlo", "stůl", "židle", "telefon", "počítač", "program", "kniha", "papír",
+    "obraz", "okno", "dveře", "park", "cesta", "chodník", "most", "zvonek", "hodiny", "kalendář",
+    "brána", "kostel", "škola", "knihovna", "kavárna", "restaurace", "bazén", "sport", "fotbal", "hokej",
+    "tenis", "volejbal", "basketbal", "cyklistika", "běh", "plavání", "horolezectví", "lyžování", "snowboard",
+    "skateboard", "golf", "box", "karate", "judo", "šachy", "házená", "lukostřelba", "běžky", "bruslení",
+    "motorka", "kolo", "tramvaj", "autobus", "metro", "letadlová loď", "ponorka", "balon", "raketa", "kosmos",
+    "hvězda", "slunce", "měsíc", "planeta", "kometa", "asteroid", "galaxie", "vesmír", "satelit", "orbit",
+    "meteor", "magma", "sopečný", "lávový", "zemětřesení", "cunami", "bouře", "vichřice", "hurikán", "tajfun",
+    "povodeň", "záplava", "sucho", "dešť", "kroupy", "sníh", "mráz", "ledovec", "polární", "severní pól",
+    "jižní pól", "ekvátor", "rovník", "zeměpis", "dějepis", "fyzika", "chemie", "biologie", "matematika",
+    "informatika", "filozofie", "ekonomie", "psychologie", "sociologie", "politika", "právo", "medicína", "historie",
+    "botanika", "astronomie", "geologie", "genetika", "mikrobiologie", "ekologie", "zoologie", "meteorologie", "statistika",
+    "programování", "databáze", "hardware", "software", "umělá inteligence", "robotika", "elektronika", "fotonika", "kybernetika", "telekomunikace",
+    "mechanika", "elektrotechnika", "strojírenství", "chemické inženýrství", "nanotechnologie", "biotechnologie", "optika", "akustika", "termodynamika", "aerodynamika",
+    "astrofyzika", "kvantová mechanika", "relativita", "nukleární fyzika", "elektromagnetismus", "neurovědy", "bioinformatika", "kognitivní věda", "lingvistika", "antropologie",
+    "paleontologie", "architektura", "urbanismus", "design", "fotografie", "malířství", "sochařství", "hudba", "literatura", "drama",
+    "divadlo", "tanec", "opera", "balet", "film", "kino", "animace", "grafika", "typografie", "reklama",
+    "marketing", "žurnalistika", "public relations", "management", "leadership", "personalistika", "psychoterapie", "koučink", "poradenství", "sociální práce",
+    "meditace", "mindfulness", "filantropie", "charita", "dobrovolnictví", "ekoturistika", "environmentalismus", "klimatologie", "ochrana přírody", "biodiverzita",
+    "zemědělství", "lesnictví", "rybářství", "včelařství", "chovatelství", "myslivost", "potravinářství", "gastronomie", "cukrářství", "pekařství",
+    "vinářství", "pivovarnictví", "čajová kultura", "káva", "bylinkářství", "aromaterapie", "kosmetika", "móda", "šperkařství", "textilnictví",
+    "keramika", "sklářství", "truhlářství", "kamenictví", "kovářství", "řemesla", "umělecká tvorba", "hudební nástroje", "kompozice", "orchestr",
+    "syntetizátory", "DJing", "remix", "videohry", "game design", "programování her", "e-sport", "streaming", "influencerství", "sociální sítě",
+    "blogování", "vlogování", "podcasting", "drony", "3D tisk", "robotické systémy", "autonomní vozidla", "elektromobilita", "solární energie", "větrná energie"
+];
+
+        
+        var slovo = slovaSibenice[Math.floor(Math.random() * slovaSibenice.length)];
+        var pole = [...slovo]
+        var policka = "_".repeat(pole.length)
+        var obrazek = 0
+        var scitani = 0
+        $("#vysledek").text(policka)
+        $("#o0").css("display","block")
+        $("#potvrdit").click(() => {
+            var pismeno = $("#zadatpismena").val()
+            var pozice = 0
+            var zjisti = []
+            var pocitani = 0
+        pole.forEach(znak=>{
+        if(pismeno==znak){
+        if(policka[pozice]=="_"){
+            zjisti.push(znak)
+        pocitani=pocitani+1
+        scitani=scitani+1
+
+        }
+        else{
+            zjisti.push(policka[pozice])   
+
+        }
+        }
+        else{
+        zjisti.push(policka[pozice])   
+        
+        }
+
+        pozice = pozice+1
+        
+
+        console.log(scitani,pole.length)
+
+
+
+
+        })
+        if(pocitani<1){
+        $("#o"+obrazek).css("display","none")
+        obrazek=obrazek+1
+        $("#o"+obrazek).css("display","block")
+    }
+        if(obrazek==12){
+            $("#konec").text("Prohrál jsi :(")
+            $("#hadaneslovo").text("Hádané Slovo Bylo "+slovo+" :(")
+            $("#pozadi").css("background-color","red")
+        }
+        if(scitani==pole.length){
+            $("#konec").text("Vyhrál jsi :)")
+            $("#hadaneslovo").text("Hádané Slovo Bylo "+slovo+" :)")
+            $("#pozadi").css("background-color","green")
+        }
+        
+        policka = zjisti.join("")
+        $("#vysledek").text(policka)
+        });    
+
+            
+        
+
+
+        
+        
+    </script>
+</body>
+
+</html>

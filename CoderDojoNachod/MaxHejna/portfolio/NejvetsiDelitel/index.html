@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euklidův Algoritmus</title>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1 id="delitel"></h1>
+<input type="number" class="form-control" id="cislob" placeholder="Zadejte menší číslo">
+<input type="number" class="form-control" id="cisloa" placeholder="Zadejte větší číslo">
+<input type="button" class="form-control" id="potvrdit" value="potvrdit">
+<style>
+    body
+                {
+                transition: background-color 0.5s;
+                background-image: url(nejvetsidelitelpozadi.jpg);
+            }
+    #potvrdit {
+                /*margin-left: 20px; /* Posune rámeček doprava o 10px */
+                height: 100px; /* Zvětší výšku rámečku o 50px */
+                /*margin-top: 0px; /* Posune rámeček dolů o 150px */
+                height: 50px; /* Zvětší výšku polí */
+                background-color: #0e921c; /* Nastaví pozadí pole */
+                font-size: 32px; /* Zvětší velikost písma */
+                border: 4px solid #3cff00; /* Přidá obrys tlačítka */
+                color: white; /* Nastaví barvu textu tlačítka na bílou */
+                cursor: pointer; /* Změní kurzor na ukazatel při najetí myší */
+    }
+    #cisloa {
+                /*margin-left: 10px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                /*margin-top: 150px; /* Posune rámeček dolů o 20px */
+                font-size: 32px; /* Zvětší velikost písma */
+                background-color: #ef0000; /* Nastaví pozadí pole */
+            }
+            #cislob {
+                /*margin-left: 150px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                font-size: 32px; /* Zvětší velikost písma */
+                /*margin-top: 150px; /* Posune rámeček dolů o 20px */
+                background-color: #0070ef; /* Nastaví pozadí pole */
+
+            }
+            #delitel {
+                width: 200px;
+                height: 200px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 0px; /* Posune rámeček dolů o 150px */
+                height: 150px; /* Zvětší výšku polí */
+                background-color: #0e921c; /* Nastaví pozadí pole */
+                font-size: 36px; /* Zvětší velikost písma */
+                color: rgb(242, 255, 0); /* Nastaví barvu textu tlačítka na bílou */
+                font-weight: bold; /* Nastaví tučné písmo */
+    }
+</style>
+<script>
+var pole=[]
+
+
+$("#potvrdit").click(() => {
+var cislob = $("#cislob").val()
+var cisloa = $("#cisloa").val()
+for (var i = 2; i <= cislob; i++) {
+if (cislob%i==0&&cisloa%i==0){
+pole.push(i)
+}
+}
+var maximum = 1
+pole.forEach(function(x){
+if (x>maximum){
+maximum =x
+}
+})
+$("#delitel").text(maximum)
+})
+
+
+
+
+</script>
+</html>

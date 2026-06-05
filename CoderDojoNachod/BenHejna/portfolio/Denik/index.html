@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osobní deník pro ty nejlepší 💩🥶☠️☠️</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 100px auto;
+            background-color: white;
+            padding: 50px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            resize: none;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .entries {
+            margin-top: 30px;
+        }
+        .entry {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Můj deník   ulož si to sem,ale když resetujes deník vše se ti obnoví</h1>
+    <textarea id="denikText" placeholder="Zapište svůj deníkový záznam zde..."></textarea>
+    <button onclick="ulozZaznam()">Uložit záznam</button>
+
+    <div class="entries" id="zaznamy"></div>
+</div>
+
+<script>
+    function ulozZaznam() {
+        var text = document.getElementById("denikText").value;
+        if (text === "") {
+            alert("Prosím, napište něco do deníku.");
+            return;
+        }
+
+        var zaznamyDiv = document.getElementById("zaznamy");
+        var novaZaznam = document.createElement("div");
+        novaZaznam.classList.add("entry");
+        novaZaznam.textContent = text;
+        zaznamyDiv.insertBefore(novaZaznam, zaznamyDiv.firstChild);
+
+        document.getElementById("denikText").value = "";
+    }
+</script>
+
+</body>
+</html>

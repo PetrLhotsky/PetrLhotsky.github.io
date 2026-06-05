@@ -1,0 +1,45 @@
+            body {
+                transition: background-color 0.5s;
+                background-image: url("ScitaniZlomkuBg.jpg");
+            }
+
+            #vysledek {
+                margin-left: 20px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                height: 50px; /* Zvětší výšku polí */
+                background-color: #4668ac; /* Nastaví pozadí pole */
+                font-size: 34px; /* Zvětší velikost písma */
+                border: 4px solid #0400ff; /* Přidá obrys tlačítka */
+                color: white; /* Nastaví barvu textu tlačítka na bílou */
+            }
+            
+            
+            
+            
+            #citatel {
+                margin-left: 150px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                font-size: 32px; /* Zvětší velikost písma */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                background-color: #0070ef; /* Nastaví pozadí pole */
+
+            }
+            #jmenovatel {
+                margin-left: 10px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                font-size: 32px; /* Zvětší velikost písma */
+                background-color: #ef0000; /* Nastaví pozadí pole */
+            }
+            #potvrdit {
+                margin-left: 20px; /* Posune rámeček doprava o 10px */
+                height: 100px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                height: 50px; /* Zvětší výšku polí */
+                background-color: #0e921c; /* Nastaví pozadí pole */
+                font-size: 32px; /* Zvětší velikost písma */
+                border: 4px solid #3cff00; /* Přidá obrys tlačítka */
+                color: white; /* Nastaví barvu textu tlačítka na bílou */
+                cursor: pointer; /* Změní kurzor na ukazatel při najetí myší */
+            }

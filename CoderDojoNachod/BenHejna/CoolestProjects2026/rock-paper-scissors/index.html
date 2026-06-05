@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:30px;
+            text-align:center;
+            font-family:Arial, Helvetica, sans-serif;
+            background:linear-gradient(135deg,#2563eb,#7c3aed,#ec4899);
+            min-height:100vh;
+            color:white;
+        }
+
+        h1{
+            font-size:60px;
+            margin-bottom:10px;
+            text-shadow:0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        h2{
+            margin-top:30px;
+            font-size:30px;
+        }
+
+        #pocitac{
+            font-size:45px;
+            margin:20px;
+            font-weight:bold;
+            color:#facc15;
+        }
+
+        #vysledek{
+            font-size:50px;
+            margin-top:30px;
+            text-shadow:0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .buttons{
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:25px;
+            margin-top:30px;
+        }
+
+        img{
+            width:160px;
+            height:160px;
+            object-fit:contain;
+            background:white;
+            padding:20px;
+            border-radius:30px;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        img:hover{
+            transform:translateY(-10px) scale(1.08) rotate(3deg);
+            background:#f8fafc;
+        }
+
+        .scoreboard{
+            display:flex;
+            justify-content:center;
+            gap:25px;
+            margin-top:40px;
+            flex-wrap:wrap;
+        }
+
+        .box{
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(10px);
+            padding:25px;
+            border-radius:25px;
+            min-width:170px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.3);
+            transition:0.3s;
+        }
+
+        .box:hover{
+            transform:scale(1.05);
+        }
+
+        .box h3{
+            margin:0;
+            font-size:30px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Rock • Paper • Scissors</h1>
+
+    <h2>Computer selected:</h2>
+    <h3 id="pocitac">?</h3>
+
+    <h2>Choose your move</h2>
+
+    <div class="buttons">
+        <img id="kamen" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/kamen%20(1).png" alt="Rock">
+        <img id="nuzky" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/nuzky.png" alt="Scissors">
+        <img id="papir" src="https://petrlhotsky.github.io/CoderDojoNachod/BenHejna/portfolio/KamenNuzkyPapir/papir.png" alt="Paper">
+    </div>
+
+    <h1 id="vysledek"></h1>
+
+    <div class="scoreboard">
+
+        <div class="box">
+            <h3 id="vyhra">Wins: 0</h3>
+        </div>
+
+        <div class="box">
+            <h3 id="prohra">Losses: 0</h3>
+        </div>
+
+        <div class="box">
+            <h3 id="remiza">Draws: 0</h3>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+    var vyhra=0
+    var prohra=0
+    var remiza=0
+
+    $("#kamen").click(function(){
+        hra(1)
+    })
+
+    $("#nuzky").click(function(){
+        hra(2)
+    })
+
+    $("#papir").click(function(){
+        hra(3)
+    })
+
+    function hra(hrac){
+
+        var computer=Math.floor(Math.random()*3+1)
+
+        var pocitac
+        var vysledek
+
+        if(computer==1){
+            pocitac="Rock"
+        }
+
+        if(computer==2){
+            pocitac="Scissors"
+        }
+
+        if(computer==3){
+            pocitac="Paper"
+        }
+
+        if(hrac==computer){
+            vysledek="Draw"
+            remiza++
+        }
+
+        else if(
+            (hrac==1 && computer==2) ||
+            (hrac==2 && computer==3) ||
+            (hrac==3 && computer==1)
+        ){
+            vysledek="You won"
+            vyhra++
+        }
+
+        else{
+            vysledek="You lost"
+            prohra++
+        }
+
+        $("#pocitac").text(pocitac)
+        $("#vysledek").text(vysledek)
+        $("#vyhra").text("Wins: "+vyhra)
+        $("#prohra").text("Losses: "+prohra)
+        $("#remiza").text("Draws: "+remiza)
+
+    }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driftování autem</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #87ceeb;
+    }
+
+    canvas {
+      display: block;
+      background-image: url('https://www.rcobchod.cz/UserFiles/products/middle/101/pel_tb-760148_0_6606a.jpg'); /* Driftovací dráha */
+      background-size: cover;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const context = canvas.getContext("2d");
+
+    const carImg = new Image();
+    carImg.src = 'https://e7.pngegg.com/pngimages/457/658/png-clipart-top-view-car-luxury-car-thumbnail.png'; // Obrázek driftovacího auta
+
+    let car = {
+      x: canvas.width / 2 - 25,
+      y: canvas.height - 100,
+      width: 50,
+      height: 100,
+      angle: 0,
+      speed: 0,
+      maxSpeed: 100, // Zvýšená maximální rychlost
+      drift: false,
+      nitro: false,
+      nitroBoost: 8, // Násobitel rychlosti při aktivním nitru
+      nitroDuration: 200, // Doba trvání nitra v počtu snímků
+      nitroCounter: 0
+    };
+
+    let keys = {
+      ArrowUp: false,
+      ArrowDown: false,
+      ArrowLeft: false,
+      ArrowRight: false,
+      Space: false,
+      ShiftLeft: false // Nitro na Shift
+    };
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code in keys) keys[event.code] = true;
+    });
+
+    document.addEventListener('keyup', (event) => {
+      if (event.code in keys) keys[event.code] = false;
+    });
+
+    function update() {
+      // Nitro aktivace
+      if (keys.ShiftLeft && car.nitroCounter === 0) {
+        car.nitro = true;
+        car.nitroCounter = car.nitroDuration;
+      }
+
+      // Nitro trvání
+      if (car.nitro) {
+        car.speed = Math.min(car.speed + car.nitroBoost, car.maxSpeed * car.nitroBoost);
+        car.nitroCounter--;
+        if (car.nitroCounter <= 0) {
+          car.nitro = false;
+        }
+      } else {
+        // Normální akcelerace
+        if (keys.ArrowUp) car.speed = Math.min(car.speed + 0.3, car.maxSpeed);
+        if (keys.ArrowDown) car.speed = Math.max(car.speed - 0.3, -3); // Zvýšené zpomalení
+        if (!keys.ArrowUp && !keys.ArrowDown) car.speed *= 0.97; // Zpomalení, když není akcelerace
+      }
+
+      // Driftování
+      if (keys.Space) {
+        car.drift = true;
+        car.speed *= 0.98; // Lehké zpomalení při driftu
+      } else {
+        car.drift = false;
+      }
+
+      // Otáčení auta
+      if (keys.ArrowLeft) car.angle -= car.drift ? 0.06 : 0.04;
+      if (keys.ArrowRight) car.angle += car.drift ? 0.06 : 0.04;
+
+      // Výpočet nových pozic
+      car.x += car.speed * Math.sin(car.angle);
+      car.y -= car.speed * Math.cos(car.angle);
+
+      // Omezit auto na plátno
+      if (car.x < 0) car.x = 0;
+      if (car.x > canvas.width - car.width) car.x = canvas.width - car.width;
+      if (car.y < 0) car.y = 0;
+      if (car.y > canvas.height - car.height) car.y = canvas.height - car.height;
+    }
+
+    function drawCar() {
+      context.save();
+      context.translate(car.x + car.width / 2, car.y + car.height / 2);
+      context.rotate(car.angle);
+      context.drawImage(carImg, -car.width / 2, -car.height / 2, car.width, car.height);
+      context.restore();
+    }
+
+    function gameLoop() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      update();
+      drawCar();
+      requestAnimationFrame(gameLoop);
+    }
+
+    carImg.onload = () => {
+      gameLoop(); // Spuštění hry po načtení obrázku
+    };
+  </script>
+</body>
+</html>

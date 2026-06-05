@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Matematický kvíz</title>
+        <style>
+            #spravne, #spatne, #priklad
+            {
+                color: white;
+                font-family: Segoe UI Black;
+                font-size: 40px;
+                padding: 20px 40px;
+                margin-top: 1px;
+                width: 340px;
+                margin-bottom: 0;
+            }
+            #spravne
+            {
+                background-color: #3dc83d;
+            }
+            #spatne
+            {
+                background-color: #c83d3d;
+            }
+            #priklad
+            {
+                background-color: #333;
+            }
+            #start, #potvrdit
+            {
+                background-color: #3dc83d;
+                color: white;
+                font-family: Segoe UI Black;
+                font-size: 20px;
+                padding: 12px 0;
+                width: 120px;
+                height: 55px;
+                text-align: center;
+                border-width: 0;
+                margin-top: 10px;
+            }
+            #moznosti
+            {
+                font-family: Segoe UI Black;
+                font-size: 25px;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+            label
+            {
+                margin-right: 30px;
+            }
+            body>div:last-child
+            {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="hra">
+            <h1 id="spravne">správně: 0</h1>
+            <h1 id="spatne">špatně: 0</h1>
+            <h1 id="priklad"></h1>
+            <div id="moznosti">
+                <input type="radio" name="odpovedi" id="m1" value="1"> <label for="m1" id="o1"></label>
+                <input type="radio" name="odpovedi" id="m2" value="2"> <label for="m2" id="o2"></label>
+                <input type="radio" name="odpovedi" id="m3" value="3"> <label for="m3" id="o3"></label>
+                <input type="radio" name="odpovedi" id="m4" value="4"> <label for="m4" id="o4"></label>
+            </div>
+            <input type="button" value="potvrdit" id="potvrdit">
+        </div>
+        <input type="button" value="start" id="start">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            var spravna;                                                // zapamatujeme si, která odpověď je správná
+            var spravne = 0;                                            // také si zapamatujeme počet správných odpovědí
+            var spatne = 0;                                             // a nesmíme zapomenout ani na počítání špatných
+            
+            $("#hra").hide();                                           // při načtení stránky div se hrou skryjeme
+            
+            $("#start").click(function() {                              // při kliknutí na tlačítko, jež má id #start
+                $("#hra").slideDown();                                  // při kliknutí na tlačítko div se hrou zobrazíme
+                $("#start").val("další");                               // text na tlačítku #start změníme na nápis další
+                var cislo1 = Math.random() * 100;                       // vygenerujeme první náhodné číslo od 0 do 100
+                cislo1 = Math.round(cislo1);                            // a zaokrouhlíme jej na celé (přirozené) číslo
+                
+                var cislo2 = Math.random() * 100;                       // vygenerujeme druhé náhodné číslo od 0 do 100
+                cislo2 = Math.round(cislo2);                            // a zaokrouhlíme jej na celé (přirozené) číslo
+                
+                var vysledek;                                           // připravíme si proměnnou, kam umístíme výsledek
+                var znamenko = Math.random();                           // vygenerujeme si náhodné desetinné číslo 0 až 1
+                if (znamenko < 0.5)                                     // zkontrolujeme, zda je menší než 0.5 (50% šance)
+                {
+                    vysledek = cislo1 + cislo2;                             // pokud ano, příklad bude určen na sčítání
+                    $("#priklad").text(cislo1 + " + " + cislo2);            // mezi čísly tak v příkladu zobrazíme plus
+                }
+                else                                                    // jinak, tj. větší nebo rovno 0.5 (50% šance)
+                {
+                    vysledek = cislo1 - cislo2;                             // příklad bude určen na procvičení odčítání
+                    $("#priklad").text(cislo1 + " - " + cislo2);            // mezi čísly tak v příkladu zobrazíme mínus
+                }
+                $("#priklad").css("color", "white");                    // následně text příkladu zbarvíme do bílé barvy
+                
+                var nahodne;                                            // proměnná nahodne připravená ke generování odpovědí
+                for (var i = 1; i <= 4; i++)                            // díky cyklu for vygenerujeme celkem 4 odpovědi
+                {
+                    do                                                      // díky cyklu do while vygenerujeme špatné odpovědi
+                    {
+                        nahodne = Math.random() * 301 - 100;                    // generujeme náhodné číslo od -100 do 200
+                        nahodne = Math.round(nahodne);                          // a zaokrouhlíme jej na přirozené číslo
+                    } while (nahodne == vysledek);                          // opakujeme, dokud se vygenerované rovná správnému
+                    $("#o" + i).text(nahodne);                              // vygenerovanou odpověď dosadíme do tagu label
+                }
+                
+                spravna = Math.random() * 4 + 1;                        // vygenerujeme náhodné číslo v rozsahu 1 až 4
+                spravna = Math.floor(spravna);                          // zaokrouhlíme, to nám řekne, kde bude správná
+                $("#o" + spravna).text(vysledek);                       // a příslušnou pozici obsadíme správným výsledkem
+            });
+            
+            
+            $("#potvrdit").click(function(){
+                var zvoleno= $("input[name=odpovedi]:checked").val();   // načteme si, které ze 4 "koleček" uživatel zvolil
+                zvoleno = parseInt(zvoleno);                            // hodnotu daného vstupu si převedeme na celé číslo
+                if (spravna == zvoleno)                                 // pokud se hodnota rovná umístění správné odpovědi
+                {
+                    $("#priklad").css("color","green");                     // příklad zazeleníme a naznačíme správnou odpověď
+                    spravne++;                                              // navýšíme počet správných odpovědí o další
+                    $("#spravne").text("správně: " + spravne);              // a nakonec tento počet ještě aktualizujeme
+                }
+                else                                                    // jinak, tedy pokud uživatel zvolil jednu ze 3 zbylých
+                {
+                    $("#priklad").css("color","red");                       // příklad začerveníme a naznačíme špatnou odpověď
+                    spatne++;                                               // navyšíme počet špatných odpovědí o další
+                    $("#spatne").text("špatně: " + spatne);                 // a nakonec tento počet ještě aktualizujeme
+                }
+            });
+        </script>
+    </body>
+</html>

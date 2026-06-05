@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klikací Hra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            font-size: 20px;
+            padding: 15px 30px;
+            cursor: pointer;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Klikací Hra</h1>
+    <p>Klikni na tlačítko co nejvíckrát během 10 sekund!</p>
+    <button id="clickButton">Klikni!</button>
+    <div class="info">
+        <p>Počet kliků: <span id="clickCount">0</span></p>
+        <p>Zbývající čas: <span id="timeRemaining">10</span> sekund</p>
+    </div>
+    <script>
+        let clickCount = 0;
+        let timeRemaining = 10;
+        let isGameRunning = false;
+        const clickButton = document.getElementById("clickButton");
+        const clickCountDisplay = document.getElementById("clickCount");
+        const timeRemainingDisplay = document.getElementById("timeRemaining");
+
+        clickButton.addEventListener("click", () => {
+            if (isGameRunning) {
+                clickCount++;
+                clickCountDisplay.textContent = clickCount;
+            }
+        });
+
+        function startGame() {
+            if (isGameRunning) return;
+            isGameRunning = true;
+            clickCount = 0;
+            clickCountDisplay.textContent = clickCount;
+            timeRemaining = 10;
+            timeRemainingDisplay.textContent = timeRemaining;
+
+            const timer = setInterval(() => {
+                timeRemaining--;
+                timeRemainingDisplay.textContent = timeRemaining;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    isGameRunning = false;
+                    alert(`Konec hry! Dosáhl(a) jsi ${clickCount} kliků.`);
+                }
+            }, 1000);
+        }
+
+        clickButton.addEventListener("mousedown", startGame);
+    </script>
+</body>
+</html>
+ 

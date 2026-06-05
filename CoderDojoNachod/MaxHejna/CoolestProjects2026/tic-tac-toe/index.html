@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg,
+                    #1e1e1e,
+                    #2f2f2f,
+                    #1e1e1e,
+                    #3a3a3a);
+            background-size: 400% 400%;
+            animation: bgShift 12s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #menu {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            font-family: Arial;
+            text-align: center;
+            width: 300px;
+            animation: menuShow 0.4s ease-out forwards;
+        }
+
+        @keyframes menuShow {
+            0% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #menu::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 15px;
+            background: linear-gradient(270deg,
+                    #ff0000,
+                    #00ff00,
+                    #0000ff);
+            background-size: 400% 400%;
+            animation: borderFlow 4s linear infinite;
+            z-index: -1;
+        }
+
+        #menu::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: white;
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        @keyframes borderFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #menu h3 {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        #velikost {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #hodnota {
+            display: inline-block;
+            margin: 5px 0 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        #hrat {
+            width: 100%;
+            padding: 10px;
+            border: 1px #007bff solid;
+            border-radius: 8px;
+            background-color: transparent;
+            color: #007bff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        #hrat:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #grid {
+            display: grid;
+            gap: 2px;
+            padding: 1px;
+        }
+
+        .cell {
+            width: 55px;
+            height: 55px;
+            border-radius: 5px;
+            background: rgb(112, 112, 112);
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 0.4s ease forwards;
+            animation-delay: calc(var(--i) * 0.005s);
+            transition: all 0.1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+
+            }
+        }
+
+        .cell:not(:empty) {
+            background: rgb(178, 178, 178);
+            cursor: not-allowed;
+        }
+
+        .cell:hover {
+            background: rgb(178, 178, 178);
+        }
+
+        .cell:active {
+            background: rgb(112, 112, 112);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="menu">
+        <h3>How large should your grid be?</h3>
+        <input type="range" min="5" max="22" id="velikost" value="11" placeholder="Choose Size"
+            oninput="$('#hodnota').text(this.value)">
+        <span id="hodnota">11</span>
+        <input type="button" value="Play" id="hrat">
+    </div>
+
+    <div id="grid" style="display: none"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        var pole = []
+
+        var polebot = []
+        var polehrac = []
+
+        var poleobsV = []
+        var poleobsS = []
+        var poleobsL = []
+        var poleobsP = []
+
+        var kolecko = "⚫"
+        var krizek = "❌"
+
+        var velikost
+        var velikostpole
+
+
+
+        function nacist() {
+            velikost = JSON.parse(localStorage.getItem('velikost')) || [];
+
+            if (velikost == "" || velikost == null || velikost == undefined) {
+                //je-li to prázdné tak se nic neděje, když by to bylo tak se skipuje
+            }
+            else {
+                hrat()
+            }
+
+            polehrac = JSON.parse(localStorage.getItem('polehrac')) || [];
+            polebot = JSON.parse(localStorage.getItem('polebot')) || [];
+
+            polehrac.forEach(cislo => {
+                umistiSymbol(cislo, kolecko, false)
+            });
+
+            polebot.forEach(cislo => {
+                umistiSymbol(cislo, krizek, false)
+            });
+        }
+
+        nacist()
+
+
+
+        $("#hrat").click(hrat)
+
+        function hrat() {
+            if (velikost == "" || velikost == null || velikost == undefined) {
+                velikost = parseInt($("#velikost").val())
+            }
+
+            velikostpole = velikost * velikost
+
+            $("#grid").css("grid-template-columns", "repeat(" + velikost + ", 55px)")
+
+            for (let i = 0; i < velikostpole; i++) {
+                $("#grid").append('<div class="cell" id="' + i + '" style="--i: ' + i + '"></div>')
+            }
+
+            $("#menu").slideUp(200, () => $("#grid").slideDown(200))
+        }
+
+
+
+        $(document).on("click", ".cell", hrac)
+
+        function hrac(policko) {
+            if (pole.length == velikostpole) {
+                konec()
+                return
+            }
+
+            var id = parseInt(policko.target.id)
+
+            if (pole.includes(id)) {
+                alert("ALREADY TAKEN")
+                return
+            }
+
+            umistiSymbol(id, kolecko)
+
+            if (pravidlo0_1(polehrac) == "vyhra" || pravidlo0_2(polehrac) == "vyhra" || pravidlo0_3(polehrac) == "vyhra" || pravidlo0_4(polehrac) == "vyhra") {
+                vyhra("Player")
+                return
+            }
+
+            NPC()
+        }
+
+        function NPC() {
+            if (pole.length == velikostpole) {
+                konec()
+                return
+            }
+
+            var i = -1
+            var y = -1
+
+            // ---------------------------------------
+            // čtveřice bota
+
+            i = pravidlo1_1(polebot)
+
+            // vodorovně 4
+            if (i != -1) {
+                console.log("našel jsem vodorovnou řadu 4 začínající " + i)
+
+                y = i + 4 // doprava
+                if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                    y = i - 1 // doleva
+                    if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                        poleobsV.push(i)
+                        i = -1
+                        console.log("nemůžu vodorovně 4")
+                    }
+                    else console.log("hraju doleva")
+                }
+                else console.log("hraju doprava")
+            }
+
+            // svisle 4
+            if (i == -1) {
+
+                i = pravidlo1_2(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem svislou řadu 4 začínající " + i)
+
+                    y = i + 4 * velikost // dolů
+                    if (pole.includes(y) || y >= velikostpole) {
+                        y = i - velikost // nahoru
+                        if (pole.includes(y) || y <= -1) {
+                            poleobsS.push(i)
+                            i = -1
+                            console.log("nemůžu svisle 4")
+                        }
+                        else console.log("hraju nahoru")
+                    }
+                    else console.log("hraju dolů")
+                }
+            }
+
+            // úhlopříčka doleva 4
+            if (i == -1) {
+
+                i = pravidlo1_3(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem úhlopříčku doleva 4 začínající " + i)
+
+                    y = i + 4 * (velikost - 1) // doleva dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 3) || i % velikost <= 3) {
+                        y = i - (velikost - 1) // doprava nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost >= (velikost - 1)) {
+                            poleobsL.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doleva 4")
+                        }
+                        else console.log("hraju doprava nahoru")
+                    }
+                    else console.log("hraju doleva dolů")
+                }
+            }
+
+            // úhlopříčka doprava 4
+            if (i == -1) {
+
+                i = pravidlo1_4(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem úhlopříčku doprava 4 začínající " + i)
+
+                    y = i + 4 * (velikost + 1) // doprava dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 3) || i % velikost >= (velikost - 4)) {
+                        y = i - (velikost + 1) // doleva nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost <= 0) {
+                            poleobsP.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doprava 4")
+                        }
+                        else console.log("hraju doleva nahoru")
+                    }
+                    else console.log("hraju doprava dolů")
+                }
+            }
+
+            // ---------------------------------------
+            // čtveřice hráče
+
+            // vodorovně 4
+            if (i = -1) {
+                i = pravidlo1_1(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho vodorovnou řadu 4 začínající " + i)
+
+                    y = i + 4 // doprava
+                    if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                        y = i - 1 // doleva
+                        if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                            poleobsV.push(i)
+                            i = -1
+                            console.log("nemůžu vodorovně 4")
+                        }
+                        else console.log("hraju doleva")
+                    }
+                    else console.log("hraju doprava")
+                }
+            }
+
+            // svisle 4
+            if (i == -1) {
+
+                i = pravidlo1_2(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho svislou řadu 4 začínající " + i)
+
+                    y = i + i * velikost // dolů
+                    if (pole.includes(y) || y >= velikostpole) {
+                        y = i - velikost // nahoru
+                        if (pole.includes(y) || y <= -1) {
+                            poleobsS.push(i)
+                            i = -1
+                            console.log("nemůžu svisle 4")
+                        }
+                        else console.log("hraju nahoru")
+                    }
+                    else console.log("hraju dolů")
+                }
+            }
+
+            // úhlopříčka doleva 4
+            if (i == -1) {
+
+                i = pravidlo1_3(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho úhlopříčku doleva 4 začínající " + i)
+
+                    y = i + 4 * (velikost - 1) // doleva dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 3) || i % velikost <= 3) {
+                        y = i - (velikost - 1) // doprava nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost >= (velikost - 1)) {
+                            poleobsL.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doleva 4")
+                        }
+                        else console.log("hraju doprava nahoru")
+                    }
+                    else console.log("hraju doleva dolů")
+                }
+            }
+
+            // úhlopříčka doprava 4
+            if (i == -1) {
+
+                i = pravidlo1_4(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho úhlopříčku doprava 4 začínající " + i)
+
+                    y = i + 4 * (velikost + 1) // doprava dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 3) || i % velikost >= (velikost - 4)) {
+                        y = i - (velikost + 1) // doleva nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost <= 0) {
+                            poleobsP.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doprava 4")
+                        }
+                        else console.log("hraju doleva nahoru")
+                    }
+                    else console.log("hraju doprava dolů")
+                }
+            }
+
+            // ---------------------------------------
+            // trojice hráče
+
+            // vodorovně 3
+            if (i == -1) {
+
+                i = pravidlo3_1(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho vodorovnou řadu 3 začínající " + i)
+
+                    y = i + 3 // doprava
+                    if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                        y = i - 1 // doleva
+                        if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                            poleobsV.push(i)
+                            i = -1
+                            console.log("nemůžu vodorovně 3")
+                        }
+                        else console.log("hraju doleva")
+                    }
+                    else console.log("hraju doprava")
+                }
+            }
+
+            // svisle 3
+            if (i == -1) {
+
+                i = pravidlo3_2(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho svislou řadu 3 začínající " + i)
+
+                    y = i + 3 * velikost // dolů
+                    if (pole.includes(y) || y >= velikostpole) {
+                        y = i - velikost // nahoru
+                        if (pole.includes(y) || y <= -1) {
+                            poleobsS.push(i)
+                            i = -1
+                            console.log("nemůžu svisle 3")
+                        }
+                        else console.log("hraju nahoru")
+                    }
+                    else console.log("hraju dolů")
+                }
+            }
+
+            // úhlopříčka doleva 3
+            if (i == -1) {
+
+                i = pravidlo3_3(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho úhlopříčku doleva 3 začínající " + i)
+
+                    y = i + 3 * (velikost - 1) // doleva dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 2) || i % velikost <= 3) {
+                        y = i - (velikost - 1) // doprava nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost >= (velikost - 1)) {
+                            poleobsL.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doleva 3")
+                        }
+                        else console.log("hraju doprava nahoru")
+                    }
+                    else console.log("hraju doleva dolů")
+                }
+            }
+
+            // úhlopříčka doprava 3
+            if (i == -1) {
+
+                i = pravidlo3_4(polehrac)
+
+                if (i != -1) {
+                    console.log("našel jsem jeho úhlopříčku doprava 3 začínající " + i)
+
+                    y = i + 3 * (velikost + 1) // doprava dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 2) || i % velikost >= (velikost - 3)) {
+                        y = i - (velikost + 1) // doleva nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost <= 0) {
+                            poleobsP.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doprava 3")
+                        }
+                        else console.log("hraju doleva nahoru")
+                    }
+                    else console.log("hraju doprava dolů")
+                }
+            }
+
+            // ---------------------------------------
+            // trojice bota
+
+            // vodorovně 3
+            if (i == -1) {
+
+                i = pravidlo3_1(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem vodorovnou řadu 3 začínající " + i)
+
+                    y = i + 3 // doprava
+                    if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                        y = i - 1 // doleva
+                        if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                            poleobsV.push(i)
+                            i = -1
+                            console.log("nemůžu vodorovně 3")
+                        }
+                        else console.log("hraju doleva")
+                    }
+                    else console.log("hraju doprava")
+                }
+            }
+
+            // svisle 3
+            if (i == -1) {
+
+                i = pravidlo3_2(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem svislou řadu 3 začínající " + i)
+
+                    y = i + 3 * velikost // dolů
+                    if (pole.includes(y) || y >= velikostpole) {
+                        y = i - velikost // nahoru
+                        if (pole.includes(y) || y <= -1) {
+                            poleobsS.push(i)
+                            i = -1
+                            console.log("nemůžu svisle 3")
+                        }
+                        else console.log("hraju nahoru")
+                    }
+                    else console.log("hraju dolů")
+                }
+            }
+
+            // úhlopříčka doleva 3
+            if (i == -1) {
+
+                i = pravidlo3_3(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem úhlopříčku doleva 3 začínající " + i)
+
+                    y = i + 3 * (velikost - 1) // doleva dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 2) || i % velikost <= 3) {
+                        y = i - (velikost - 1) // doprava nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost >= (velikost - 1)) {
+                            poleobsL.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doleva 3")
+                        }
+                        else console.log("hraju doprava nahoru")
+                    }
+                    else console.log("hraju doleva dolů")
+                }
+            }
+
+            // úhlopříčka doprava 3
+            if (i == -1) {
+
+                i = pravidlo3_4(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem úhlopříčku doprava 3 začínající " + i)
+
+                    y = i + 3 * (velikost + 1) // doprava dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 2) || i % velikost >= (velikost - 3)) {
+                        y = i - (velikost + 1) // doleva nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost <= 0) {
+                            poleobsP.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doprava 3")
+                        }
+                        else console.log("hraju doleva nahoru")
+                    }
+                    else console.log("hraju doprava dolů")
+                }
+            }
+
+            // ---------------------------------------
+            // dvojice bota
+
+            // vodorovně 2
+            if (i == -1) {
+
+                i = pravidlo5_1(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem vodorovnou řadu 2 začínající " + i)
+
+                    y = i + 2 // doprava
+                    if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                        y = i - 1 // doleva
+                        if (pole.includes(y) || Math.floor(i / velikost) != Math.floor(y / velikost)) {
+                            poleobsV.push(i)
+                            i = -1
+                            console.log("nemůžu vodorovně 2")
+                        }
+                        else console.log("hraju doleva")
+                    }
+                    else console.log("hraju doprava")
+                }
+            }
+
+            // svisle 2
+            if (i == -1) {
+
+                i = pravidlo5_2(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem svislou řadu 2 začínající " + i)
+
+                    y = i + 2 * velikost // dolů
+                    if (pole.includes(y) || y >= velikostpole) {
+                        y = i - velikost // nahoru
+                        if (pole.includes(y) || y <= -1) {
+                            poleobsS.push(i)
+                            i = -1
+                            console.log("nemůžu svisle 2")
+                        }
+                        else console.log("hraju nahoru")
+                    }
+                    else console.log("hraju dolů")
+                }
+            }
+
+            // úhlopříčka doleva 2
+            if (i == -1) {
+
+                i = pravidlo5_3(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem úhlopříčku doleva 2 začínající " + i)
+
+                    y = i + 2 * (velikost - 1) // doleva dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 1) || i % velikost <= 3) {
+                        y = i - (velikost - 1) // doprava nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost >= (velikost - 1)) {
+                            poleobsL.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doleva 2")
+                        }
+                        else console.log("hraju doprava nahoru")
+                    }
+                    else console.log("hraju doleva dolů")
+                }
+            }
+
+            // úhlopříčka doprava 2
+            if (i == -1) {
+
+                i = pravidlo5_4(polebot)
+
+                if (i != -1) {
+                    console.log("našel jsem úhlopříčku doprava 2 začínající " + i)
+
+                    y = i + 2 * (velikost + 1) // doprava dolů
+                    if (pole.includes(y) || Math.ceil(i / velikost) >= (velikost - 1) || i % velikost >= (velikost - 2)) {
+                        y = i - (velikost + 1) // doleva nahoru
+                        if (pole.includes(y) || Math.ceil(i / velikost) <= 1 || i % velikost <= 0) {
+                            poleobsP.push(i)
+                            i = -1
+                            console.log("nemůžu úhlopříčku doprava 2")
+                        }
+                        else console.log("hraju doleva nahoru")
+                    }
+                    else console.log("hraju doprava dolů")
+                }
+            }
+
+            // ---------------------------------------
+
+            // blízko mě
+            if (polebot.length >= 2) {
+                if (i == -1) {
+
+                    i = pravidlo6_1(polebot)
+
+                    if (i != -1) {
+                        var koeficient = Math.floor(Math.random() * 9) + 1
+                        while (pole.includes(i)) {
+                            if (i >= velikostpole) {
+                                koeficient = -koeficient
+                            }
+                            i = i + koeficient
+                        }
+
+                        y = i
+                        console.log("hraju blízko mě na pozici " + y)
+                    }
+                }
+            }
+
+            // random hra
+            if (i == -1) {
+                var random = Math.floor(Math.random() * velikostpole)
+                while (pole.includes(random)) {
+                    random = Math.floor(Math.random() * velikostpole)
+                }
+
+                y = random
+                console.log("hraju random na pozici " + y)
+            }
+
+            umistiSymbol(y, krizek)
+
+            if (pravidlo0_1(polebot) == "vyhra" || pravidlo0_2(polebot) == "vyhra" || pravidlo0_3(polebot) == "vyhra" || pravidlo0_4(polebot) == "vyhra") {
+                vyhra("NPC")
+                return
+            }
+
+            console.log("---------------------------------------")
+        }
+
+
+
+        function konec() {
+            alert("Game Over")
+            $(document).off("click", ".cell", hrac)
+        }
+
+        function vyhra(who) {
+            alert("The Winner Is " + who)
+            $(document).off("click", ".cell", hrac)
+
+            // TO DO: vyresetovat cookies, aby při přenačtení nastala další hra
+            localStorage.clear();
+        }
+
+        function pravidlo0_1(pole) {
+            console.log("zkouším detekovat vodorovnou výhru")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 1) &&
+                    set.has(x + 2) &&
+                    set.has(x + 3) &&
+                    set.has(x + 4) //&&
+                    //!poleobsV.includes(x)
+                ) {
+                    if (Math.floor(x / velikost) == Math.floor((x + 4) / velikost))
+                        return "vyhra";
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo0_2(pole) {
+            console.log("zkouším detekovat svislou výhru")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 11) &&
+                    set.has(x + 22) &&
+                    set.has(x + 33) &&
+                    set.has(x + 44) //&&
+                    //!poleobsS.includes(x)
+                ) {
+                    return "vyhra";
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo0_3(pole) {
+            console.log("zkouším detekovat úhlopříčku doleva výhru")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 10) &&
+                    set.has(x + 20) &&
+                    set.has(x + 30) &&
+                    set.has(x + 40) //&&
+                    //!poleobsL.includes(x)
+                ) {
+                    return "vyhra";
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo0_4(pole) {
+            console.log("zkouším detekovat úhlopříčku doprava výhru")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 12) &&
+                    set.has(x + 24) &&
+                    set.has(x + 36) &&
+                    set.has(x + 48) //&&
+                    //!poleobsP.includes(x)
+                ) {
+                    return "vyhra";
+                }
+            }
+            return -1;
+        }
+
+
+
+        function pravidlo1_1(pole) {
+            console.log("zkouším detekovat vodorovnou řadu 4")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 1) &&
+                    set.has(x + 2) &&
+                    set.has(x + 3) &&
+                    !poleobsV.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo1_2(pole) {
+            console.log("zkouším detekovat svislou řadu 4")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 11) &&
+                    set.has(x + 22) &&
+                    set.has(x + 33) &&
+                    !poleobsS.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo1_3(pole) {
+            console.log("zkouším detekovat úhlopříčku doleva 4")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 10) &&
+                    set.has(x + 20) &&
+                    set.has(x + 30) &&
+                    !poleobsL.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo1_4(pole) {
+            console.log("zkouším detekovat úhlopříčku doprava 4")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 12) &&
+                    set.has(x + 24) &&
+                    set.has(x + 36) &&
+                    !poleobsP.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo3_1(pole) {
+            console.log("zkouším detekovat vodorovnou řadu 3")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 1) &&
+                    set.has(x + 2) &&
+                    !poleobsV.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo3_2(pole) {
+            console.log("zkouším detekovat svislou řadu 3")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 11) &&
+                    set.has(x + 22) &&
+                    !poleobsS.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo3_3(pole) {
+            console.log("zkouším detekovat úhlopříčku doleva 3")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 10) &&
+                    set.has(x + 20) &&
+                    !poleobsL.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo3_4(pole) {
+            console.log("zkouším detekovat úhlopříčku doprava 3")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 12) &&
+                    set.has(x + 24) &&
+                    !poleobsP.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo5_1(pole) {
+            console.log("zkouším detekovat vodorovnou řadu 2")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 1) &&
+                    !poleobsV.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo5_2(pole) {
+            console.log("zkouším detekovat svislou řadu 2")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 11) &&
+                    !poleobsS.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo5_3(pole) {
+            console.log("zkouším detekovat úhlopříčku doleva 2")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 10) &&
+                    !poleobsL.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo5_4(pole) {
+            console.log("zkouším detekovat úhlopříčku doprava 2")
+
+            const s = [...new Set(pole)];
+            const set = new Set(s);
+
+            for (const x of s) {
+                if (
+                    set.has(x + 12) &&
+                    !poleobsP.includes(x)
+                ) {
+                    return x;
+                }
+            }
+            return -1;
+        }
+
+        function pravidlo6_1(pole) {
+            console.log("počítám průměr mých polí")
+
+            const average = pole.reduce((sum, value) => sum + value, 0) / pole.length;
+            return Math.floor(average)
+        }
+
+
+
+        function umistiSymbol(id, symbol, ulozeni = true) {
+            $("#" + id + "").text(symbol)
+            pole.push(id)
+            
+            if (ulozeni == true) {
+                if (symbol == kolecko) {
+                    polehrac.push(id)
+                    polehrac.sort((a, b) => a - b)
+                }
+                else {
+                    polebot.push(id)
+                    polebot.sort((a, b) => a - b)
+                }
+                ulozit()
+            }
+        }
+
+
+
+        function ulozit() {
+            localStorage.setItem('polehrac', JSON.stringify(polehrac));
+            localStorage.setItem('polebot', JSON.stringify(polebot));
+            localStorage.setItem('velikost', JSON.stringify(velikost));
+        }
+    </script>
+</body>
+
+</html>

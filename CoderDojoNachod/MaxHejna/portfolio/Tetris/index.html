@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+
+    <style>
+        img {
+            display: none
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+
+<body>
+    <canvas id="canvas" width="300" height="600"></canvas>
+
+    <h3 id="score"></h3>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var platno = document.getElementById("canvas");
+        var kresleni = platno.getContext("2d");
+
+        // padající kostka (objekt: x, y, velikost, barva)
+        var kostka = novaKostka();
+        var velikost = 50;
+
+        // pole obsahující všechny kostky
+        var kostky = [];
+
+
+
+        $("*").keydown(function (e) {
+            switch (e.which) {
+
+                // šipka doleva
+                case 37:
+                    if (kostka.x > 0) {
+                        kostka.x -= 10;
+                    }
+                    break;
+
+                // šipka doprava
+                case 39:
+                    if (kostka.x < platno.width - kostka.size) {
+                        kostka.x += 10;
+                    }
+                    break;
+            }
+
+            prekresleni();
+        });
+
+
+
+        var body = 0;
+        animace();
+
+
+
+        function animace() {
+            if (!protinajiSe() && kostka.y < platno.height - kostka.size) {
+                // padání kostky
+                kostka.y += 10;
+
+            } else {
+                if (kostka.y <= 10 && kostky.length > 0) {
+                    return
+                }
+
+                if (kostky.length > 0) {
+                    body += 10;
+                    $("#score").text("Vaše score: " + body + "");
+                }
+                
+                kostky.push(kostka);  // přidání do pole všech kostek
+                kostka = novaKostka();  // vygenerování nové kostky
+            }
+
+            prekresleni();
+            setTimeout(animace, 30);
+        }
+
+
+
+        function prekresleni() {
+            kresleni.clearRect(0, 0, platno.width, platno.height);
+
+            // zobrazení všech ostatních kostek
+            kostky.forEach(function (b) {
+                kresleni.fillStyle = b.color;
+                kresleni.fillRect(b.x, b.y, b.size, b.size);
+            });
+
+            // zobrazení padající kostky
+            kresleni.fillStyle = kostka.color;
+            kresleni.fillRect(kostka.x, kostka.y, kostka.size, kostka.size);
+        }
+
+
+
+        // pomocná funkce pro detekci průniku kostek (obdélníků)
+        function protinajiSe() {
+            for (var i = 0; i < kostky.length; i++) {
+                var b = kostky[i];
+                if (
+                    kostka.x < b.x + b.size &&
+                    kostka.x + kostka.size > b.x &&
+                    kostka.y + kostka.size > b.y &&
+                    kostka.y < b.y + b.size
+                ) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+
+        // pomocná funkce pro vygenerování nové kostky
+        function novaKostka() {
+            return {
+                x: Math.floor(Math.random() * (platno.width / velikost)) * velikost,  // náhodná pozice na šířce plátna
+                y: 0,  // startovací pozice nahoře
+                size: velikost,
+                color: nahodnaBarva()
+            };
+        }
+
+
+
+        // pomocná funkce pro vygenerování náhodné barvy (kostky)
+        function nahodnaBarva() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+    </script>
+
+</body>
+
+</html>

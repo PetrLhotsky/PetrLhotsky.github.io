@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Snake - CoderDojo Náchod</title>
+<style>
+h1 {
+font-family: 'Arial';
+}
+img {
+display: none;
+}
+canvas {
+border: 5px solid black;
+}
+body>div {
+display: none !important;
+}
+</style>
+</head>
+<body>
+<img src="snake.png" id="hlava">
+<img src="snake-a.png" id="jablko">
+<img src="snake-m.png" id="meloun">
+<img src="snake-v.png" id="vino">
+<canvas width="500" height="500" id="pl"></canvas>
+<h1 id="skore"></h1>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+<script>
+var platno = $("#pl")[0];
+var kresleni = platno.getContext("2d");
+kresleni.fillStyle="green";
+var hlava = $("#hlava")[0];
+var jablko = $("#jablko")[0];
+var meloun = $("#meloun")[0];
+var vino = $("#vino")[0];
+var x = 100;
+var y = 100;
+var zmenax = 5;
+var zmenay = 0;
+var ovoce = 0;
+var jidlox = 250;
+var jidloy = 250;
+var skore = 0;
+var ocas = [];
+
+setInterval(function(){
+kresleni.clearRect(0,0,500,500)
+x=x+zmenax
+y=y+zmenay
+if(x>450) x=0
+if(x<0) x=450
+if(y>450) y=0
+if(y<0) y=450
+kresleni.drawImage(hlava,x,y)
+
+if(ovoce==0) kresleni.drawImage(jablko,jidlox,jidloy)
+if(ovoce==1) kresleni.drawImage(vino,jidlox,jidloy)
+if(ovoce==2) kresleni.drawImage(meloun,jidlox,jidloy)
+if(x<jidlox+50&&x+50>jidlox&&y<jidloy+50&&y+50>jidloy)
+{
+ocas.push({x:0,y:0})
+skore=skore+1
+jidlox=Math.random()*450
+jidloy=Math.random()*450
+$("#skore").text(skore)
+ovoce=parseInt(Math.random()*3)
+}
+for(var m=ocas.length-1;m>=0;m--){
+if(m==0){
+ocas[m]={x:x-10*zmenax,y:y-10*zmenay}
+}
+else{
+ocas[m].x=ocas[m-1].x-10*zmenax;
+ocas[m].y=ocas[m-1].y-10*zmenay;
+}
+kresleni.fillRect(ocas[m].x,ocas[m].y,50,50)
+}
+},25)
+$("*").keydown(function(e) {
+switch (e.which) {
+case 38: zmenax = 0; zmenay = -5; break;
+case 39: zmenax = 5; zmenay = 0; break;
+case 40: zmenax = 0; zmenay = 5; break;
+case 37: zmenax = -5; zmenay = 0; break;
+}
+});
+</script>
+</body>
+</html>

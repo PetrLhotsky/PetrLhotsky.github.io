@@ -1,0 +1,204 @@
+* {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    --bg-color: #66ccff;
+}
+
+@keyframes bg-color {
+    from { background-color: white; }
+    to { background-color: var(--bg-color); }
+}
+
+@keyframes zoom-in {
+    from { font-size: 20px; }
+    to { font-size: 40px; }
+}
+
+@keyframes color {
+    from { color: white; }
+    to { color: black; }
+}
+
+body {
+    animation: bg-color 1s;
+    background-color: var(--bg-color);
+
+    padding: 20px;
+    margin: 0;
+    margin-top: 20px;
+}
+
+h1 {
+    animation: zoom-in 1s;
+    font-size: 40px;
+
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+#intro {
+    animation: color 1s;
+    color: black;
+    font-size: 20px;
+
+    margin: 0;
+    margin-bottom: 40px;
+}
+
+.row {
+    overflow: auto;
+}
+
+.column {
+    float: left;
+}
+
+.center {
+    max-width: 920px;
+
+    margin: 0 auto;
+}
+
+#score .column {
+    width: calc(25% - 20px);
+    background-color: white;
+    border-radius: 20px;
+
+    margin: 0 5px;
+    padding: 20px 5px;
+}
+
+.description, .value {
+    display: block;
+    width: 100%;
+}
+
+.description {
+    font-size: 16px;
+    font-style: italic;
+
+    margin-bottom: 10px;
+}
+
+.value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#progress {
+    height: 20px;
+    background-color: white;
+    border-radius: 20px;
+
+    margin-top: 20px;
+}
+
+#completed {
+    height: 20px;
+    background-color: greenyellow;
+}
+
+#story {
+    height: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    
+    margin: 0;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.button {
+    display: inline-block;
+    background-color: white;
+    border-radius: 20px;
+    transition: background-color 1s;
+    cursor: pointer;
+
+    padding: 20px 20px;
+}
+
+.button:hover {
+    background-color: lightgray;
+}
+
+#back {
+    float: left;
+}
+
+#forw {
+    float: right;
+}
+
+#task {
+    background-color: white;
+    border-radius: 20px;
+    box-sizing: border-box;
+
+    margin-top: 40px;
+    padding: 20px;
+}
+
+#icon {
+    display: block;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+#task .column:nth-child(2) {
+    width: calc(100% - 200px);
+    height: 200px;
+}
+
+h2 {
+    font-size: 30px;
+
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.dot {
+    height: 30px;
+}
+
+#current {
+    line-height: 120%;
+    font-size: 16px;
+    
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+#gamee {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+}
+
+#code, #enter {
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 20px;
+
+    margin-top: 20px;
+    padding: 10px 20px;
+}
+
+#code {
+    width: 300px;
+}
+
+#enter {
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 1s;
+}
+
+#enter:hover {
+    background-color: lightgray;
+}

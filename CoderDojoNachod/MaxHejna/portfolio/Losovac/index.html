@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pole - čísla</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1 id="text"></h1>
+        <input type="text" id="jmeno">
+        <input type="button" id="potvrdit" value="potvrdit">
+        <input type="button" id="losovat" value="losovat">
+
+        <h1 id="a"></h1>
+        <h1 id="b"></h1>
+        <h1 id="c"></h1>
+        
+        <script>
+            var pole = [2, 4, 6, 8, 10]
+            //alert(pole[2])
+
+            var seznam = []
+
+            $("#potvrdit").click(function() {
+                var text = $("#jmeno").val()
+                seznam.push(text)
+            })
+
+            $("#losovat").click(function() {
+                if (seznam.length > 3) {
+                    var cislo = Math.floor(Math.random() * seznam.length)
+                    
+                    var cislo123
+                    var cislo123456
+
+                    do {
+                        cislo123 = Math.floor(Math.random() * seznam.length)
+                    } while (cislo123 == cislo)
+
+                    do {
+                        cislo123456 = Math.floor(Math.random() * seznam.length)
+                    } while (cislo123456 == cislo || cislo123456 == cislo123)
+
+                    $("#a").text(seznam[cislo])
+                    $("#b").text(seznam[cislo123])
+                    $("#c").text(seznam[cislo123456])
+                }
+                else {
+                    alert("musíte zadat alespoň čtyři jména")
+                }
+            })
+            
+            // úkol: vylosovat 3 neopakující se náhodná jména
+                // uživatel zadá alespoň 4, z nich se vyberou 3
+        </script>
+    </body>
+</html>

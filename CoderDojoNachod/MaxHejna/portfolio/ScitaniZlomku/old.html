@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pole - čísla</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1 id="vsechno"></h1>
+        <h1 id="vysledek"></h1>
+        <input type="number" id="citatel">
+        <input type="number" id="jmenovatel">
+        <input type="button" id="potvrdit" value="potvrdit">
+        
+        <script>
+        var pole = []
+        var soucet = 0
+        var text    
+        var nasobek
+        var vysledek
+        var predposledni
+        var posledni
+        $("#potvrdit").click(function() {
+                text = ""
+                soucet = 0
+                var citatel = $("#citatel").val()
+                /////////////////////////////////////////////////////$("#znamky").text("Známky: "+seznam)
+                var jmenovatel = $("#jmenovatel").val()
+                /////////////////////////////////////////////////////$("#znamky").text("Známky: "+seznam)
+                var zlomek = {}
+                nasobek = 1
+                vysledek = 0
+                predposledni = 1
+                posledni = 0
+                zlomek.citatel=citatel
+                zlomek.jmenovatel=jmenovatel
+                pole.push(zlomek)
+                pole.forEach(function(x){
+                text=text+(x.citatel+"/"+x.jmenovatel)+"                                                                                        + "
+                nasobek=nasobek*x.jmenovatel
+                })
+                pole.forEach(function(x){
+                vysledek=nasobek/x.jmenovatel
+                predposledni=x.citatel*vysledek
+                posledni=posledni+predposledni
+                })
+                $("#vsechno").text(text)
+                var nejmensi=0
+                if(posledni<nasobek){
+                nejmensi=posledni
+                }
+                else{
+                nejmensi=nasobek
+                }
+                nejmensi=nejmensi+1
+                do {
+                nejmensi=nejmensi-1
+                }
+                while(posledni%nejmensi>0||nasobek%nejmensi>0)
+                posledni=posledni/nejmensi
+                nasobek=nasobek/nejmensi
+                $("#vysledek").text("Výsledek: "+posledni+"/"+nasobek)
+                })
+                
+
+            // zadání: aplikace na sčítání a odčítání zlomků
+                // zlomky bude potřeba ukládat do pole
+                // každý se skládá z dvou částí - čitatele a jmenovatele
+        </script>
+    </body>
+</html>

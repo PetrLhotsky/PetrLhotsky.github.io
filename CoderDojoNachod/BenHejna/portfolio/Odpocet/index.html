@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odpočet</title>
+</head>
+<body>
+    <h1 id="odpocet"></h1>
+    <input type="number" id="cislo">
+    <input type="button" id="start" value="start">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var cislo, casovac;
+
+        $("#start").click(function() {
+            cislo = $("#cislo").val();
+            $("#odpocet").text(cislo);
+
+            casovac = setInterval(ted, 1000);
+            $("#start").hide();
+        });
+
+        function ted() {
+            if (cislo > 0) {
+                cislo = cislo - 1;
+                $("#odpocet").text(cislo);
+            }
+
+            else {
+                clearInterval(casovac);
+                $("#start").show();
+            }
+        }
+    </script>
+</html>
+</body>

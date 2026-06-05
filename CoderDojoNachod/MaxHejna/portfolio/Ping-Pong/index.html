@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Ping-Pong - CoderDojo Náchod</title>
+        
+        <style>
+            body {
+                font-family: 'Arial';
+            }
+            .skore {
+                overflow: auto;
+                width: 1010px;
+                margin: 0 auto;
+            }
+            h1 {
+                width: 505px;
+                float: left;
+            }
+            #skore2 {
+                text-align: right;
+            }
+            canvas {
+                border: 5px solid black;
+                display: block;
+                width: 1000px;
+                margin: 0 auto;
+            }
+            h2 {
+                text-align: center;
+            }
+            div:last-child {
+                display: none;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="skore">
+            <h1 id="skore1">0</h1>
+            <h1 id="skore2">0</h1>
+        </div>
+        
+        <canvas width="1000" height="500" id="pl"></canvas>
+        
+        <h2>ovládání: hráč vlevo – klávesy W/S, hráč vpravo – šipky nahoru/dolů, další hra – mezerník</h2>
+        
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+        <script>
+            var platno = $("#pl")[0];
+            var kresleni = platno.getContext("2d");
+            
+            var plosina1 = {
+                delka: 100,
+                poziceX: 10,
+                poziceY: 200,
+                sirka: 10,
+                barva: "#000"
+            };
+            
+            var plosina2 = {
+                delka: 100,
+                poziceX: 980,
+                poziceY: 200,
+                sirka: 10,
+                barva: "#000"
+            };
+            
+            var balon = {
+                poziceX: 500,
+                poziceY: 250,
+                stupne: 0,
+                polomer: 20,
+                smerX: 0,
+                smerY: 0
+            };
+            
+            var skore1 = 0;
+            var skore2 = 0;
+            var stisknuto = false;
+            
+            kresleni.fillRect(plosina1.poziceX, plosina1.poziceY, plosina1.sirka, plosina1.delka);
+            kresleni.fillRect(plosina2.poziceX, plosina2.poziceY, plosina2.sirka, plosina2.delka);
+            kresleni.arc(balon.poziceX, balon.poziceY, balon.polomer, 0, 2 * Math.PI);
+            kresleni.fill();
+            
+            $("*").keyup(function(e) {
+                if (e.which != 32) return;
+                
+                if (stisknuto) return;
+                
+                stisknuto = true;
+                plosina1.poziceY = plosina2.poziceY = 200;
+                balon.poziceX = 500;
+                balon.poziceY = 250;
+                balon.stupne = Math.random() * 30 + 30;
+                balon.smerX = Math.random();
+                balon.smerY = Math.random();
+                if (plosina1.delka > 30) plosina1.delka = plosina1.delka - 10;
+                if (plosina2.delka > 30) plosina2.delka = plosina2.delka - 10;
+                
+                var casovac = setInterval(function() {
+                    
+                    kresleni.clearRect(0, 0, 1000, 500);
+                    
+                    kresleni.fillStyle = plosina1.barva;
+                    kresleni.fillRect(plosina1.poziceX, plosina1.poziceY, plosina1.sirka, plosina1.delka);
+                    kresleni.fillStyle = plosina2.barva;
+                    kresleni.fillRect(plosina2.poziceX, plosina2.poziceY, plosina2.sirka, plosina2.delka);
+                    kresleni.fillStyle = "#000";
+                    
+                    var vypocetX = Math.sin(Math.PI * (90 - balon.stupne) / 180);
+                    var vypocetY = Math.sin(Math.PI * balon.stupne / 180);
+                    
+                    if (balon.smerX <= 0.5)
+                    {
+                        balon.poziceX -= vypocetX;
+                    }
+                    else
+                    {
+                        balon.poziceX += vypocetX;
+                    }
+                    
+                    if (balon.smerY <= 0.5)
+                    {
+                        balon.poziceY -= vypocetY;
+                    }
+                    else
+                    {
+                        balon.poziceY += vypocetY;
+                    }
+                    
+                    if (balon.poziceY < balon.polomer)
+                    {
+                        balon.smerY = 1;
+                    }
+                    if (balon.poziceY > 500 - balon.polomer)
+                    {
+                        balon.smerY = 0;
+                    }
+                    if (balon.poziceX < 10 + balon.polomer)
+                    {
+                        if (balon.poziceY + balon.polomer / 2 >= plosina1.poziceY && balon.poziceY - balon.polomer / 2 <= plosina1.poziceY + plosina1.delka)
+                        {
+                            balon.smerX = 1;
+                        }
+                        else if (balon.poziceX < balon.polomer)
+                        {
+                            clearInterval(casovac);
+                            alert("Vyhrává hráč 2");
+                            skore2++;
+                            $("#skore2").text(skore2);
+                            stisknuto = false;
+                        }
+                    }
+                    if (balon.poziceX > 990 - balon.polomer)
+                    {
+                        if (balon.poziceY + balon.polomer / 2 >= plosina2.poziceY && balon.poziceY - balon.polomer / 2 <= plosina2.poziceY + plosina2.delka)
+                        {
+                            balon.smerX = 0;
+                        }
+                        else if (balon.poziceX > 1000 - balon.polomer)
+                        {
+                            clearInterval(casovac);
+                            alert("Vyhrává hráč 1");
+                            skore1++;
+                            $("#skore1").text(skore1);
+                            stisknuto = false;
+                        }
+                    }
+
+                    kresleni.beginPath();
+                    kresleni.arc(balon.poziceX, balon.poziceY, balon.polomer, 0, 2 * Math.PI);
+                    kresleni.fill();
+                    
+                    if (balon.smerX <= 0.5)
+                    {
+                        plosina1.barva = "#f00";
+                        plosina2.barva = "#000";
+                    }
+                    else
+                    {
+                        plosina1.barva = "#000";
+                        plosina2.barva = "#f00";
+                    }
+                    
+                }, 1);   
+            });
+            
+            $("*").keydown(function(e) {
+                switch (e.which) {
+                    case 83:
+                        plosina1.poziceY += 10;
+                        break;
+                    case 87:
+                        plosina1.poziceY -= 10;
+                        break;
+                        
+                    case 38:
+                        plosina2.poziceY -= 10;
+                        break;
+                    case 40:
+                        plosina2.poziceY += 10;
+                        break;
+                }
+            });
+        </script>
+    </body>
+</html>

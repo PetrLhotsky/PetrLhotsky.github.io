@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Úkolníček</title>
+<style>
+h1{
+color: hwb(131 0% 0%);
+}
+body{background-color: rgb(17, 34, 193);}
+div{
+background-color: aqua;
+width: 300px;
+height: 300px;
+float: left;
+margin-right: 10px;
+margin-bottom: 10px;
+color: rgba(25, 0, 255, 0.508);
+}
+h2{
+text-align: center;
+}
+</style>
+<body>
+<h1>Úkolníček</h1>
+<div><h2>ČJ</h2>
+<input type="text" id="NOVYUKOLCJ">
+<input type="button" value="POTVRDIT ÚKOL" id="POTVRDITUKOLCJ">
+<ul id="UKOLYCJ"></ul>
+</div>
+<div><h2>M</h2><input type="text" id="NOVYUKOLM">
+<input type="button" value="POTVRDIT ÚKOL" id="POTVRDITUKOLM">
+<ul id="UKOLYM"></ul></div>
+<div><h2>AJ</h2><input type="text" id="NOVYUKOLAJ">
+<input type="button" value="POTVRDIT ÚKOL" id="POTVRDITUKOLAJ">
+<ul id="UKOLYAJ"></ul></div>
+<div><h2>HV A VV</h2><input type="text" id="NOVYUKOLHVAVV">
+<input type="button" value="POTVRDIT ÚKOL" id="POTVRDITUKOLHVAVV">
+<ul id="UKOLYHVAVV"></ul></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$("#POTVRDITUKOLCJ").click(function() {
+var NOVYUKOL= $("#NOVYUKOLCJ").val()
+if(NOVYUKOL!="")
+var UKOLY= $("#UKOLYCJ").append("<li>"+NOVYUKOL+"</li>")
+$("#NOVYUKOLCJ").val("")
+})
+
+$("#POTVRDITUKOLM").click(function() {
+var NOVYUKOL= $("#NOVYUKOLM").val()
+if(NOVYUKOL!="")
+var UKOLY= $("#UKOLYM").append("<li>"+NOVYUKOL+"</li>")
+$("#NOVYUKOLM").val("")
+})
+
+$("#POTVRDITUKOLAJ").click(function() {
+var NOVYUKOL= $("#NOVYUKOLAJ").val()
+if(NOVYUKOL!="")
+var UKOLY= $("#UKOLYAJ").append("<li>"+NOVYUKOL+"</li>")
+$("#NOVYUKOLAJ").val("")
+})
+
+$("#POTVRDITUKOLHVAVV").click(function() {
+var NOVYUKOL= $("#NOVYUKOLHVAVV").val()
+if(NOVYUKOL!="")
+var UKOLY= $("#UKOLYHVAVV").append("<li>"+NOVYUKOL+"</li>")
+$("#NOVYUKOLHVAVV").val("")
+})
+</script>
+</body>
+</html>

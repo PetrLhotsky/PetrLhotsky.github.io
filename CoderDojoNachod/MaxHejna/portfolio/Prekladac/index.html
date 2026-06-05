@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="cs">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Překladač</title>
+
+        <style>
+
+            
+
+            body
+
+            {
+
+                transition: background-color 0.5s;
+
+                background-image: url(prekladacpozadi.jpg);
+
+            }
+
+                #policko {
+
+                /*margin-left: 10px; /* Posune rámeček doprava o 10px */
+
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+
+                margin-top: -150px; /* Posune rámeček dolů o 20px */
+
+                font-size: 32px; /* Zvětší velikost písma */
+
+                background-color: #ef0000; /* Nastaví pozadí pole */
+
+            }
+
+            #potvrdit {
+
+                /*margin-left: 20px; /* Posune rámeček doprava o 10px */
+
+                height: 100px; /* Zvětší výšku rámečku o 50px */
+
+                margin-top: 150px; /* Posune rámeček dolů o 150px */
+
+                height: 50px; /* Zvětší výšku polí */
+
+                background-color: #0e921c; /* Nastaví pozadí pole */
+
+                font-size: 32px; /* Zvětší velikost písma */
+
+                border: 4px solid #3cff00; /* Přidá obrys tlačítka */
+
+                color: white; /* Nastaví barvu textu tlačítka na bílou */
+
+                cursor: pointer; /* Změní kurzor na ukazatel při najetí myší */
+
+    }
+
+    h1 {
+        background-color: white;
+    }
+
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    </head>
+
+    <body>
+
+        <input type="button" id="potvrdit" value="Potvrdit">
+
+        <input type="text" id="policko">
+
+        <h1 id="vysledek"></h1>
+
+        <script src="slovnik.js"></script>
+
+        <script>
+
+            var slova = slovnik
+
+            var pole = []
+
+
+            $("#potvrdit").click(function() {
+
+                pole = []
+
+                var konec = $("#policko").val()
+
+                slova.forEach(function(x) {
+
+                if (x.Cesky == konec) {
+
+                pole.push(x.Anglicky)
+
+                
+
+                }
+
+                if (x.Anglicky == konec) {
+
+                pole.push(x.Cesky)
+
+                
+
+                }
+
+            })
+
+            $("#vysledek").text("Váš překlad: "+pole+"")
+
+            })
+
+
+        </script>
+
+    </body>
+
+</html>

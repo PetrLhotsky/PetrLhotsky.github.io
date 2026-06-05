@@ -1,0 +1,125 @@
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pole - čísla</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    </head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Posunutí a zvětšení rámečku</title>
+        <style>
+                #vysledek {
+                margin-left: 20px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                height: 50px; /* Zvětší výšku polí */
+                background-color: #4668ac; /* Nastaví pozadí pole */
+                font-size: 34px; /* Zvětší velikost písma */
+                border: 4px solid #0400ff; /* Přidá obrys tlačítka */
+                color: white; /* Nastaví barvu textu tlačítka na bílou */
+            }
+            
+            
+            
+            
+            #citatel {
+                margin-left: 150px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                font-size: 32px; /* Zvětší velikost písma */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                background-color: #0070ef; /* Nastaví pozadí pole */
+
+            }
+            #jmenovatel {
+                margin-left: 10px; /* Posune rámeček doprava o 10px */
+                height: 50px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                font-size: 32px; /* Zvětší velikost písma */
+                background-color: #ef0000; /* Nastaví pozadí pole */
+            }
+            #potvrdit {
+                margin-left: 20px; /* Posune rámeček doprava o 10px */
+                height: 100px; /* Zvětší výšku rámečku o 50px */
+                margin-top: 150px; /* Posune rámeček dolů o 20px */
+                height: 50px; /* Zvětší výšku polí */
+                background-color: #0e921c; /* Nastaví pozadí pole */
+                font-size: 32px; /* Zvětší velikost písma */
+                border: 4px solid #3cff00; /* Přidá obrys tlačítka */
+                color: white; /* Nastaví barvu textu tlačítka na bílou */
+                cursor: pointer; /* Změní kurzor na ukazatel při najetí myší */
+    }
+        </style>
+        </head>
+        
+    <body>
+        <style>
+            body
+                        {
+                transition: background-color 0.5s;
+                background-image: url(zlomkypozadi.jpg);
+            }
+        </style>
+        <h1 id="vsechno"></h1>
+        <h1 id="vysledek"></h1>
+        <input type="number" id="citatel">
+        <input type="number" id="jmenovatel">
+        <input type="button" id="potvrdit" value="potvrdit">
+        
+        <script>
+        var pole = []
+        var soucet = 0
+        var text    
+        var nasobek
+        var vysledek
+        var predposledni
+        var posledni
+        $("#potvrdit").click(function() {
+                text = ""
+                soucet = 0
+                var citatel = $("#citatel").val()
+                /////////////////////////////////////////////////////$("#znamky").text("Známky: "+seznam)
+                var jmenovatel = $("#jmenovatel").val()
+                /////////////////////////////////////////////////////$("#znamky").text("Známky: "+seznam)
+                var zlomek = {}
+                nasobek = 1
+                vysledek = 0
+                predposledni = 1
+                posledni = 0
+                zlomek.citatel=citatel
+                zlomek.jmenovatel=jmenovatel
+                pole.push(zlomek)
+                pole.forEach(function(x){
+                text=text+(x.citatel+"/"+x.jmenovatel)+"                                                                                        + "
+                nasobek=nasobek*x.jmenovatel
+                })
+                pole.forEach(function(x){
+                vysledek=nasobek/x.jmenovatel
+                predposledni=x.citatel*vysledek
+                posledni=posledni+predposledni
+                })
+                $("#vsechno").text(text)
+                var nejmensi=0
+                if(posledni<nasobek){
+                nejmensi=posledni
+                }
+                else{
+                nejmensi=nasobek
+                }
+                nejmensi=nejmensi+1
+                do {
+                nejmensi=nejmensi-1
+                }
+                while(posledni%nejmensi>0||nasobek%nejmensi>0)
+                posledni=posledni/nejmensi
+                nasobek=nasobek/nejmensi
+                $("#vysledek").text("Výsledek: "+posledni+"/"+nasobek)
+                })
+                
+
+            // zadání: aplikace na sčítání a odčítání zlomků
+                // zlomky bude potřeba ukládat do pole
+                // každý se skládá z dvou částí - čitatele a jmenovatele
+        </script>
+        </html>

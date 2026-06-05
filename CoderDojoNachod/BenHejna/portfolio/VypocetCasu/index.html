@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Výpočet dokončeného a zbývajícího času 🕛🎁⚽</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #f0f8ff, #e0f7fa);
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #004d40;
+            background-color: #a7ffeb;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #00796b;
+            margin-top: 30px;
+        }
+
+        div {
+            margin: 15px auto;
+            padding: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid #80cbc4;
+            border-radius: 10px;
+            width: 150px;
+            text-align: center;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #26a69a;
+            box-shadow: 0 0 8px #26a69a;
+        }
+
+        button {
+            background-color: #26a69a;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #00796b;
+            transform: scale(1.05);
+        }
+
+        #celkem,
+        #hotovo,
+        #zbyva {
+            background-color: #e0f2f1;
+            border-radius: 10px;
+            margin: 10px auto;
+            width: 250px;
+            padding: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* "Reklamní" banner */
+        .reklama {
+            margin-top: 40px;
+            background: linear-gradient(90deg, #ffe082, #fff176);
+            border: 2px dashed #ffb300;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #795548;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+            animation: blikani 2s infinite alternate;
+        }
+
+        @keyframes blikani {
+            0% {
+                background: #fff59d;
+            }
+
+            100% {
+                background: #ffe082;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h2>Výpočet dokončeného a zbývajícího času</h2>
+
+    <h3>Zadání</h3>
+
+    <div>
+        Počáteční čas:
+        <input type="number" min="0" max="59" id="zacatekcasminuty" placeholder="Minuty">
+        <input type="number" min="0" max="23" id="zacatekcashodiny" placeholder="Hodiny">
+    </div>
+
+    <div>
+        Koncový čas:
+        <input type="number" min="0" max="59" id="koneccasminuty" placeholder="Minuty">
+        <input type="number" min="0" max="23" id="koneccashodiny" placeholder="Hodiny">
+    </div>
+
+    <div>
+        Procento splnění:
+        <input type="number" min="0" max="100" id="procenta" placeholder="Kolik máš procent">
+    </div>
+
+    <div>
+        <button id="start">Start</button>
+    </div>
+
+    <h3>Jak seš na tom</h3>
+    <p id="celkem"></p>
+    <p id="hotovo"></p>
+    <p id="zbyva"></p>
+
+    <!-- “Reklama” -->
+    <div class="reklama">
+        🤑 SUPER AKCE! Kup si svůj smrad silněji – jen dnes: <u>sleva 134551561351651351655156561515151 % na smradlavé
+            ponožky</u> 😎
+        <br>➡️ Klikni na <b>Start</b> Bud více smradlavej a odpudivější o 56454654545465 %
+    </div>
+
+    <img src="istockphoto-945816852-612x612 (1).jpg" alt="">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $("#start").click(function () {
+            var zacatekcasminuty = parseInt($("#zacatekcasminuty").val())
+            var zacatekcashodiny = parseInt($("#zacatekcashodiny").val())
+            var koneccasminuty = parseInt($("#koneccasminuty").val())
+            var koneccashodiny = parseInt($("#koneccashodiny").val())
+            var procenta = parseInt($("#procenta").val())
+            var zacatekcas = zacatekcashodiny * 60 + zacatekcasminuty
+            var koneccas = koneccashodiny * 60 + koneccasminuty
+            var rozdil = koneccas - zacatekcas
+            var prevedenihodiny = Math.floor(rozdil / 60)
+            var prevedeniminuty = rozdil - prevedenihodiny * 60
+            var prevedeninaprocenta = rozdil * procenta / 100
+            var hotovohodin = Math.floor(prevedeninaprocenta / 60)
+            var hotovominut = prevedeninaprocenta - hotovohodin * 60
+            var zbyvaprocent = 100 - procenta
+            var Lhotsky = rozdil * zbyvaprocent / 100
+            var zbyvahodin = Math.floor(Lhotsky / 60)
+            var zbyvaminut = Lhotsky - zbyvahodin * 60
+            $("#celkem").text(prevedenihodiny + "h " + prevedeniminuty + "m celkem")
+            $("#hotovo").text(hotovohodin + "h " + hotovominut + "m hotovo")
+            $("#zbyva").text(zbyvahodin + "h " + zbyvaminut + "m zbývá")
+        })                                                     
+    </script>
+
+</body>
+
+</html>

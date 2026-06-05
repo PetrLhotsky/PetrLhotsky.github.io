@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg,
+                    #1e1e1e,
+                    #2f2f2f,
+                    #1e1e1e,
+                    #3a3a3a);
+            background-size: 400% 400%;
+            animation: bgShift 12s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #menu {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            font-family: Arial;
+            text-align: center;
+            width: 300px;
+            animation: menuShow 0.4s ease-out forwards;
+        }
+
+        @keyframes menuShow {
+            0% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #menu::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 15px;
+            background: linear-gradient(270deg,
+                    #ff0000,
+                    #00ff00,
+                    #0000ff);
+            background-size: 400% 400%;
+            animation: borderFlow 4s linear infinite;
+            z-index: -1;
+        }
+
+        #menu::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: white;
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        @keyframes borderFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #menu h3 {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        #velikost {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #hodnota {
+            display: inline-block;
+            margin: 5px 0 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        #hrat {
+            width: 100%;
+            padding: 10px;
+            border: 1px #007bff solid;
+            border-radius: 8px;
+            background-color: transparent;
+            color: #007bff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        #hrat:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #grid {
+            display: grid;
+            gap: 2px;
+            padding: 1px;
+        }
+
+        .cell {
+            display: grid;
+            width: 55px;
+            height: 55px;
+            border-radius: 5px;
+            background: rgb(112, 112, 112);
+            font-family: Arial;
+            text-align: center;
+            place-items: center;
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 0.4s ease forwards;
+            animation-delay: calc(var(--i) * 0.005s);
+            transition: all 0.1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+
+            }
+        }
+
+        .cell:not(:empty) {
+            background: rgb(178, 178, 178);
+            cursor: not-allowed;
+        }
+
+        .cell:hover {
+            background: rgb(178, 178, 178);
+        }
+
+        .cell:active {
+            background: rgb(112, 112, 112);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="menu">
+        <h3>How large should your field be?</h3>
+        <input type="range" min="5" max="22" id="velikost" value="10" placeholder="Choose Size"
+            oninput="$('#hodnota').text(this.value)">
+        <span id="hodnota">10</span>
+        <input type="button" value="Play" id="hrat">
+    </div>
+
+    <div id="grid" style="display: none"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        var pole = []
+        var polemin = []
+        var polehrac = []
+
+        var mina = "💣"
+        var louka = "🌹"
+
+        var velikost
+        var velikostpole
+
+
+
+        function nacist() {
+            velikost = JSON.parse(localStorage.getItem('velikost')) || [];
+            pole = JSON.parse(localStorage.getItem('pole')) || [];
+            polemin = JSON.parse(localStorage.getItem('polemin')) || [];
+            polehrac = JSON.parse(localStorage.getItem('polehrac')) || [];
+
+            if (velikost == "" || velikost == null || velikost == undefined) {
+                //je-li to prázdné tak se nic neděje, když by to bylo tak se skipuje
+                return
+            }
+
+            hrat()
+
+            polehrac.forEach(cislo => {
+                if (pole[cislo] == 0) {
+                    umistiSymbol(cislo, louka)
+                }
+                else {
+                    umistiSymbol(cislo, pole[cislo])
+                }
+            });
+        }
+
+        nacist()
+
+
+
+        $("#hrat").click(hrat)
+
+        function hrat() {
+            var novahra = 0
+
+            if (velikost == "" || velikost == null || velikost == undefined) {
+                velikost = parseInt($("#velikost").val())
+                novahra = 1
+            }
+
+            velikostpole = velikost * velikost
+
+            $("#grid").css("grid-template-columns", "repeat(" + velikost + ", 55px)")
+
+            for (let i = 0; i < velikostpole; i++) {
+                $("#grid").append('<div class="cell" id="' + i + '" style="--i: ' + i + '"></div>')
+            }
+
+            $("#menu").slideUp(200, () => $("#grid").slideDown(200))
+
+            if (novahra == 1) {
+                pole = Array(velikostpole).fill(0)
+
+                polemin = generovaniMin()
+                polemin.forEach(x => {
+                    pole[x] = -1
+                })
+
+                generovaniCisel(polemin)
+
+                var poleodkryti = odkryti()
+                poleodkryti.forEach(x => {
+                    if (pole[x] == -1) {
+                        //umistiSymbol(x, mina)
+                    }
+                    else if (pole[x] == 0) {
+                        umistiSymbol(x, louka)
+                        polehrac.push(x)
+                    }
+                    else {
+                        umistiSymbol(x, pole[x])
+                        polehrac.push(x)
+                    }
+                })
+            }
+        }
+
+        function generovaniMin() {
+
+            function nahodnaCisla(n, min, max) {
+                const cisla = new Set();
+
+                while (cisla.size < n) {
+                    const nahodneCislo = Math.floor(Math.random() * (max - min + 1)) + min;
+                    cisla.add(nahodneCislo);
+                }
+
+                return Array.from(cisla);
+            }
+
+            const pocetmin = Math.floor(velikostpole / 6 + Math.random() * 6 - 3)
+            return nahodnaCisla(pocetmin, 1 - 1, velikostpole - 1)
+        }
+
+        function generovaniCisel(polemin) {
+            for (var x = 0; x < velikostpole; x++) {
+                if (polemin.includes(x)) {
+                    continue
+                }
+
+                var okolohradku = okolnipole(x)
+                var pocitani = 0
+
+                okolohradku.forEach(y => {
+                    if (polemin.includes(y)) {
+                        pocitani += 1
+                    }
+                })
+
+                pole[x] = pocitani
+            }
+        }
+
+        function odkryti() {
+            var start = Math.floor(Math.random() * velikostpole)
+            var delka = Math.floor(Math.random() * velikostpole / velikost / 2.8) + 2
+            var polecisel = []
+            for (var x = 0; x < delka; x++) {
+                for (var y = 0; y < delka; y++) {
+                    polecisel.push(start + velikost * x + y)
+                }
+            }
+            return polecisel
+        }
+
+
+
+        $(document).on("click", ".cell", hrac)
+
+        function hrac(policko) {
+            var id = parseInt(policko.target.id)
+
+            if (polehrac.includes(id)) {
+                alert("ALREADY TAKEN")
+                return
+            }
+
+            polehrac.push(id)
+
+            if (pole[id] == -1) {
+                umistiSymbol(id, mina)
+                prohral()
+            }
+            else if (pole[id] == 0) {
+                umistiSymbol(id, louka)
+            }
+            else {
+                umistiSymbol(id, pole[id])
+            }
+
+            if (polehrac.length == velikostpole - polemin.length) {
+                konec()
+                return
+            }
+        }
+
+
+
+        function umistiSymbol(id, symbol, ulozeni = true) {
+            $("#" + id + "").text(symbol)
+
+            if (ulozeni == true) {
+                ulozit()
+            }
+        }
+
+
+
+        function konec() {
+            alert("Game Over. You Won")
+            $(document).off("click", ".cell", hrac)
+            localStorage.clear();
+        }
+
+        function prohral() {
+            alert("Game Over. You Lost")
+            polemin.forEach(x => {
+                pole[x] = -1
+                umistiSymbol(x, mina)
+            })
+            $(document).off("click", ".cell", hrac)
+            localStorage.clear();
+        }
+
+
+
+        function okolnipole(x) {
+            var poleokolo = []
+
+            if (x - (velikost + 1) >= 0 && Math.floor(x / velikost) - 1 == Math.floor((x - (velikost + 1)) / velikost)) {
+                poleokolo.push(x - (velikost + 1))
+            }
+            if (x - velikost >= 0 && Math.floor(x / velikost) - 1 == Math.floor((x - velikost) / velikost)) {
+                poleokolo.push(x - velikost)
+            }
+            if (x - (velikost - 1) >= 0 && Math.floor(x / velikost) - 1 == Math.floor((x - (velikost - 1)) / velikost)) {
+                poleokolo.push(x - (velikost - 1))
+            }
+            if (x - 1 >= 0 && Math.floor(x / velikost) == Math.floor((x - 1) / velikost)) {
+                poleokolo.push(x - 1)
+            }
+            if (x + 1 <= velikostpole - 1 && Math.floor(x / velikost) == Math.floor((x + 1) / velikost)) {
+                poleokolo.push(x + 1)
+            }
+            if (x + (velikost - 1) <= velikostpole - 1 && Math.floor(x / velikost) + 1 == Math.floor((x + (velikost - 1)) / velikost)) {
+                poleokolo.push(x + (velikost - 1))
+            }
+            if (x + velikost <= velikostpole - 1 && Math.floor(x / velikost) + 1 == Math.floor((x + velikost) / velikost)) {
+                poleokolo.push(x + velikost)
+            }
+            if (x + (velikost + 1) <= velikostpole - 1 && Math.floor(x / velikost) + 1 == Math.floor((x + (velikost + 1)) / velikost)) {
+                poleokolo.push(x + (velikost + 1))
+            }
+
+            return poleokolo
+        }
+
+
+
+        function ulozit() {
+            localStorage.setItem('pole', JSON.stringify(pole));
+            localStorage.setItem('polehrac', JSON.stringify(polehrac));
+            localStorage.setItem('polemin', JSON.stringify(polemin));
+            localStorage.setItem('velikost', JSON.stringify(velikost));
+        }
+    </script>
+</body>
+
+</html>

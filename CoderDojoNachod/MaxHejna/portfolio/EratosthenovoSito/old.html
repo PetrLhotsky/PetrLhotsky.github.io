@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Eratosthenovo síto</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1 id="cisla"></h1>
+        <input type="number" class="form-control" id="rozmezi" placeholder="Zadejte maximum">
+        <input type="button" class="form-control" id="potvrdit" value="potvrdit">
+        <script>
+        var pole=[]    
+        
+
+
+$("#potvrdit").click(() => {
+    var cislo = $("#rozmezi").val()
+    for (var i = 2; i <= cislo; i++) {
+    pole.push(i);
+}
+for (var y = 2; y <= cislo; y++) {
+        pole.forEach(function(x){
+        if (x%y===0&&x!=y)
+        
+    {
+
+       console.log (x,y)
+
+
+        var index = pole.indexOf(x);
+
+// Pokud je index nalezen, odebereme prvek
+if (index !== -1) {
+    pole.splice(index,1);
+}
+    }
+    })
+
+ 
+
+    
+}
+$("#cisla").text(pole)
+})
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>

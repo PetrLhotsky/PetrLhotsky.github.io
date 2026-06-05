@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematické příklady</title>
+
+    <style>
+        body {
+            background-color: rgb(120, 255, 201);
+            font-family: sans-serif;
+        }
+
+        h1 {
+            color: hsl(0, 0%, 9%);
+            font-size: 56px;
+            text-align: center;
+        }
+
+        #menu {
+            width: 1350px;
+            height: 180px;
+            overflow: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #level1, #level2, #level3 {
+            width: 450px;
+            height: 180px;
+            float: left;
+            background-color: rgb(255, 98, 0);
+            font-size: 20.1px;
+            color: black;
+            text-align: center;
+        }
+
+        #pocetprikladu {
+            width: 1000px;
+            height: 100px;
+            margin-left:auto ;
+            margin-right: auto;
+            display: block;
+        }
+
+        #pocet, #procenta, #znamka {
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 50px;
+            color: #0474fb;
+            text-align: center;
+        }
+
+        #hra {
+            display: none;
+        }
+
+        #casovac {
+            padding-top: 0px;
+        }
+
+        #panel1, #panel2, #panel3 {
+            width: 1170px;
+            height: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgb(136, 255, 0);
+            color: rgba(255, 0, 0, 0.508);
+        }
+
+        h2 {
+            text-align: center;
+            padding-top: 75px;
+            font-size: 33px;
+        }
+
+        #odpoved {
+            width: 288px;
+            overflow: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #vysledek {
+            width: 100px;
+            height: 30px;
+            float: left;
+            margin-right: 10px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        #potvrdit {
+            width: 170px;
+            height: 35px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Matematické příklady</h1>
+
+    <p id="procenta"></p>
+    <p id="znamka"></p>
+
+    <div id="menu">
+        <input type="button" value="Jednoduchý jak facka" id="level1">
+        <input type="button" value="Asi to nebude přímo facka" id="level2">
+        <input type="button" value="Vsadím se, že budeš mít alespoň jednu chybu" id="level3">
+    </div>
+
+    <input type="range" id="pocetprikladu">
+    <p id="pocet">50</p>
+
+    <div id="hra">
+
+        <h2 id="casovac">Čas: 10</h2>
+
+        <div id="panel1">
+            <h2 id="obdelnik-spravne">SPRÁVNĚ: 0</h2>
+        </div>
+
+        <div id="panel2">
+            <h2 id="obdelnik-spatne">ŠPATNĚ: 0</h2>
+        </div>
+
+        <div id="panel3">
+            <h2 id="priklad"></h2>
+            <div id="odpoved">
+                <input type="number" id="vysledek">
+                <input type="button" value="POTVRDIT VÝSLEDEK" id="potvrdit">
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        var spravne = 0
+        var spatne = 0
+
+        var level
+        var casovac
+        var cas
+        var spravnyvysledek
+        var hromadaprikladu
+
+
+
+        $("#procenta").hide()
+        $("#znamka").hide()
+        $("#hra").hide()
+
+
+
+        document.getElementById("pocetprikladu").addEventListener("input", function(event) {
+            var value = event.target.value
+            $("#pocet").text(value)
+        })
+
+        $("#level1").click(function() {
+            spustitHru(1)
+        })
+
+        $("#level2").click(function() {
+            spustitHru(2)
+        })
+
+        $("#level3").click(function() {
+            spustitHru(3)
+        })
+
+
+
+        function spustitHru(zvoleno) {
+            $("#menu").hide()
+            $("#pocetprikladu").hide()
+            $("#pocet").hide()
+            $("#hra").show()
+
+            level = zvoleno
+            hromadaprikladu = $("#pocetprikladu").val()
+            
+            generovatPriklad()
+        }
+
+
+
+        function generovatPriklad() {
+            resetovatCasovac()
+
+            if (spravne+spatne == hromadaprikladu) {
+                zobrazZnamku()
+                return
+            }
+
+            var znamenko = parseInt(Math.random() * 4)
+
+            if (znamenko == 0) {                    // sčítání
+
+                if (level == 1) {
+                    A = parseInt(Math.random() * 10)
+                    B = parseInt(Math.random() * 10)
+                }
+                if (level == 2) {
+                    A = parseInt(Math.random() * 100)
+                    B = parseInt(Math.random() * 100)
+                }
+                if (level == 3) {
+                    A = parseInt(Math.random() * 1000)
+                    B = parseInt(Math.random() * 1000)
+                }
+
+                $("#priklad").text(A + "+" + B)
+                spravnyvysledek = A + B
+            }
+
+            if (znamenko == 1) {                    // odčítání
+
+                if (level == 1) {
+                    G = parseInt(Math.random() * 10)
+                    H = parseInt(Math.random() * G)
+                }
+                if (level == 2) {
+                    G = parseInt(Math.random() * 100)
+                    H = parseInt(Math.random() * G)
+                }
+                if (level == 3) {
+                    G = parseInt(Math.random() * 1000)
+                    H = parseInt(Math.random() * G)
+                }
+
+                $("#priklad").text(G + "-" + H)
+                spravnyvysledek = G - H
+            }
+
+            if (znamenko == 2) {                    // násobení
+
+                if (level == 1) {
+                    E = parseInt(Math.random() * 10)
+                    F = parseInt(Math.random() * 10)
+                }
+                if (level == 2) {
+                    E = parseInt(Math.random() * 10)
+                    F = parseInt(Math.random() * 100)
+                }
+                if (level == 3) {
+                    E = parseInt(Math.random() * 100)
+                    F = parseInt(Math.random() * 100)
+                }
+
+                $("#priklad").text(E + "*" + F)
+                spravnyvysledek = E * F
+            }
+
+            if (znamenko == 3) {                    // dělení
+
+                if (level == 1) {
+                    do {
+                        C = parseInt(Math.random() * 10)
+                        D = parseInt(Math.random() * 9) + 1
+                    } while (C % D !== 0)
+                }
+                if (level == 2) {
+                    do {
+                        C = parseInt(Math.random() * 100)
+                        D = parseInt(Math.random() * 9) + 1
+                    } while (C % D !== 0)
+                }
+                if (level == 3) {
+                    do {
+                        C = parseInt(Math.random() * 1000)
+                        D = parseInt(Math.random() * 9) + 1
+                    } while (C % D !== 0)
+                }
+
+                $("#priklad").text(C + "÷" + D)
+                spravnyvysledek = C / D
+            }
+
+            $("#vysledek").val("")
+
+            spustitCasovac()
+        }
+
+
+
+        function resetovatCasovac() {
+            clearInterval(casovac)
+            cas = 10
+            $("#casovac").text("Zbývá " + cas + " s")
+        }
+
+        function spustitCasovac() {
+            casovac = setInterval(function () {
+                if (--cas < 0) chybnaOdpoved()
+                else $("#casovac").text("Zbývá: " + cas + " s")
+            }, 1000)
+        }
+
+
+
+        $("#odpoved").keydown(function(e) {         // při stisku klávesy enter (kód 13)
+            if (e.keyCode == 13) zkontrolovatOdpoved()
+        })
+
+        $("#potvrdit").click(function () {          // při kliknutí na potvrdit výsledek
+            zkontrolovatOdpoved()
+        })
+
+
+
+        function zkontrolovatOdpoved() {
+            if ($("#vysledek").val() == "") return
+
+            var vysledek = $("#vysledek").val()
+            $("#vysledek").val("")
+
+            if (spravnyvysledek == vysledek) spravnaOdpoved()
+            else chybnaOdpoved()
+        }
+
+        function spravnaOdpoved() {
+            spravne++
+            $("#obdelnik-spravne").text("SPRÁVNĚ: " + spravne)
+
+            generovatPriklad()
+        }
+
+        function chybnaOdpoved() {
+            spatne++
+            $("#obdelnik-spatne").text("ŠPATNĚ: " + spatne)
+
+            generovatPriklad()
+        }
+
+
+
+        function zobrazZnamku() {
+            $("#hra").hide()
+            $("#procenta").show()
+            $("#znamka").show()
+
+            var procenta = Math.round((spravne / hromadaprikladu) * 100)
+            $("#procenta").text("Vaše úspěšnost: " + procenta + " %")
+
+            var znamka = 0
+            if (procenta >= 90) znamka = 1
+            else if (procenta >= 75) znamka = 2
+            else if (procenta >= 50) znamka = 3
+            else if (procenta >= 25) znamka = 4
+            else znamka = 5
+            $("#znamka").text("Vaše známka: " + znamka)
+        }
+    </script>
+</body>
+</html>

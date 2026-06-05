@@ -1,0 +1,300 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Canvas</title>
+        <style>
+            img { display: none }
+            #pistol { display: block;float: left;width:  50px; }
+            #samopal { display: block;float: left;width:  50px; }
+            #raketa { display: block;float: left;width:  50px; }
+            #kulomet { display: block;float: left;width:  50px; }
+            #auto { display: block;float: left;width:  50px; }
+            #tank { display: block;float: left;width: 50px ; }
+            #bomba { display: block;float: left;width: 50px ; }
+            #letadlo { display: block;float: left;width: 50px ; }
+            .menu { overflow: auto;width: 1500px; }
+            .lev{float: left;}
+            .prav{float: right;}
+        </style>
+    </head>
+    <body>
+        <canvas width="1500" height="701" id="pl"></canvas>
+        <div class="menu">
+            <div class="lev">
+                <img src="Postava pistole.png" alt="" id="Postava-pistole">
+                <img src="Postava pistole miri.png" alt="" id="Postava-pistole-miri">
+                <img src="Postava samopal.png" alt="" id="Postava-samopal">
+                <img src="Postava samopal miri.PNG" alt="" id="Postava-samopal-miri">
+                <img src="Postava raketa.PNG" alt="" id="Postava-raketa">
+                <img src="Postava raketa miri.PNG" alt="" id="Postava-raketa-miri">
+                <img src="Postava kulomet.PNG" alt="" id="Postava-kulomet">
+                <img src="Postava auto.png" alt="" id="Postava-auto">
+                <img src="Postava tank.png" alt="" id="Postava-tank">
+
+                <img src="letadlo.PNG" alt="" id="Postava-letadlo">
+                <img src="zamerovac.PNG" alt="" id="zamerovac">
+
+                <img src="Nepřítel Postava.png" alt="" id="Nepritel">
+                <img src="Nepřítel Postava miri.PNG" alt="" id="Nepritel-miri">
+                <img src="Nepřítel Postava pistol.PNG" alt="" id="Nepritel-pistol">
+                <img src="Nepřítel Postava pistol miri.PNG" alt="" id="Nepritel-pistol-miri">
+                <img src="Nepřítel Postava auto.PNG" alt="" id="Nepritel-auto">
+                <img src="Nepřítel Postava tank.PNG" alt="" id="Nepritel-tank">
+                <img src="Nepřítel Postava raketa.PNG" alt="" id="Nepritel-raketa">
+                <img src="Nepřítel Postava raketa miri.PNG" alt="" id="Nepritel-raketa-miri">
+                <img src="Krajina HrA3.jpg" alt="" id="Krajina" >
+
+                <img src="karta pistole.png" alt=""id="pistol">  
+                <img src="karta samopal.png" alt=""id="samopal">
+                <img src="karta raketa.png" alt=""id="raketa">
+                <img src="karta kulomet.PNG" alt=""id="kulomet">
+                <img src="karta auto.png" alt=""id="auto">
+                <img src="karta tank.png" alt=""id="tank">
+            </div>
+
+            <div class="prav">
+                <img src="karta bomba.PNG" alt=""id="bomba">
+                <img src="karta letadlo.PNG" alt=""id="letadlo">
+            </div>
+        </div>
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+        <script>
+            var platno = $("#pl")[0];
+            var kresleni = platno.getContext("2d");
+
+            var pistole = $("#Postava-pistole")[0];
+            var PostavapistoleMiri = $("#Postava-pistole-miri")[0];
+            var Postava = $("#Postava-samopal")[0];
+            var PostavaMiri = $("#Postava-samopal-miri")[0];
+            var raketa = $("#Postava-raketa")[0];
+            var PostavaraketaMiri = $("#Postava-raketa-miri")[0];
+
+            var kulomet = $("#Postava-kulomet")[0];
+
+            var auto = $("#Postava-auto")[0];
+            var tank = $("#Postava-tank")[0];
+            var letadlo = $("#Postava-letadlo")[0];
+
+            var zamerovac = $("#zamerovac")[0];
+
+            var Nepritel = $("#Nepritel")[0];
+            var NepritelMiri = $("#Nepritel-miri")[0];
+            var Nepritelpistol = $("#Nepritel-pistol")[0];
+            var NepritelpistolMiri = $("#Nepritel-pistol-miri")[0];
+            var Nepritelraketa = $("#Nepritel-raketa")[0];
+            var NepritelraketaMiri = $("#Nepritel-raketa-miri")[0];
+
+            var Nepritelauto = $("#Nepritel-auto")[0];
+            var Nepriteltank = $("#Nepritel-tank")[0];
+
+            var Krajina = $("#Krajina")[0];
+
+            kresleni.font="30px Arial"
+            kresleni.drawImage(Krajina,0,0)
+            kresleni.drawImage(Postava,50,523)
+            kresleni.drawImage(Nepritel,1300,523)
+
+            var pocetpistole=0
+            var pocetsamopal=0
+            var pocetraketa=0
+            var pocetkulomet=0
+
+            var pocetauto=0
+            var pocettank=0
+            var pocetletadlo=0
+
+            var pocetNepritelpistol=0
+            var pocetNepritel=0
+            var pocetNepritelraketa=0
+
+            var pocetNepritelauto=0
+            var pocetNepriteltank=0
+
+            var bomba=false
+
+            var x=50
+            var y=523
+            var nx=1300
+            var ny=523
+
+            var penize=0
+            var pocet=0
+            var pozicezam
+
+            var casovat=setInterval(function(){
+                pocet=pocet+1
+
+                var pistoleObrazek
+                var samopalObrazek
+                var raketaObrazek
+
+                var NepritelpistolObrazek
+                var NepritelObrazek
+                var NepritelraketaObrazek
+
+                if (pocet<=46){ 
+                    x=x+10
+                    nx=nx-10
+                    pistoleObrazek=pistole
+                    samopalObrazek=Postava
+                    raketaObrazek=raketa
+
+                    NepritelpistolObrazek=Nepritelpistol
+                    NepritelObrazek=Nepritel
+                    NepritelraketaObrazek=Nepritelraketa
+                }
+
+                else{
+                    pistoleObrazek=PostavapistoleMiri
+                    samopalObrazek=PostavaMiri
+                    raketaObrazek=PostavaraketaMiri
+
+                    NepritelpistolObrazek=NepritelpistolMiri
+                    NepritelObrazek=NepritelMiri
+                    NepritelraketaObrazek=NepritelraketaMiri
+                }
+
+                if(pocet%8==0){
+                    pocetNepritel+=Math.round(Math.random()*4)
+                    pocetNepritelpistol+=Math.round(Math.random()*5)
+                    pocetNepritelraketa+=Math.round(Math.random()*3)
+                    pocetNepritelauto+=Math.round(Math.random()*2)
+                    pocetNepriteltank+=Math.round(Math.random()*1)
+                }
+                
+                penize=penize+10
+
+                kresleni.clearRect(0,0,1500,701)
+                kresleni.drawImage(Krajina,0,0)
+                kresleni.drawImage(samopalObrazek,x,y,48,69)
+                kresleni.drawImage(Nepritel ,nx,ny,48,69)
+                kresleni.fillText(penize,740,700)
+
+                for (var i = 0; i < pocetpistole; i++) kresleni.drawImage(pistoleObrazek, x + i * 10, y+10,50,60)
+                for (var i = 0; i < pocetsamopal; i++) kresleni.drawImage(samopalObrazek, x + i * 10, y)
+                for (var i = 0; i < pocetraketa; i++) kresleni.drawImage(raketaObrazek, x + i * 10, y-1,65,70)
+                for (var i = 0; i < pocetkulomet; i++) kresleni.drawImage(kulomet, x + i * 10, y-6,70,75)
+                for (var i = 0; i < pocetauto; i++) kresleni.drawImage(auto, x + i * 10, y-15,150,90)
+                for (var i = 0; i < pocettank; i++) kresleni.drawImage(tank, x + i * 10, y-31,200,100)
+                for (var i = 0; i < pocetletadlo; i++) kresleni.drawImage(letadlo, x + i * 10, y-500,250,150)
+
+                for (var i = 0; i < pocetNepritelpistol; i++) kresleni.drawImage(NepritelpistolObrazek, nx + i * 10, y+10,50,60)
+                for (var i = 0; i < pocetNepritel; i++) kresleni.drawImage(NepritelObrazek, nx + i * 10, y,48,69)
+                for (var i = 0; i < pocetNepritelraketa; i++) kresleni.drawImage(NepritelraketaObrazek, nx + i * 10, y-1,65,70)
+                for (var i = 0; i < pocetNepritelauto; i++) kresleni.drawImage(Nepritelauto, nx + i * 10, y-15,150,90)
+                for (var i = 0; i < pocetNepriteltank; i++) kresleni.drawImage(Nepriteltank, nx + i * 10, y-31,200,100)
+
+                if (bomba) kresleni.drawImage(zamerovac,pozicezam,550,100,50)
+            },200)
+
+            $("#pistol").click(function(){
+
+                if(penize>=15){
+                    penize=penize-15
+                    
+                    pocetpistole=pocetpistole+1
+
+                }
+            })
+
+            $("#samopal").click(function(){
+
+                if(penize>=30){
+                    penize=penize-30    
+                    
+                    pocetsamopal=pocetsamopal+1
+                }
+            })
+
+            $("#raketa").click(function(){
+
+                if(penize>=65){
+                    penize=penize-65
+                    
+                    pocetraketa=pocetraketa+1
+                }
+            })
+
+            $("#kulomet").click(function(){
+
+                if(penize>=90){
+                    penize=penize-90
+                    
+                    pocetkulomet=pocetkulomet+1
+                }
+            })
+
+            $("#auto").click(function(){
+
+                if(penize>=175){
+                    penize=penize-175
+                    
+                    pocetauto=pocetauto+1
+                }
+            })
+            
+            $("#bomba").click(function(){
+                
+                if(penize>=200){
+                    penize=penize-200
+                    
+                    bomba=true
+                }
+            })
+
+            $("#tank").click(function(){
+
+                if(penize>=350){
+                    penize=penize-350
+                    
+                    pocettank=pocettank+1
+                }
+            })      
+
+            $("#letadlo").click(function(){
+
+                if(penize>=600){
+                    penize=penize-600
+                    
+                    pocetletadlo=pocetletadlo+1
+                }
+            })
+
+            $("#pl").click(function(){
+                bomba=false
+
+            })
+            
+            $("#pl").mousemove(function(e){
+                if(bomba){
+                    var misx=e.pageX
+                    pozicezam=misx-56
+
+                    kresleni.clearRect(0,0,1500,701)
+                    kresleni.drawImage(Krajina,0,0)
+                    kresleni.drawImage(Postava,x,y,48,69)
+                    kresleni.drawImage(Nepritel ,nx,ny,48,69)
+                    kresleni.fillText(penize,740,700)
+                    
+                    for (var i = 0; i < pocetpistole; i++) kresleni.drawImage(pistole, x + i * 10, y+10,50,60)
+                    for (var i = 0; i < pocetsamopal; i++) kresleni.drawImage(Postava, x + i * 10, y)
+                    for (var i = 0; i < pocetraketa; i++) kresleni.drawImage(raketa, x + i * 10, y-1,65,70)
+                    for (var i = 0; i < pocetkulomet; i++) kresleni.drawImage(kulomet, x + i * 10, y-6,70,75)
+                    for (var i = 0; i < pocetauto; i++) kresleni.drawImage(auto, x + i * 10, y-15,150,90)
+                    for (var i = 0; i < pocettank; i++) kresleni.drawImage(tank, x + i * 10, y-31,200,100)
+                    for (var i = 0; i < pocetletadlo; i++) kresleni.drawImage(letadlo, x + i * 10, y-500,250,150)
+
+                    for (var i = 0; i < pocetNepritelpistol; i++) kresleni.drawImage(Nepritelpistol, nx + i * 10, y+10,50,60)
+                    for (var i = 0; i < pocetNepritel; i++) kresleni.drawImage(Nepritel, nx + i * 10, y,48,69)
+                    for (var i = 0; i < pocetNepritelraketa; i++) kresleni.drawImage(Nepritelraketa, nx + i * 10, y-1,65,70)
+                    for (var i = 0; i < pocetNepritelauto; i++) kresleni.drawImage(Nepritelauto, nx + i * 10, y-15,150,90)
+                    for (var i = 0; i < pocetNepriteltank; i++) kresleni.drawImage(Nepriteltank, nx + i * 10, y-31,200,100)
+
+                    kresleni.drawImage(zamerovac,pozicezam,550,100,50)
+                }
+            })
+        </script>
+    </body>
+</html>
