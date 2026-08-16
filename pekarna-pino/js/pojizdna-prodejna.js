@@ -3,7 +3,27 @@ const routeFilter = document.querySelector("[data-route-filter]");
 
 if (routeElements.length) {
   const routeTimeZone = "Europe/Prague";
-  const weekdayIndexes = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+  const weekdayIndexes = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thu: 4,
+    Fri: 5,
+    Sat: 6,
+  };
+
+  const weekdayLabels = {
+    0: "neděli",
+    1: "pondělí",
+    2: "úterý",
+    3: "středu",
+    4: "čtvrtek",
+    5: "pátek",
+    6: "sobotu",
+  };
+
   const routeDateFormatter = new Intl.DateTimeFormat("en-GB", {
     timeZone: routeTimeZone,
     weekday: "short",
@@ -14,7 +34,11 @@ if (routeElements.length) {
 
   function parseTimeToMinutes(time) {
     const [hours, minutes] = String(time || "").split(":").map(Number);
-    if (!Number.isInteger(hours) || !Number.isInteger(minutes)) return null;
+
+    if (!Number.isInteger(hours) || !Number.isInteger(minutes)) {
+      return null;
+    }
+
     return hours * 60 + minutes;
   }
 
@@ -36,22 +60,33 @@ if (routeElements.length) {
     };
   }
 
-  function getRouteSchedule(route) {
-    const weekdays = (route.dataset.routeDays || "")
+  function getRouteWeekdays(route) {
+    return (route.dataset.routeDays || "")
       .split(/\s+/)
       .map(Number)
       .filter((day) => Number.isInteger(day) && day >= 0 && day <= 6);
+  }
+
+  function getRouteSchedule(route) {
+    const weekdays = getRouteWeekdays(route);
 
     const stops = [...route.querySelectorAll("[data-route-stop]")]
       .map((element) => {
         const from = parseTimeToMinutes(element.dataset.timeFrom);
         const to = parseTimeToMinutes(element.dataset.timeTo);
-        if (from === null || to === null) return null;
+
+        if (from === null || to === null) {
+          return null;
+        }
+
         return {
           element,
           from,
           to,
-          municipality: element.querySelector(".mobile-route_stop-name")?.textContent.trim() || "",
+          municipality:
+            element
+              .querySelector(".mobile-route_stop-name")
+              ?.textContent.trim() || "",
         };
       })
       .filter(Boolean)
@@ -60,10 +95,21 @@ if (routeElements.length) {
     return { weekdays, stops };
   }
 
+  function getRouteDaysLabel(weekdays) {
+    return weekdays
+      .map((weekday) => weekdayLabels[weekday])
+      .filter(Boolean)
+      .join(", ");
+  }
+
   function setStatus(route, message, state) {
     const statusText = route.querySelector("[data-route-status-text]");
+
     route.dataset.routeState = state;
-    if (statusText && statusText.textContent !== message) statusText.textContent = message;
+
+    if (statusText && statusText.textContent !== message) {
+      statusText.textContent = message;
+    }
   }
 
   function resetStopStates(stops) {
@@ -75,9 +121,22 @@ if (routeElements.length) {
 
   function updateRoute(route, currentTime) {
     const { weekdays, stops } = getRouteSchedule(route);
+
     resetStopStates(stops);
 
-    if (!stops.length || !weekdays.includes(currentTime.weekday)) {
+    if (!weekdays.includes(currentTime.weekday)) {
+      const daysLabel = getRouteDaysLabel(weekdays);
+
+      setStatus(
+        route,
+        daysLabel ? `Jezdí v ${daysLabel} (časy jsou orientační)` : "Dnes nejede",
+        "off",
+      );
+
+      return "off";
+    }
+
+    if (!stops.length) {
       setStatus(route, "Dnes nejede", "off");
       return "off";
     }
@@ -86,68 +145,134 @@ if (routeElements.length) {
     const lastStop = stops.at(-1);
 
     if (currentTime.minutes < firstStop.from) {
-      setStatus(route, `Dnes vyjíždí v ${displayTime(firstStop.element.dataset.timeFrom)}`, "upcoming");
+      setStatus(
+        route,
+        `Dnes vyjíždí v ${displayTime(firstStop.element.dataset.timeFrom)}`,
+        "upcoming",
+      );
+
       stops.forEach(({ element }, index) => {
         element.dataset.routeStopState = index === 0 ? "next" : "upcoming";
-        if (index === 0) element.setAttribute("aria-current", "step");
+
+        if (index === 0) {
+          element.setAttribute("aria-current", "step");
+        }
       });
+
       return "upcoming";
     }
 
     if (currentTime.minutes > lastStop.to) {
       setStatus(route, "Dnešní trasa skončila", "finished");
-      stops.forEach(({ element }) => { element.dataset.routeStopState = "past"; });
+
+      stops.forEach(({ element }) => {
+        element.dataset.routeStopState = "past";
+      });
+
       return "finished";
     }
 
-    const currentStopIndex = stops.findIndex(({ from, to }) => currentTime.minutes >= from && currentTime.minutes <= to);
+    const currentStopIndex = stops.findIndex(
+      ({ from, to }) =>
+        currentTime.minutes >= from && currentTime.minutes <= to,
+    );
+
     if (currentStopIndex >= 0) {
       const currentStop = stops[currentStopIndex];
-      setStatus(route, currentStop.municipality ? `Právě jsme v ${currentStop.municipality}` : "Právě jsme na zastávce", "active");
+
+      setStatus(
+        route,
+        currentStop.municipality
+          ? `Právě jsme v ${currentStop.municipality}`
+          : "Právě jsme na zastávce",
+        "active",
+      );
+
       stops.forEach(({ element }, index) => {
-        if (index < currentStopIndex) element.dataset.routeStopState = "past";
-        else if (index === currentStopIndex) {
+        if (index < currentStopIndex) {
+          element.dataset.routeStopState = "past";
+        } else if (index === currentStopIndex) {
           element.dataset.routeStopState = "next";
           element.setAttribute("aria-current", "step");
-        } else element.dataset.routeStopState = "upcoming";
+        } else {
+          element.dataset.routeStopState = "upcoming";
+        }
       });
+
       return "active";
     }
 
     setStatus(route, "Teď na cestě", "active");
-    const nextStopIndex = stops.findIndex(({ from }) => from > currentTime.minutes);
+
+    const nextStopIndex = stops.findIndex(
+      ({ from }) => from > currentTime.minutes,
+    );
+
     stops.forEach(({ element }, index) => {
-      if (nextStopIndex < 0 || index < nextStopIndex) element.dataset.routeStopState = "past";
-      else if (index === nextStopIndex) {
+      if (nextStopIndex < 0 || index < nextStopIndex) {
+        element.dataset.routeStopState = "past";
+      } else if (index === nextStopIndex) {
         element.dataset.routeStopState = "next";
         element.setAttribute("aria-current", "step");
-      } else element.dataset.routeStopState = "upcoming";
+      } else {
+        element.dataset.routeStopState = "upcoming";
+      }
     });
+
     return "active";
   }
 
-  function updateRoutes({ selectActiveRoute = false } = {}) {
+  function updateRoutes({ selectTodayRoute = false } = {}) {
     const currentTime = getRouteTime();
-    const routeStates = routeElements.map((route) => ({ route, state: updateRoute(route, currentTime) }));
-    if (!selectActiveRoute || !routeFilter) return;
 
-    const hasExplicitRouteHash = routeElements.some((route) => window.location.hash === `#${route.id}`);
-    if (hasExplicitRouteHash) return;
+    routeElements.forEach((route) => {
+      updateRoute(route, currentTime);
+    });
 
-    const activeRoute = routeStates.find(({ state }) => state === "active")?.route;
-    if (!activeRoute) return;
+    if (!selectTodayRoute || !routeFilter) {
+      return;
+    }
 
-    routeFilter.dispatchEvent(new CustomEvent("pino:tabs:activate", { detail: { panelId: activeRoute.id } }));
+    const hasExplicitRouteHash = routeElements.some(
+      (route) => window.location.hash === `#${route.id}`,
+    );
+
+    if (hasExplicitRouteHash) {
+      return;
+    }
+
+    const todayRoute = routeElements.find((route) =>
+      getRouteWeekdays(route).includes(currentTime.weekday),
+    );
+
+    const routeToSelect = todayRoute || routeElements[0];
+
+    if (!routeToSelect) {
+      return;
+    }
+
+    routeFilter.dispatchEvent(
+      new CustomEvent("pino:tabs:activate", {
+        detail: {
+          panelId: routeToSelect.id,
+        },
+      }),
+    );
   }
 
-  updateRoutes({ selectActiveRoute: true });
-  const millisecondsUntilNextMinute = 60_000 - (Date.now() % 60_000) + 50;
+  updateRoutes({ selectTodayRoute: true });
+
+  const millisecondsUntilNextMinute =
+    60_000 - (Date.now() % 60_000) + 50;
+
   window.setTimeout(() => {
     updateRoutes();
     window.setInterval(updateRoutes, 60_000);
   }, millisecondsUntilNextMinute);
 
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) updateRoutes();
+    if (!document.hidden) {
+      updateRoutes();
+    }
   });
 }
