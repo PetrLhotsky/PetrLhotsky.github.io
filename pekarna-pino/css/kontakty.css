@@ -1,0 +1,33 @@
+.location {
+  padding-block-start: 0;
+}
+
+#contact-details .location_map {
+  order: -1;
+  aspect-ratio: 0.886 / 1;
+}
+
+#contact-details .location_map img {
+  object-fit: contain;
+}
+
+.contact-directions_facts {
+  padding: 0;
+  list-style-type: "";
+}
+
+.contact-directions_facts .location_fact {
+  width: 100%;
+  text-align: left;
+}
+
+.contact-directions_facts .location_fact-row {
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  #contact-details .location_inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
