@@ -1,8 +1,8 @@
 @font-face {
   font-family: "Recoleta";
   src:
-    url("../assets/fonts/Recoleta-SemiBoldCondensed.woff2") format("woff2"),
-    url("../assets/fonts/Recoleta-SemiBoldCondensed.otf") format("opentype");
+    url("../assets/fonts/Recoleta-SemiboldCondensed.woff2") format("woff2"),
+    url("../assets/fonts/Recoleta-SemiboldCondensed.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
