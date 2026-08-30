@@ -83,16 +83,15 @@ if (routeElements.length) {
           element,
           from,
           to,
-          municipality:
-            element
-              .querySelector(".mobile-route_stop-name")
-              ?.textContent.trim() || "",
         };
       })
       .filter(Boolean)
       .sort((firstStop, secondStop) => firstStop.from - secondStop.from);
 
-    return { weekdays, stops };
+    return {
+      weekdays,
+      stops,
+    };
   }
 
   function getRouteDaysLabel(weekdays) {
@@ -102,13 +101,26 @@ if (routeElements.length) {
       .join(", ");
   }
 
-  function setStatus(route, message, state) {
+  function getRouteDaysMessage(weekdays) {
+    const daysLabel = getRouteDaysLabel(weekdays);
+
+    return daysLabel
+      ? `Jezdí v ${daysLabel} (časy jsou orientační)`
+      : "";
+  }
+
+  function setStatus(route, weekdays, message, state) {
     const statusText = route.querySelector("[data-route-status-text]");
+    const daysMessage = getRouteDaysMessage(weekdays);
+
+    const statusMessage = [daysMessage, message]
+      .filter(Boolean)
+      .join(" · ");
 
     route.dataset.routeState = state;
 
-    if (statusText && statusText.textContent !== message) {
-      statusText.textContent = message;
+    if (statusText && statusText.textContent !== statusMessage) {
+      statusText.textContent = statusMessage;
     }
   }
 
@@ -124,35 +136,50 @@ if (routeElements.length) {
 
     resetStopStates(stops);
 
+    /*
+     * Informace o dnech jízdy se zobrazuje vždy.
+     * Pokud dnes daná trasa nejede, není potřeba přidávat
+     * žádný další aktuální stav.
+     */
     if (!weekdays.includes(currentTime.weekday)) {
-      const daysLabel = getRouteDaysLabel(weekdays);
-
-      setStatus(
-        route,
-        daysLabel ? `Jezdí v ${daysLabel} (časy jsou orientační)` : "Dnes nejede",
-        "off",
-      );
-
+      setStatus(route, weekdays, "", "off");
       return "off";
     }
 
+    /*
+     * Trasa nemá platné zastávky, takže nelze určit
+     * její začátek ani konec.
+     */
     if (!stops.length) {
-      setStatus(route, "Dnes nejede", "off");
+      setStatus(route, weekdays, "", "off");
       return "off";
     }
 
+    /*
+     * Celkový čas trasy:
+     * - začátek = čas začátku první zastávky
+     * - konec = čas konce poslední zastávky
+     */
     const firstStop = stops[0];
     const lastStop = stops.at(-1);
 
-    if (currentTime.minutes < firstStop.from) {
+    const routeStart = firstStop.from;
+    const routeEnd = lastStop.to;
+
+    /*
+     * Dnes se jede, ale trasa ještě nezačala.
+     */
+    if (currentTime.minutes < routeStart) {
       setStatus(
         route,
+        weekdays,
         `Dnes vyjíždí v ${displayTime(firstStop.element.dataset.timeFrom)}`,
         "upcoming",
       );
 
       stops.forEach(({ element }, index) => {
-        element.dataset.routeStopState = index === 0 ? "next" : "upcoming";
+        element.dataset.routeStopState =
+          index === 0 ? "next" : "upcoming";
 
         if (index === 0) {
           element.setAttribute("aria-current", "step");
@@ -162,8 +189,16 @@ if (routeElements.length) {
       return "upcoming";
     }
 
-    if (currentTime.minutes > lastStop.to) {
-      setStatus(route, "Dnešní trasa skončila", "finished");
+    /*
+     * Dnes se jelo, ale trasa už skončila.
+     */
+    if (currentTime.minutes > routeEnd) {
+      setStatus(
+        route,
+        weekdays,
+        "Dnešní trasa skončila",
+        "finished",
+      );
 
       stops.forEach(({ element }) => {
         element.dataset.routeStopState = "past";
@@ -172,22 +207,28 @@ if (routeElements.length) {
       return "finished";
     }
 
+    /*
+     * Jsme mezi začátkem první a koncem poslední zastávky,
+     * takže je trasa aktivní.
+     */
+    setStatus(
+      route,
+      weekdays,
+      "Právě jsme na cestě",
+      "active",
+    );
+
+    /*
+     * Pokud právě probíhá čas konkrétní zastávky,
+     * označíme ji jako aktuální.
+     */
     const currentStopIndex = stops.findIndex(
       ({ from, to }) =>
-        currentTime.minutes >= from && currentTime.minutes <= to,
+        currentTime.minutes >= from &&
+        currentTime.minutes <= to,
     );
 
     if (currentStopIndex >= 0) {
-      const currentStop = stops[currentStopIndex];
-
-      setStatus(
-        route,
-        currentStop.municipality
-          ? `Právě jsme v ${currentStop.municipality}`
-          : "Právě jsme na zastávce",
-        "active",
-      );
-
       stops.forEach(({ element }, index) => {
         if (index < currentStopIndex) {
           element.dataset.routeStopState = "past";
@@ -202,8 +243,10 @@ if (routeElements.length) {
       return "active";
     }
 
-    setStatus(route, "Teď na cestě", "active");
-
+    /*
+     * Jsme mezi dvěma zastávkami.
+     * Najdeme nejbližší následující zastávku.
+     */
     const nextStopIndex = stops.findIndex(
       ({ from }) => from > currentTime.minutes,
     );
@@ -233,6 +276,10 @@ if (routeElements.length) {
       return;
     }
 
+    /*
+     * Pokud už je konkrétní trasa zvolená hashem v URL,
+     * respektujeme ji a automaticky ji nepřepínáme.
+     */
     const hasExplicitRouteHash = routeElements.some(
       (route) => window.location.hash === `#${route.id}`,
     );
@@ -241,6 +288,10 @@ if (routeElements.length) {
       return;
     }
 
+    /*
+     * Automaticky zobrazíme trasu, která jezdí dnešní den.
+     * Pokud dnes žádná nejede, zobrazíme první dostupnou trasu.
+     */
     const todayRoute = routeElements.find((route) =>
       getRouteWeekdays(route).includes(currentTime.weekday),
     );
@@ -260,16 +311,33 @@ if (routeElements.length) {
     );
   }
 
-  updateRoutes({ selectTodayRoute: true });
+  /*
+   * První inicializace zároveň vybere dnešní trasu.
+   */
+  updateRoutes({
+    selectTodayRoute: true,
+  });
 
+  /*
+   * Další aktualizace zarovnáme na začátek další minuty
+   * a následně stav obnovujeme každou minutu.
+   */
   const millisecondsUntilNextMinute =
     60_000 - (Date.now() % 60_000) + 50;
 
   window.setTimeout(() => {
     updateRoutes();
-    window.setInterval(updateRoutes, 60_000);
+
+    window.setInterval(
+      updateRoutes,
+      60_000,
+    );
   }, millisecondsUntilNextMinute);
 
+  /*
+   * Po návratu uživatele na záložku přepočítáme stav,
+   * protože mezitím mohl uplynout delší čas.
+   */
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
       updateRoutes();

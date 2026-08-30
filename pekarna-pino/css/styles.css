@@ -1,8 +1,18 @@
 @font-face {
-  font-family: "Bonbance";
+  font-family: "Recoleta";
   src:
-    url("../assets/fonts/Bonbance-BoldCondensed.woff2") format("woff2"),
-    url("../assets/fonts/Bonbance-BoldCondensed.otf") format("opentype");
+    url("../assets/fonts/Recoleta-SemiBoldCondensed.woff2") format("woff2"),
+    url("../assets/fonts/Recoleta-SemiBoldCondensed.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GeneralSans";
+  src:
+    url("../assets/fonts/GeneralSans-Regular.woff2") format("woff2"),
+    url("../assets/fonts/GeneralSans-Regular.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -17,8 +27,8 @@
   --color-success: #009926;
   --color-white: #fff;
 
-  --font-heading: "Bonbance", Georgia, serif;
-  --font-general-sans: Arial, Helvetica, sans-serif;
+  --font-heading: "Recoleta", Georgia, serif;
+  --font-general-sans: "GeneralSans", Helvetica, sans-serif;
   --font-body: var(--font-general-sans);
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -396,7 +406,7 @@ textarea {
 }
 
 .page-intro_inner {
-  width: min(100% - (2 * var(--page-gutter)), 36rem);
+  width: min(100% - (2 * var(--page-gutter)), 38rem);
   margin-inline: auto;
   text-align: center;
 }
@@ -742,7 +752,6 @@ textarea {
 
 .location_content {
   min-width: 0;
-  text-align: center;
 }
 
 .location_title {
@@ -758,7 +767,6 @@ textarea {
 
 .location_facts {
   display: grid;
-  justify-items: center;
   gap: var(--space-5);
   margin-top: var(--space-6);
 }
@@ -823,7 +831,7 @@ textarea {
 .location_hours-summary {
   display: grid;
   grid-template-columns: 1.5rem minmax(0, 1fr);
-  gap: var(--space-3);
+  gap: var(--space-4);
   align-items: start;
   justify-content: center;
 }
@@ -847,6 +855,32 @@ textarea {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.75;
+}
+
+#location .location_fact:last-child .location_icon,
+#contact-details .location_fact:last-child .location_icon {
+  visibility: hidden;
+}
+
+#location .location_subtitle,
+#contact-details .location_subtitle {
+  display: none;
+}
+
+#location .location_facts,
+#contact-details .location_facts {
+  margin-top: var(--space-8);
+}
+
+#location .location_address,
+#location .location_hours-summary,
+#location .location_link,
+#location .location_fact,
+#contact-details .location_address,
+#contact-details .location_hours-summary,
+#contact-details .location_link,
+#contact-details .location_fact-row {
+  gap: calc(var(--space-6) + var(--space-3));
 }
 
 .location_link {
@@ -899,7 +933,7 @@ textarea {
     block-size var(--transition-fast),
     opacity var(--transition-fast),
     content-visibility var(--transition-fast);
-  transition-behavior: allow-discrete;
+    transition-behavior: allow-discrete;
 }
 
 .location_hours[open]::details-content {

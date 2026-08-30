@@ -115,7 +115,7 @@
   content: "";
 }
 
-.mobile-route_stop[data-route-stop-state="upcoming"] {
+.mobile-route_stop[data-route-stop-state="past"] {
   opacity: 0.55;
 }
 

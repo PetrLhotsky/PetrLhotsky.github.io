@@ -1,59 +1,38 @@
 # Report migrace PHP → statický HTML
 
-Datum exportu: 16. 8. 2026
-Zdroj: `www(20260816-142035).zip`
+- Zdroj: `www(20260830-114103).zip`
+- Datum exportu: 2026-08-30
+- HTML stránek: **38**
+- Produktových detailů: **30**
+- Lokálních referencí zkontrolováno: **2257**
+- Unikátních lokálních cílů zkontrolováno: **145**
+- Chybějící lokální cíle: **0**
+- HTTP cílů ověřeno přes lokální statický server: **152** (0 chyb)
+- Mapy.com iframe na `pojizdna-prodejna.html`: **2**
 
-## Výsledek
+## Mapy.com iframe
 
-- Vygenerováno 38 HTML stránek.
-- Z toho 30 samostatných produktových detailů.
-- Základní veřejné stránky: `index.html`, `o-nas.html`, `produkty.html`, `prodejna-potravin.html`, `pojizdna-prodejna.html`, `kontakty.html`, `produkt.html` (404 fallback produktu) a `404.html`.
-- Vygenerován statický `sitemap.xml` s URL odpovídajícími `.html` souborům.
-- Zachovány aktuální CSS, JavaScript, fonty, SVG a obrázky z této konkrétní zálohy.
-- CMS obrázky potřebné veřejným webem jsou zachovány v `admin/data/img/`; administrační PHP rozhraní a datové JSON soubory nejsou pro statický provoz potřeba a nejsou součástí exportu.
+Oba route iframe zůstávají absolutní HTTPS URL a nejsou relativizovány:
 
-## Relativní cesty
+- `https://mapy.com/s/cokateholo`
+- `https://mapy.com/s/karapecaro`
 
-Ve vykresleném HTML jsou všechny lokální cesty relativní. Například:
+Do statické verze byl přidán `js/mapy-iframe-fix.js`. Při prvním zobrazení konkrétního panelu trasy iframe jednou znovu načte až ve chvíli, kdy panel není skrytý. Tím se eliminuje problém s výpočtem rozměrů Mapy.com ve skrytém tabu. Iframe zároveň obsahuje `allowfullscreen`.
 
-- `css/styles.css?v=...`
-- `js/_menu.js?v=...`
-- `assets/img/pino-logo.png?v=...`
-- `admin/data/img/frgal-makovy.jpg`
-- `produkty.html`
-- `produkt-makovy-frgal.html`
+## Další úpravy
 
-Absolutní URL v SEO metadatech (canonical, Open Graph, JSON-LD) zůstávají absolutní, ale interní stránkové URL byly převedeny na odpovídající statické `.html` adresy.
+- veřejné PHP stránky jsou vyrenderované do `.html`,
+- dynamické produktové URL jsou převedené na `produkt-<technical_id>.html`,
+- lokální cesty k CSS, JS, obrázkům, fontům a interním stránkám jsou relativní,
+- externí URL (včetně Mapy.com) zůstávají absolutní,
+- `sitemap.xml` obsahuje statické `.html` URL,
+- PHP administrace není součástí exportu.
+- ve zdroji byl rozdíl velikosti písmen u souborů `Recoleta-SemiboldCondensed.*` vs. odkazů `Recoleta-SemiBoldCondensed.*`; statický export obsahuje kompatibilní aliasy, aby font fungoval i na case-sensitive Linux hostingu.
 
-## Kontrola kvality
+## Omezení
 
-- HTML stránek: 38
-- Produktových detailů: 30
-- Lokálních referencí z HTML/CSS zkontrolováno: 1 814
-- Unikátních lokálních souborových cílů: 145
-- Kořenových lokálních cest (`/css/...`, `/assets/...`, `/admin/data/img/...` apod.): 0
-- Chybějících lokálních souborů: 0
-- HTTP cílů ověřených přes lokální statický server: 148
-- HTTP chyb: 0
-- `sitemap.xml`: syntakticky validní XML
-- Nevyhodnocený PHP kód ve výstupním HTML: 0
-- Lokální odkazy na `.php`: 0
-- Dynamické produktové odkazy `produkt?produkt=...`: převedeny na `produkt-<id>.html`
+Jízdní řád tras je při generování PHP vyhodnocen vůči aktuálnímu týdnu; samotný JavaScript na stránce dále průběžně aktualizuje stav podle času. Administrace a jiné serverové PHP funkce nejsou ve statickém exportu dostupné. V build prostředí nebylo možné přímo načíst vzdálený obsah Mapy.com, proto je QA iframe zaměřené na správnost absolutních URL, atributů a chování při zobrazení tabu; formát odpovídá současnému iframe způsobu Mapy.com.
 
-## Omezení statické verze
+## QA
 
-1. **Administrace / CMS**
-   Statický export neobsahuje funkční PHP administraci. Změny produktů, tras nebo údajů je nutné provést ve zdrojovém PHP webu a následně vytvořit nový statický export.
-
-2. **Pojízdná prodejna je časový snímek**
-   Zdrojový PHP web počítá aktuální týden tras pomocí `DateTimeImmutable('today')` v časové zóně `Europe/Prague`. Statická stránka `pojizdna-prodejna.html` proto zachycuje stav platný v okamžiku exportu 16. 8. 2026. Pro dlouhodobý provoz je vhodné export pravidelně regenerovat nebo logiku tras převést do JavaScriptu.
-
-3. **Produkty bez vlastního obrázku**
-   Čtyři produkty (`speci-aln-i-1` až `speci-aln-i-4`) nemají ve zdrojové záloze vlastní master JPG. PHP u nich používá dodaný `assets/img/product-placeholder.*`; statický export toto chování zachovává.
-
-4. **Serverové přepisy URL**
-   Původní web používá Apache `.htaccess` pro URL bez přípony. Statický export na těchto přepisech nezávisí a všechny interní odkazy vedou přímo na `.html` soubory.
-
-## Nasazení
-
-Obsah této složky lze nahrát přímo na statický hosting. Jako vstupní stránka slouží `index.html`; vlastní 404 lze na hostingu nastavit na `404.html`.
+Kontrola neodhalila žádný nevyhodnocený PHP kód, lokální `.php` URL, dynamickou produktovou URL, kořenovou lokální cestu ani chybějící lokální soubor.
