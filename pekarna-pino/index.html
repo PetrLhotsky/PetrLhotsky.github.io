@@ -1,535 +1,492 @@
 <!DOCTYPE html>
+
 <html lang="cs">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Pekárna Pino ve Frýdku-Místku peče tradiční frgály, chleby, jemné pečivo, vánočky i výrobky na zakázku. Navštivte pekárnu, prodejnu nebo pojízdnou prodejnu.">
-    <meta name="theme-color" content="#fbf4e4">
-        <meta property="og:type" content="website">
-    <meta property="og:locale" content="cs_CZ">
-    <meta property="og:site_name" content="Pekárna Pino">
-    <meta property="og:title" content="Pekárna Pino | Tradiční frgály a pečivo z Frýdku-Místku">
-    <meta property="og:description" content="Tradiční frgály, chleby, jemné pečivo a zakázková výroba z Pekárna Pino ve Frýdku-Místku.">
-    <meta property="og:url" content="https://www.pekarna-pino.cz/">
-    <meta property="og:image" content="https://www.pekarna-pino.cz/assets/img/hero-baking.jpg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1920">
-    <meta property="og:image:height" content="2880">
-    <meta property="og:image:alt" content="Koláč, váleček a mouka na pracovním stole při přípravě pečiva">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pekárna Pino | Tradiční frgály a pečivo z Frýdku-Místku">
-    <meta name="twitter:description" content="Tradiční frgály, chleby, jemné pečivo a zakázková výroba z Pekárna Pino ve Frýdku-Místku.">
-    <meta name="twitter:image" content="https://www.pekarna-pino.cz/assets/img/hero-baking.jpg">
-    <meta name="twitter:image:alt" content="Koláč, váleček a mouka na pracovním stole při přípravě pečiva">
-    <title>Pekárna Pino | Tradiční frgály, pečivo, prodejna potravin, pojízdná prodejna - Frýdku-Místku</title>
-    <link rel="canonical" href="https://www.pekarna-pino.cz/">
-    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-    <link rel="preload" href="assets/fonts/Recoleta-SemiBoldCondensed.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="assets/img/hero-baking.avif" as="image" type="image/avif" imagesrcset="assets/img/hero-baking-480.avif 480w, assets/img/hero-baking-960.avif 960w, assets/img/hero-baking-1440.avif 1440w, assets/img/hero-baking.avif 1920w" imagesizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" fetchpriority="high">
-        <link rel="stylesheet" href="css/styles.css">
-        <link rel="stylesheet" href="css/index.css">
-            <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "Bakery",
-    "name": "Pekárna Pino",
-    "email": "ales.carbol@email.cz",
-    "telephone": "+420733765333",
-    "sameAs": [
-        "https://facebook.com/pekarna.pino",
-        "https://instagram.com/pekarna.pino",
-        "https://linkedin.com/pekarna-pino"
-    ],
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Palkovická 537",
-        "addressLocality": "Frýdek-Místek",
-        "addressCountry": "CZ"
-    },
-    "openingHoursSpecification": [
-        {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday"
-            ],
-            "opens": "06:00",
-            "closes": "16:00"
-        },
-        {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "06:30",
-            "closes": "10:30"
-        }
-    ]
-}</script>
-          </head>
-  <body>
-    <a class="skip-link" href="#main-content">Přejít na obsah</a>
-
-    <header class="site-header">
-      <div class="site-header_inner">
-        <a class="brand" href="index.html" aria-label="Pekárna Pino – úvodní stránka">
-          <span class="brand_prefix">Pekárna</span>
-          <picture class="brand_picture">
-            <source srcset="assets/img/pino-logo.webp" type="image/webp">
-            <img class="brand_image" src="assets/img/pino-logo.png" width="325" height="133" alt="Pino">
-          </picture>
-        </a>
-
-        <div class="site-menu">
-          <button class="site-menu_toggle" type="button" aria-expanded="false" aria-controls="site-menu-panel" hidden>
-            <span class="visually-hidden">Otevřít hlavní menu</span>
-            <span class="site-menu_toggle-line" aria-hidden="true"></span>
-            <span class="site-menu_toggle-line" aria-hidden="true"></span>
-            <span class="site-menu_toggle-line" aria-hidden="true"></span>
-          </button>
-
-          <div class="site-menu_panel" id="site-menu-panel">
-            <nav class="primary-nav" aria-label="Hlavní navigace">
-              <ul class="primary-nav_list">
-                <li><a class="primary-nav_link" href="o-nas.html">O nás</a></li>
-                <li><a class="primary-nav_link" href="produkty.html">Naše produkty</a></li>
-                <li><a class="primary-nav_link" href="prodejna-potravin.html">Prodejna potravin</a></li>
-                <li><a class="primary-nav_link" href="pojizdna-prodejna.html">Pojízdná prodejna</a></li>
-              </ul>
-            </nav>
-
-            <div class="social-nav" role="group" aria-label="Sociální sítě">
-              <a class="social-link" href="https://facebook.com/pekarna.pino" target="_blank" rel="noopener noreferrer" aria-label="Facebook – otevře se v novém okně">
-                <svg class="social-link_icon" viewBox="0 0 320 512" aria-hidden="true" focusable="false">
-                  <use href="assets/icons/social-sprite.svg#icon-facebook"></use>
-                </svg>
-              </a>
-              <a class="social-link" href="https://instagram.com/pekarna.pino" target="_blank" rel="noopener noreferrer" aria-label="Instagram – otevře se v novém okně">
-                <svg class="social-link_icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-                  <use href="assets/icons/social-sprite.svg#icon-instagram"></use>
-                </svg>
-              </a>
-              <a class="social-link" href="https://linkedin.com/pekarna-pino" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn – otevře se v novém okně">
-                <svg class="social-link_icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-                  <use href="assets/icons/social-sprite.svg#icon-linkedin"></use>
-                </svg>
-              </a>
-            </div>
-
-            <a class="button button--primary site-menu_contact" href="kontakty.html">Kontakt</a>
-          </div>
-        </div>
-      </div>
-    </header>
-  <main id="main-content" tabindex="-1">
-    <section aria-labelledby="hero-title" class="hero" id="about">
-      <div class="hero_visual">
-        <picture class="hero_picture">
-          <source sizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" srcset="assets/img/hero-baking-480.avif 480w, assets/img/hero-baking-960.avif 960w, assets/img/hero-baking-1440.avif 1440w, assets/img/hero-baking.avif 1920w" type="image/avif"/>
-          <source sizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" srcset="assets/img/hero-baking-480.webp 480w, assets/img/hero-baking-960.webp 960w, assets/img/hero-baking-1440.webp 1440w, assets/img/hero-baking.webp 1920w" type="image/webp"/>
-          <img alt="Koláč, váleček a mouka na pracovním stole při přípravě pečiva" class="hero_image" fetchpriority="high" height="2880" sizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" src="assets/img/hero-baking.jpg" srcset="assets/img/hero-baking-480.jpg 480w, assets/img/hero-baking-960.jpg 960w, assets/img/hero-baking-1440.jpg 1440w, assets/img/hero-baking.jpg 1920w" width="1920"/>
-        </picture>
-        <div aria-hidden="true" class="hero_badge">
-          <picture class="hero_badge-picture">
-            <source srcset="assets/img/pino-logo.webp" type="image/webp"/>
-            <img alt="Logo Pekárna Pino" class="hero_badge-image" height="133" src="assets/img/pino-logo.png" width="325"/>
-          </picture>
-        </div>
-      </div>
-      <div class="hero_content">
-        <h1 class="hero_title" id="hero-title">
-          S&nbsp;láskou, tradicí a&nbsp;pečivem, které se rozplývá na&nbsp;jazyku
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Pekárna Pino ve Frýdku-Místku peče tradiční frgály, chleby, jemné pečivo, vánočky i výrobky na zakázku. Navštivte pekárnu, prodejnu nebo pojízdnou prodejnu." name="description"/>
+<meta content="#fbf4e4" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="cs_CZ" property="og:locale"/>
+<meta content="Pekárna Pino" property="og:site_name"/>
+<meta content="Pekárna Pino | Tradiční frgály a pečivo z Frýdku-Místku" property="og:title"/>
+<meta content="Tradiční frgály, chleby, jemné pečivo a zakázková výroba z Pekárna Pino ve Frýdku-Místku." property="og:description"/>
+<meta content="https://www.pekarna-pino.cz/" property="og:url"/>
+<meta content="https://www.pekarna-pino.cz/assets/img/hero-baking.jpg" property="og:image"/>
+<meta content="image/jpeg" property="og:image:type"/>
+<meta content="1920" property="og:image:width"/>
+<meta content="2880" property="og:image:height"/>
+<meta content="Koláč, váleček a mouka na pracovním stole při přípravě pečiva" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Pekárna Pino | Tradiční frgály a pečivo z Frýdku-Místku" name="twitter:title"/>
+<meta content="Tradiční frgály, chleby, jemné pečivo a zakázková výroba z Pekárna Pino ve Frýdku-Místku." name="twitter:description"/>
+<meta content="https://www.pekarna-pino.cz/assets/img/hero-baking.jpg" name="twitter:image"/>
+<meta content="Koláč, váleček a mouka na pracovním stole při přípravě pečiva" name="twitter:image:alt"/>
+<title>Pekárna Pino | Tradiční frgály, pečivo, prodejna potravin, pojízdná prodejna - Frýdku-Místku</title>
+<link href="https://www.pekarna-pino.cz/" rel="canonical"/>
+<link href="assets/icons/favicon.svg?v=1786708000" rel="icon" type="image/svg+xml"/>
+<link href="assets/icons/apple-touch-icon.png?v=1786708000" rel="apple-touch-icon"/>
+<link as="font" crossorigin="" href="assets/fonts/Recoleta-SemiboldCondensed.woff2" rel="preload" type="font/woff2"/>
+<link as="image" fetchpriority="high" href="assets/img/hero-baking.avif?v=1786979789" imagesizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" imagesrcset="assets/img/hero-baking-480.avif?v=1786979789 480w, assets/img/hero-baking-960.avif?v=1786979789 960w, assets/img/hero-baking-1440.avif?v=1786979789 1440w, assets/img/hero-baking.avif?v=1786979789 1920w" rel="preload" type="image/avif"/>
+<link href="css/styles.css?v=1788094850" rel="stylesheet"/>
+<link href="css/index.css?v=1788095204" rel="stylesheet"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Bakery","name":"Pekárna Pino","email":"ales.carbol@email.cz","telephone":"+420733765333","sameAs":["https://facebook.com/pekarna.pino","https://instagram.com/pekarna.pino","https://linkedin.com/pekarna-pino"],"address":{"@type":"PostalAddress","streetAddress":"Palkovická 537","addressLocality":"Frýdek-Místek","addressCountry":"CZ"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"06:00","closes":"16:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"06:30","closes":"10:30"}]}</script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Přejít na obsah</a>
+<header class="site-header">
+<div class="site-header_inner">
+<a aria-label="Pekárna Pino – úvodní stránka" class="brand" href="index.html">
+<span class="brand_prefix">Pekárna</span>
+<picture class="brand_picture">
+<source srcset="assets/img/pino-logo.webp?v=1786708000" type="image/webp"/>
+<img alt="Pino" class="brand_image" height="133" src="assets/img/pino-logo.png?v=1786708000" width="325"/>
+</picture>
+</a>
+<div class="site-menu">
+<button aria-controls="site-menu-panel" aria-expanded="false" class="site-menu_toggle" hidden="" type="button">
+<span class="visually-hidden">Otevřít hlavní menu</span>
+<span aria-hidden="true" class="site-menu_toggle-line"></span>
+<span aria-hidden="true" class="site-menu_toggle-line"></span>
+<span aria-hidden="true" class="site-menu_toggle-line"></span>
+</button>
+<div class="site-menu_panel" id="site-menu-panel">
+<nav aria-label="Hlavní navigace" class="primary-nav">
+<ul class="primary-nav_list">
+<li><a class="primary-nav_link" href="o-nas.html">O nás</a></li>
+<li><a class="primary-nav_link" href="produkty.html">Naše produkty</a></li>
+<li><a class="primary-nav_link" href="prodejna-potravin.html">Prodejna potravin</a></li>
+<li><a class="primary-nav_link" href="pojizdna-prodejna.html">Pojízdná prodejna</a></li>
+</ul>
+</nav>
+<div aria-label="Sociální sítě" class="social-nav" role="group">
+<a aria-label="Facebook – otevře se v novém okně" class="social-link" href="https://facebook.com/pekarna.pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 320 512">
+<use href="assets/icons/social-sprite.svg?v=1786708000#icon-facebook"></use>
+</svg>
+</a>
+<a aria-label="Instagram – otevře se v novém okně" class="social-link" href="https://instagram.com/pekarna.pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 448 512">
+<use href="assets/icons/social-sprite.svg?v=1786708000#icon-instagram"></use>
+</svg>
+</a>
+<a aria-label="LinkedIn – otevře se v novém okně" class="social-link" href="https://linkedin.com/pekarna-pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 448 512">
+<use href="assets/icons/social-sprite.svg?v=1786708000#icon-linkedin"></use>
+</svg>
+</a>
+</div>
+<a class="button button--primary site-menu_contact" href="kontakty.html">Kontakt</a>
+</div>
+</div>
+</div>
+</header>
+<main id="main-content" tabindex="-1">
+<section aria-labelledby="hero-title" class="hero" id="about">
+<div class="hero_visual">
+<picture class="hero_picture">
+<source sizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" srcset="assets/img/hero-baking-480.avif?v=1786979789 480w, assets/img/hero-baking-960.avif?v=1786979789 960w, assets/img/hero-baking-1440.avif?v=1786979789 1440w, assets/img/hero-baking.avif?v=1786979789 1920w" type="image/avif">
+<source sizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" srcset="assets/img/hero-baking-480.webp?v=1786708000 480w, assets/img/hero-baking-960.webp?v=1786708000 960w, assets/img/hero-baking-1440.webp?v=1786708000 1440w, assets/img/hero-baking.webp?v=1786708000 1920w" type="image/webp"/>
+<img alt="Koláč, váleček a mouka na pracovním stole při přípravě pečiva" class="hero_image" fetchpriority="high" height="2880" sizes="(min-width: 86rem) 82rem, (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2rem)" src="assets/img/hero-baking.jpg?v=1786708000" srcset="assets/img/hero-baking-480.jpg?v=1786708000 480w, assets/img/hero-baking-960.jpg?v=1786708000 960w, assets/img/hero-baking-1440.jpg?v=1786708000 1440w, assets/img/hero-baking.jpg?v=1786708000 1920w" width="1920">
+</img></source></picture>
+<div aria-hidden="true" class="hero_badge">
+<picture class="hero_badge-picture">
+<source srcset="assets/img/pino-logo.webp?v=1786708000" type="image/webp"/>
+<img alt="Logo Pekárna Pino" class="hero_badge-image" height="133" src="assets/img/pino-logo.png?v=1786708000" width="325"/>
+</picture>
+</div>
+</div>
+<div class="hero_content">
+<h1 class="hero_title" id="hero-title">
+          S láskou, tradicí a pečivem, které se rozplývá na jazyku
         </h1>
-        <p class="hero_lead">Pečeme pro&nbsp;Vás již od&nbsp;roku 1999.</p>
-        <a class="hero_link" href="o-nas.html">
-          <span>Více o&nbsp;nás</span>
-          <svg aria-hidden="true" class="hero_link-icon" focusable="false" viewbox="0 0 24 24">
-            <path d="m13.5 5 7 7-7 7M20 12H3"></path>
-          </svg>
-        </a>
-      </div>
-    </section>
-    <section aria-labelledby="frgals-title" class="frgals" id="products">
-      <div class="frgals_inner">
-        <header class="frgals_header">
-          <h2 class="section-title frgals_title" id="frgals-title">Naše tradiční frgály</h2>
-          <p class="frgals_intro">
-            Frgál je tradiční koláč z jemného kynutého těsta, který pro Vás pečeme každý den podle osvědčené rodinné receptury. Štědrá porce náplně i vůně poctivého másla z něj dělají poctivý pekařský zážitek, který se rozplývá na jazyku.
+<p class="hero_lead">Pečeme pro Vás již od roku 1999.</p>
+<a class="hero_link" href="o-nas.html">
+<span>Více o nás</span>
+<svg aria-hidden="true" class="hero_link-icon" focusable="false" viewbox="0 0 24 24">
+<path d="m13.5 5 7 7-7 7M20 12H3"></path>
+</svg>
+</a>
+</div>
+</section>
+<section aria-labelledby="frgals-title" class="frgals" id="products">
+<div class="frgals_inner">
+<header class="frgals_header">
+<h2 class="section-title frgals_title" id="frgals-title">Naše tradiční frgály</h2>
+<p class="frgals_intro">
+            Frgál je tradiční koláč z jemného kynutého těsta, který pro Vás pečeme každý den podle osvědčené rodinné receptury. Štědrá porce náplně i vůně poctivého másla z něj dělají poctivý pekařský zážitek, který se přímo rozplývá na jazyku.
           </p>
-        </header>
-        <section aria-describedby="frgals-instructions frgals-status" aria-label="Nabídka tradičních frgálů; seznam lze posouvat vodorovně" aria-roledescription="karusel" class="frgals_viewport" id="frgals-carousel" tabindex="0">
-          <p class="visually-hidden" id="frgals-instructions">
+</header>
+<section aria-describedby="frgals-instructions frgals-status" aria-label="Nabídka tradičních frgálů; seznam lze posouvat vodorovně" aria-roledescription="karusel" class="frgals_viewport" id="frgals-carousel" tabindex="0">
+<p class="visually-hidden" id="frgals-instructions">
             Položky posunete klávesami se šipkou doleva a doprava.
           </p>
-          <ul class="frgals_list"><li class="frgals_item frgaly_item--ovocny-frgal" id="frgal-ovocny">
-      <a class="frgal-card_link" href="produkt-ovocny-frgal.html">
-      <figure class="frgal-card">
-        <div class="frgal-card_media">
-          <picture class="frgal-card_picture">
-            <source srcset="admin/data/img/frgal-ovocny-480.webp 480w, admin/data/img/frgal-ovocny.webp 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" type="image/webp">
-            <img class="frgal-card_image" src="admin/data/img/frgal-ovocny.jpg" srcset="admin/data/img/frgal-ovocny-480.jpg 480w, admin/data/img/frgal-ovocny.jpg 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" width="960" height="757" alt="Ovocný frgál s máslovou drobenkou" loading="lazy" decoding="async">
-          </picture>
-        </div>
-        <figcaption class="frgal-card_caption">
+<ul class="frgals_list"><li class="frgals_item frgaly_item--ovocny-frgal" id="frgal-ovocny">
+<a class="frgal-card_link" href="produkt-ovocny-frgal.html">
+<figure class="frgal-card">
+<div class="frgal-card_media">
+<picture class="frgal-card_picture">
+<source sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" srcset="admin/data/img/frgal-ovocny-480.webp 480w, admin/data/img/frgal-ovocny.webp 960w" type="image/webp"/>
+<img alt="Ovocný frgál s máslovou drobenkou" class="frgal-card_image" decoding="async" height="757" loading="lazy" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" src="admin/data/img/frgal-ovocny.jpg" srcset="admin/data/img/frgal-ovocny-480.jpg 480w, admin/data/img/frgal-ovocny.jpg 960w" width="960"/>
+</picture>
+</div>
+<figcaption class="frgal-card_caption">
           Ovocný<span class="frgal-card_suffix"> frgál</span>
-        </figcaption>
-      </figure>
-    </a>
-  </li>
+</figcaption>
+</figure>
+</a>
+</li>
 <li class="frgals_item frgaly_item--tvarohovy-frgal" id="frgal-tvarohovy">
-      <a class="frgal-card_link" href="produkt-tvarohovy-frgal.html">
-      <figure class="frgal-card">
-        <div class="frgal-card_media">
-          <picture class="frgal-card_picture">
-            <source srcset="admin/data/img/frgal-tvarohovy-480.webp 480w, admin/data/img/frgal-tvarohovy.webp 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" type="image/webp">
-            <img class="frgal-card_image" src="admin/data/img/frgal-tvarohovy.jpg" srcset="admin/data/img/frgal-tvarohovy-480.jpg 480w, admin/data/img/frgal-tvarohovy.jpg 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" width="960" height="757" alt="Tvarohový frgál s máslovou drobenkou" loading="lazy" decoding="async">
-          </picture>
-        </div>
-        <figcaption class="frgal-card_caption">
+<a class="frgal-card_link" href="produkt-tvarohovy-frgal.html">
+<figure class="frgal-card">
+<div class="frgal-card_media">
+<picture class="frgal-card_picture">
+<source sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" srcset="admin/data/img/frgal-tvarohovy-480.webp 480w, admin/data/img/frgal-tvarohovy.webp 960w" type="image/webp"/>
+<img alt="Tvarohový frgál s máslovou drobenkou" class="frgal-card_image" decoding="async" height="757" loading="lazy" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" src="admin/data/img/frgal-tvarohovy.jpg" srcset="admin/data/img/frgal-tvarohovy-480.jpg 480w, admin/data/img/frgal-tvarohovy.jpg 960w" width="960"/>
+</picture>
+</div>
+<figcaption class="frgal-card_caption">
           Tvarohový<span class="frgal-card_suffix"> frgál</span>
-        </figcaption>
-      </figure>
-    </a>
-  </li>
+</figcaption>
+</figure>
+</a>
+</li>
 <li class="frgals_item frgaly_item--makovy-frgal" id="frgal-makovy">
-      <a class="frgal-card_link" href="produkt-makovy-frgal.html">
-      <figure class="frgal-card">
-        <div class="frgal-card_media">
-          <picture class="frgal-card_picture">
-            <source srcset="admin/data/img/frgal-makovy-480.webp 480w, admin/data/img/frgal-makovy.webp 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" type="image/webp">
-            <img class="frgal-card_image" src="admin/data/img/frgal-makovy.jpg" srcset="admin/data/img/frgal-makovy-480.jpg 480w, admin/data/img/frgal-makovy.jpg 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" width="960" height="757" alt="Makový frgál s máslovou drobenkou" loading="lazy" decoding="async">
-          </picture>
-        </div>
-        <figcaption class="frgal-card_caption">
+<a class="frgal-card_link" href="produkt-makovy-frgal.html">
+<figure class="frgal-card">
+<div class="frgal-card_media">
+<picture class="frgal-card_picture">
+<source sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" srcset="admin/data/img/frgal-makovy-480.webp 480w, admin/data/img/frgal-makovy.webp 960w" type="image/webp"/>
+<img alt="Makový frgál s máslovou drobenkou" class="frgal-card_image" decoding="async" height="757" loading="lazy" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" src="admin/data/img/frgal-makovy.jpg" srcset="admin/data/img/frgal-makovy-480.jpg 480w, admin/data/img/frgal-makovy.jpg 960w" width="960"/>
+</picture>
+</div>
+<figcaption class="frgal-card_caption">
           Makový<span class="frgal-card_suffix"> frgál</span>
-        </figcaption>
-      </figure>
-    </a>
-  </li>
+</figcaption>
+</figure>
+</a>
+</li>
 <li class="frgals_item frgaly_item--povidlovy-frgal" id="frgal-povidlovy">
-      <a class="frgal-card_link" href="produkt-povidlovy-frgal.html">
-      <figure class="frgal-card">
-        <div class="frgal-card_media">
-          <picture class="frgal-card_picture">
-            <source srcset="admin/data/img/frgal-ovocny-480.webp 480w, admin/data/img/frgal-ovocny.webp 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" type="image/webp">
-            <img class="frgal-card_image" src="admin/data/img/frgal-ovocny.jpg" srcset="admin/data/img/frgal-ovocny-480.jpg 480w, admin/data/img/frgal-ovocny.jpg 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" width="960" height="757" alt="Povidlový frgál" loading="lazy" decoding="async">
-          </picture>
-        </div>
-        <figcaption class="frgal-card_caption">
+<a class="frgal-card_link" href="produkt-povidlovy-frgal.html">
+<figure class="frgal-card">
+<div class="frgal-card_media">
+<picture class="frgal-card_picture">
+<source sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" srcset="admin/data/img/frgal-ovocny-480.webp 480w, admin/data/img/frgal-ovocny.webp 960w" type="image/webp"/>
+<img alt="Povidlový frgál" class="frgal-card_image" decoding="async" height="757" loading="lazy" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" src="admin/data/img/frgal-ovocny.jpg" srcset="admin/data/img/frgal-ovocny-480.jpg 480w, admin/data/img/frgal-ovocny.jpg 960w" width="960"/>
+</picture>
+</div>
+<figcaption class="frgal-card_caption">
           Povidlový<span class="frgal-card_suffix"> frgál</span>
-        </figcaption>
-      </figure>
-    </a>
-  </li>
+</figcaption>
+</figure>
+</a>
+</li>
 <li class="frgals_item frgaly_item--hruskovy-frgal" id="frgal-hruskovy">
-      <a class="frgal-card_link" href="produkt-hruskovy-frgal.html">
-      <figure class="frgal-card">
-        <div class="frgal-card_media">
-          <picture class="frgal-card_picture">
-            <source srcset="admin/data/img/frgal-tvarohovy-480.webp 480w, admin/data/img/frgal-tvarohovy.webp 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" type="image/webp">
-            <img class="frgal-card_image" src="admin/data/img/frgal-tvarohovy.jpg" srcset="admin/data/img/frgal-tvarohovy-480.jpg 480w, admin/data/img/frgal-tvarohovy.jpg 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" width="960" height="757" alt="Hruškový frgál" loading="lazy" decoding="async">
-          </picture>
-        </div>
-        <figcaption class="frgal-card_caption">
+<a class="frgal-card_link" href="produkt-hruskovy-frgal.html">
+<figure class="frgal-card">
+<div class="frgal-card_media">
+<picture class="frgal-card_picture">
+<source sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" srcset="admin/data/img/frgal-tvarohovy-480.webp 480w, admin/data/img/frgal-tvarohovy.webp 960w" type="image/webp"/>
+<img alt="Hruškový frgál" class="frgal-card_image" decoding="async" height="757" loading="lazy" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" src="admin/data/img/frgal-tvarohovy.jpg" srcset="admin/data/img/frgal-tvarohovy-480.jpg 480w, admin/data/img/frgal-tvarohovy.jpg 960w" width="960"/>
+</picture>
+</div>
+<figcaption class="frgal-card_caption">
           Hruškový<span class="frgal-card_suffix"> frgál</span>
-        </figcaption>
-      </figure>
-    </a>
-  </li>
+</figcaption>
+</figure>
+</a>
+</li>
 <li class="frgals_item frgaly_item--orechovy-frgal" id="frgal-orechovy">
-      <a class="frgal-card_link" href="produkt-orechovy-frgal.html">
-      <figure class="frgal-card">
-        <div class="frgal-card_media">
-          <picture class="frgal-card_picture">
-            <source srcset="admin/data/img/frgal-makovy-480.webp 480w, admin/data/img/frgal-makovy.webp 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" type="image/webp">
-            <img class="frgal-card_image" src="admin/data/img/frgal-makovy.jpg" srcset="admin/data/img/frgal-makovy-480.jpg 480w, admin/data/img/frgal-makovy.jpg 960w" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" width="960" height="757" alt="Ořechový frgál" loading="lazy" decoding="async">
-          </picture>
-        </div>
-        <figcaption class="frgal-card_caption">
+<a class="frgal-card_link" href="produkt-orechovy-frgal.html">
+<figure class="frgal-card">
+<div class="frgal-card_media">
+<picture class="frgal-card_picture">
+<source sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" srcset="admin/data/img/frgal-makovy-480.webp 480w, admin/data/img/frgal-makovy.webp 960w" type="image/webp"/>
+<img alt="Ořechový frgál" class="frgal-card_image" decoding="async" height="757" loading="lazy" sizes="(min-width: 48rem) 26.5rem, calc(100vw - 2rem)" src="admin/data/img/frgal-makovy.jpg" srcset="admin/data/img/frgal-makovy-480.jpg 480w, admin/data/img/frgal-makovy.jpg 960w" width="960"/>
+</picture>
+</div>
+<figcaption class="frgal-card_caption">
           Ořechový<span class="frgal-card_suffix"> frgál</span>
-        </figcaption>
-      </figure>
-    </a>
-  </li>
+</figcaption>
+</figure>
+</a>
+</li>
 </ul>
-        </section>
-        <p aria-atomic="true" aria-live="polite" class="visually-hidden" data-carousel-status="" id="frgals-status"></p>
-        <nav aria-label="Ovládání nabídky frgálů" class="frgals_controls" data-carousel-controls="frgals-carousel">
-          <button aria-controls="frgals-carousel" aria-label="Předchozí frgál" class="round-link" data-carousel-direction="previous" type="button">
-            <svg aria-hidden="true" class="round-link_icon" focusable="false" viewbox="0 0 24 24">
-              <path d="m14.5 5-7 7 7 7"></path>
-            </svg>
-          </button>
-          <a class="button button--primary frgals_all" href="produkty.html#frgaly">Všechny frgály</a>
-          <button aria-controls="frgals-carousel" aria-label="Další frgál" class="round-link" data-carousel-direction="next" type="button">
-            <svg aria-hidden="true" class="round-link_icon" focusable="false" viewbox="0 0 24 24">
-              <path d="m9.5 5 7 7-7 7"></path>
-            </svg>
-          </button>
-        </nav>
-        <aside aria-labelledby="bulk-order-title" class="bulk-order" id="contact">
-          <div class="bulk-order_content">
-            <h3 class="bulk-order_title" id="bulk-order-title">Chcete frgály pro&nbsp;celou partu?</h3>
-            <p class="bulk-order_text">
-              Pečeme i&nbsp;na&nbsp;zakázku — pro&nbsp;oslavy, narozeniny, firemní akce, jídelny i&nbsp;kavárny.
+</section>
+<p aria-atomic="true" aria-live="polite" class="visually-hidden" data-carousel-status="" id="frgals-status"></p>
+<nav aria-label="Ovládání nabídky frgálů" class="frgals_controls" data-carousel-controls="frgals-carousel">
+<button aria-controls="frgals-carousel" aria-label="Předchozí frgál" class="round-link" data-carousel-direction="previous" type="button">
+<svg aria-hidden="true" class="round-link_icon" focusable="false" viewbox="0 0 24 24">
+<path d="m14.5 5-7 7 7 7"></path>
+</svg>
+</button>
+<a class="button button--primary frgals_all" href="produkty.html#frgaly">Všechny frgály</a>
+<button aria-controls="frgals-carousel" aria-label="Další frgál" class="round-link" data-carousel-direction="next" type="button">
+<svg aria-hidden="true" class="round-link_icon" focusable="false" viewbox="0 0 24 24">
+<path d="m9.5 5 7 7-7 7"></path>
+</svg>
+</button>
+</nav>
+<aside aria-labelledby="bulk-order-title" class="bulk-order" id="contact">
+<div class="bulk-order_content">
+<h3 class="bulk-order_title" id="bulk-order-title">Chcete frgály pro celou partu?</h3>
+<p class="bulk-order_text">
+              Pečeme i na zakázku — pro oslavy, narozeniny, firemní akce, jídelny i kavárny.
             </p>
-          </div>
-          <a class="bulk-order_link" href="kontakty.html">
-            <span>Napište nám</span>
-            <svg aria-hidden="true" class="bulk-order_icon" focusable="false" viewbox="0 0 24 24">
-              <path d="m13.5 5 7 7-7 7M20 12H3"></path>
-            </svg>
-          </a>
-        </aside>
-      </div>
-    </section>
-    <section aria-labelledby="product-categories-title" class="product-categories" id="bakery-products">
-      <div class="product-categories_inner">
-        <h2 class="section-title product-categories_title" id="product-categories-title">
+</div>
+<a class="bulk-order_link" href="kontakty.html">
+<span>Napište nám</span>
+<svg aria-hidden="true" class="bulk-order_icon" focusable="false" viewbox="0 0 24 24">
+<path d="m13.5 5 7 7-7 7M20 12H3"></path>
+</svg>
+</a>
+</aside>
+</div>
+</section>
+<section aria-labelledby="product-categories-title" class="product-categories" id="bakery-products">
+<div class="product-categories_inner">
+<h2 class="section-title product-categories_title" id="product-categories-title">
           Co dalšího pečeme?
         </h2>
-        <ul class="product-categories_list"><li>
-  <a class="product-card product-card--chleby" href="produkty.html#chleby">
-    <picture class="product-card_picture">
-      <source srcset="admin/data/img/category-chleby-400.webp 400w, admin/data/img/category-chleby-800.webp 800w, admin/data/img/category-chleby.webp 1200w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" type="image/webp">
-      <img class="product-card_image" src="admin/data/img/category-chleby.jpg" srcset="admin/data/img/category-chleby-400.jpg 400w, admin/data/img/category-chleby-800.jpg 800w, admin/data/img/category-chleby.jpg 1200w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" width="1200" height="1500" alt="Bochníky chleba v rukou pekaře" loading="lazy" decoding="async">
-    </picture>
-    <h3 class="product-card_title">Chleby</h3>
-  </a>
+<ul class="product-categories_list"><li>
+<a class="product-card product-card--chleby" href="produkty.html#chleby">
+<picture class="product-card_picture">
+<source sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" srcset="admin/data/img/category-chleby-400.webp 400w, admin/data/img/category-chleby-800.webp 800w, admin/data/img/category-chleby.webp 1200w" type="image/webp"/>
+<img alt="Bochníky chleba v rukou pekaře" class="product-card_image" decoding="async" height="1500" loading="lazy" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" src="admin/data/img/category-chleby.jpg" srcset="admin/data/img/category-chleby-400.jpg 400w, admin/data/img/category-chleby-800.jpg 800w, admin/data/img/category-chleby.jpg 1200w" width="1200"/>
+</picture>
+<h3 class="product-card_title">Chleby</h3>
+</a>
 </li>
 <li>
-  <a class="product-card product-card--jemne-pecivo" href="produkty.html#jemne-pecivo">
-    <picture class="product-card_picture">
-      <source srcset="admin/data/img/category-jemne-pecivo-400.webp 400w, admin/data/img/category-jemne-pecivo-800.webp 800w, admin/data/img/category-jemne-pecivo.webp 1600w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" type="image/webp">
-      <img class="product-card_image" src="admin/data/img/category-jemne-pecivo.jpg" srcset="admin/data/img/category-jemne-pecivo-400.jpg 400w, admin/data/img/category-jemne-pecivo-800.jpg 800w, admin/data/img/category-jemne-pecivo.jpg 1600w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" width="1600" height="1200" alt="Košík pleteného jemného pečiva" loading="lazy" decoding="async">
-    </picture>
-    <h3 class="product-card_title">Jemné pečivo</h3>
-  </a>
+<a class="product-card product-card--jemne-pecivo" href="produkty.html#jemne-pecivo">
+<picture class="product-card_picture">
+<source sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" srcset="admin/data/img/category-jemne-pecivo-400.webp 400w, admin/data/img/category-jemne-pecivo-800.webp 800w, admin/data/img/category-jemne-pecivo.webp 1600w" type="image/webp"/>
+<img alt="Košík pleteného jemného pečiva" class="product-card_image" decoding="async" height="1200" loading="lazy" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" src="admin/data/img/category-jemne-pecivo.jpg" srcset="admin/data/img/category-jemne-pecivo-400.jpg 400w, admin/data/img/category-jemne-pecivo-800.jpg 800w, admin/data/img/category-jemne-pecivo.jpg 1600w" width="1600"/>
+</picture>
+<h3 class="product-card_title">Jemné pečivo</h3>
+</a>
 </li>
 <li>
-  <a class="product-card product-card--vanocky" href="produkty.html#vanocky">
-    <picture class="product-card_picture">
-      <source srcset="admin/data/img/category-specialni-400.webp 400w, admin/data/img/category-specialni-800.webp 800w, admin/data/img/category-specialni.webp 1272w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" type="image/webp">
-      <img class="product-card_image" src="admin/data/img/category-specialni.jpg" srcset="admin/data/img/category-specialni-400.jpg 400w, admin/data/img/category-specialni-800.jpg 800w, admin/data/img/category-specialni.jpg 1272w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" width="1272" height="764" alt="Nakrájená vánočka s rozinkami" loading="lazy" decoding="async">
-    </picture>
-    <h3 class="product-card_title">Vánočky</h3>
-  </a>
+<a class="product-card product-card--vanocky" href="produkty.html#vanocky">
+<picture class="product-card_picture">
+<source sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" srcset="admin/data/img/category-specialni-400.webp 400w, admin/data/img/category-specialni-800.webp 800w, admin/data/img/category-specialni.webp 1272w" type="image/webp"/>
+<img alt="Nakrájená vánočka s rozinkami" class="product-card_image" decoding="async" height="764" loading="lazy" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" src="admin/data/img/category-specialni.jpg" srcset="admin/data/img/category-specialni-400.jpg 400w, admin/data/img/category-specialni-800.jpg 800w, admin/data/img/category-specialni.jpg 1272w" width="1272"/>
+</picture>
+<h3 class="product-card_title">Vánočky</h3>
+</a>
 </li>
 <li>
-  <a class="product-card product-card--specialni" href="produkty.html#specialni">
-    <picture class="product-card_picture">
-      <source srcset="admin/data/img/category-specialni-400.webp 400w, admin/data/img/category-specialni-800.webp 800w, admin/data/img/category-specialni.webp 1272w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" type="image/webp">
-      <img class="product-card_image" src="admin/data/img/category-specialni.jpg" srcset="admin/data/img/category-specialni-400.jpg 400w, admin/data/img/category-specialni-800.jpg 800w, admin/data/img/category-specialni.jpg 1272w" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" width="1272" height="764" alt="Slavnostní pletené pečivo s mandlemi" loading="lazy" decoding="async">
-    </picture>
-    <h3 class="product-card_title">Speciální</h3>
-  </a>
+<a class="product-card product-card--specialni" href="produkty.html#specialni">
+<picture class="product-card_picture">
+<source sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" srcset="admin/data/img/category-specialni-400.webp 400w, admin/data/img/category-specialni-800.webp 800w, admin/data/img/category-specialni.webp 1272w" type="image/webp"/>
+<img alt="Slavnostní pletené pečivo s mandlemi" class="product-card_image" decoding="async" height="764" loading="lazy" sizes="(min-width: 82rem) 19.25rem, (min-width: 48rem) calc((100vw - 7rem) / 4), calc((100vw - 3rem) / 2)" src="admin/data/img/category-specialni.jpg" srcset="admin/data/img/category-specialni-400.jpg 400w, admin/data/img/category-specialni-800.jpg 800w, admin/data/img/category-specialni.jpg 1272w" width="1272"/>
+</picture>
+<h3 class="product-card_title">Speciální</h3>
+</a>
 </li>
 </ul>
-        <a class="button button--primary product-categories_all" href="produkty.html">
-          <span>Všechny produkty</span>
-          <svg aria-hidden="true" class="product-categories_icon" focusable="false" viewbox="0 0 24 24">
-            <path d="m13.5 5 7 7-7 7M20 12H3"></path>
-          </svg>
-        </a>
-      </div>
-    </section>
-    <section aria-labelledby="services-title" class="services" id="services">
-      <div class="services_inner">
-        <h2 class="section-title services_title" id="services-title">Naše služby</h2>
-        <!-- Service icons: Font Awesome Free 7.1.0, CC BY 4.0. -->
-        <ul class="services_list">
-          <li>
-            <article class="service-card" id="bakery-service">
-              <div aria-hidden="true" class="service-card_icon-wrap">
-                <svg class="service-card_icon" focusable="false" viewbox="0 0 512 512">
-                  <path d="M64 432V256c-35.3 0-64-28.7-64-64C0-24.5 512-24.5 512 192c0 35.3-28.7 64-64 64v176c0 26.5-21.5 48-48 48H112c-26.5 0-48-21.5-48-48Z">
-                  </path>
-                </svg>
-              </div>
-              <h3 class="service-card_title">Pekárna Pino</h3>
-              <p class="service-card_text">
-                Jsme rodinná pekárna ve&nbsp;Frýdku-Místku, která pro&nbsp;Vás peče již od&nbsp;roku 1999. Náš otec pekl celý život a&nbsp;my pokračujeme v&nbsp;jeho stopách. Pečeme poctivě a&nbsp;srdcem&nbsp;– protože jinak to&nbsp;jednoduše ani neumíme.
+<a class="button button--primary product-categories_all" href="produkty.html">
+<span>Všechny produkty</span>
+<svg aria-hidden="true" class="product-categories_icon" focusable="false" viewbox="0 0 24 24">
+<path d="m13.5 5 7 7-7 7M20 12H3"></path>
+</svg>
+</a>
+</div>
+</section>
+<section aria-labelledby="services-title" class="services" id="services">
+<div class="services_inner">
+<h2 class="section-title services_title" id="services-title">Naše služby</h2>
+<!-- Service icons: Font Awesome Free 7.1.0, CC BY 4.0. -->
+<ul class="services_list">
+<li>
+<article class="service-card" id="bakery-service">
+<div aria-hidden="true" class="service-card_icon-wrap">
+<svg class="service-card_icon" focusable="false" viewbox="0 0 512 512">
+<path d="M64 432V256c-35.3 0-64-28.7-64-64C0-24.5 512-24.5 512 192c0 35.3-28.7 64-64 64v176c0 26.5-21.5 48-48 48H112c-26.5 0-48-21.5-48-48Z">
+</path>
+</svg>
+</div>
+<h3 class="service-card_title">Pekárna Pino</h3>
+<p class="service-card_text">
+                Jsme rodinná pekárna ve Frýdku-Místku, která pro Vás peče již od roku 1999. Náš otec pekl celý život a my pokračujeme v jeho stopách. Pečeme poctivě a srdcem – protože jinak to jednoduše ani neumíme.
               </p>
-              <a class="service-card_link" href="produkty.html">Naše produkty</a>
-            </article>
-          </li>
-          <li>
-            <article class="service-card" id="grocery-store">
-              <div aria-hidden="true" class="service-card_icon-wrap">
-                <svg class="service-card_icon" focusable="false" viewbox="0 0 576 512">
-                  <path d="M288 0c6.6 0 12.9 2.7 17.4 7.5l144 152 .5.5H528c17.7 0 32 14.3 32 32 0 14.5-9.6 26.7-22.8 30.7l-46.1 207.2c-6.5 29.3-32.5 50.1-62.5 50.1H147.3c-30 0-56-20.8-62.5-50.1l-46-207.2C25.6 218.8 16 206.5 16 192c0-17.7 14.3-32 32-32h78.1l.5-.5 144-152C275.1 2.7 281.4 0 288 0Zm0 58.9L192.2 160h191.6L288 58.9ZM208 264c0-13.3-10.7-24-24-24s-24 10.7-24 24v112c0 13.3 10.7 24 24 24s24-10.7 24-24V264Zm80-24c-13.3 0-24 10.7-24 24v112c0 13.3 10.7 24 24 24s24-10.7 24-24V264c0-13.3-10.7-24-24-24Zm128 24c0-13.3-10.7-24-24-24s-24 10.7-24 24v112c0 13.3 10.7 24 24 24s24-10.7 24-24V264Z">
-                  </path>
-                </svg>
-              </div>
-              <h3 class="service-card_title">Prodejna potravin</h3>
-              <p class="service-card_text">
-                Vybíráme pro&nbsp;Vás čerstvé pečivo a&nbsp;základní koloniál pro&nbsp;denní nákup. Stavte se&nbsp;pro&nbsp;kvalitní potraviny i&nbsp;další běžné zboží a&nbsp;rovnou si&nbsp;u&nbsp;nás vyzvedněte zásilku. Jsme oficiálním výdejním místem PPL&nbsp;Parcelshop.
+<a class="service-card_link" href="produkty.html">Naše produkty</a>
+</article>
+</li>
+<li>
+<article class="service-card" id="grocery-store">
+<div aria-hidden="true" class="service-card_icon-wrap">
+<svg class="service-card_icon" focusable="false" viewbox="0 0 576 512">
+<path d="M288 0c6.6 0 12.9 2.7 17.4 7.5l144 152 .5.5H528c17.7 0 32 14.3 32 32 0 14.5-9.6 26.7-22.8 30.7l-46.1 207.2c-6.5 29.3-32.5 50.1-62.5 50.1H147.3c-30 0-56-20.8-62.5-50.1l-46-207.2C25.6 218.8 16 206.5 16 192c0-17.7 14.3-32 32-32h78.1l.5-.5 144-152C275.1 2.7 281.4 0 288 0Zm0 58.9L192.2 160h191.6L288 58.9ZM208 264c0-13.3-10.7-24-24-24s-24 10.7-24 24v112c0 13.3 10.7 24 24 24s24-10.7 24-24V264Zm80-24c-13.3 0-24 10.7-24 24v112c0 13.3 10.7 24 24 24s24-10.7 24-24V264c0-13.3-10.7-24-24-24Zm128 24c0-13.3-10.7-24-24-24s-24 10.7-24 24v112c0 13.3 10.7 24 24 24s24-10.7 24-24V264Z">
+</path>
+</svg>
+</div>
+<h3 class="service-card_title">Prodejna potravin</h3>
+<p class="service-card_text">
+                Vybíráme pro Vás čerstvé pečivo a základní koloniál pro denní nákup. Stavte se pro kvalitní potraviny i další běžné zboží a rovnou si u nás vyzvedněte zásilku. Jsme oficiálním výdejním místem PPL Parcelshop.
               </p>
-              <a class="service-card_link" href="prodejna-potravin.html">Více informací</a>
-            </article>
-          </li>
-          <li>
-            <article class="service-card" id="mobile-shop">
-              <div aria-hidden="true" class="service-card_icon-wrap">
-                <svg class="service-card_icon" focusable="false" viewbox="0 0 576 512">
-                  <path d="M0 96c0-35.3 28.7-64 64-64h288c35.3 0 64 28.7 64 64v32h50.7c17 0 33.3 6.7 45.3 18.7l45.3 45.3c12 12 18.7 28.3 18.7 45.3V384c0 35.3-28.7 64-64 64h-3.3c-10.4 36.9-44.4 64-84.7 64s-74.2-27.1-84.7-64H236.7c-10.4 36.9-44.4 64-84.7 64s-74.2-27.1-84.7-64H64c-35.3 0-64-28.7-64-64V96Zm512 192v-50.7L466.7 192H416v96h96ZM192 424a40 40 0 1 0-80 0 40 40 0 1 0 80 0Zm232 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80Z">
-                  </path>
-                </svg>
-              </div>
-              <h3 class="service-card_title">Pojízdná prodejna</h3>
-              <p class="service-card_text">
-                Pravidelně pro&nbsp;Vás objíždíme obce v&nbsp;okolí Frýdku-Místku s&nbsp;naší pojízdnou prodejnou. To&nbsp;znamená pravidelné doručování čerstvého pečiva, základních potravin i&nbsp;dalšího běžného zboží přímo až&nbsp;k&nbsp;Vám, do&nbsp;Vaší obce.
+<a class="service-card_link" href="prodejna-potravin.html">Více informací</a>
+</article>
+</li>
+<li>
+<article class="service-card" id="mobile-shop">
+<div aria-hidden="true" class="service-card_icon-wrap">
+<svg class="service-card_icon" focusable="false" viewbox="0 0 576 512">
+<path d="M0 96c0-35.3 28.7-64 64-64h288c35.3 0 64 28.7 64 64v32h50.7c17 0 33.3 6.7 45.3 18.7l45.3 45.3c12 12 18.7 28.3 18.7 45.3V384c0 35.3-28.7 64-64 64h-3.3c-10.4 36.9-44.4 64-84.7 64s-74.2-27.1-84.7-64H236.7c-10.4 36.9-44.4 64-84.7 64s-74.2-27.1-84.7-64H64c-35.3 0-64-28.7-64-64V96Zm512 192v-50.7L466.7 192H416v96h96ZM192 424a40 40 0 1 0-80 0 40 40 0 1 0 80 0Zm232 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80Z">
+</path>
+</svg>
+</div>
+<h3 class="service-card_title">Pojízdná prodejna</h3>
+<p class="service-card_text">
+                Pravidelně pro Vás objíždíme obce v okolí Frýdku-Místku s naší pojízdnou prodejnou. To znamená pravidelné doručování čerstvého pečiva, základních potravin i dalšího běžného zboží přímo až k Vám, do Vaší obce.
               </p>
-              <a class="service-card_link" href="pojizdna-prodejna.html#trasy">
+<a class="service-card_link" href="pojizdna-prodejna.html#trasy">
                 Trasy a zastávky
               </a>
-            </article>
-          </li>
-        </ul>
-      </div>
-    </section>
-    <section aria-labelledby="location-title" class="location" id="location">
-  <div class="location_inner">
-    <div class="location_content">
-      <h2 class="section-title location_title" id="location-title">Kde nás najdete</h2>
-      <p class="location_subtitle">Pekárna Pino</p>
-      <div class="location_facts">
-  <address class="location_fact">
-    <a class="location_address location_link" href="https://mapy.com/s/mapokovuvu" target="_blank" rel="noopener noreferrer" aria-label="Pekárna Pino, Frýdek-Místek, Palkovická 537 – zobrazit na mapě v novém okně">
-      <svg class="location_icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 1 1 16 0Z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>
-      <span>
-        <strong>Frýdek-Místek</strong>
-        <span>Palkovická 537</span>
-      </span>
-    </a>
-  </address>
-
-  <details class="location_fact location_hours" data-opening-hours>
-  <summary class="location_hours-summary">
-        <svg class="location_icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <circle cx="12" cy="12" r="9"></circle>
-      <path d="M12 7v5l-3 2"></path>
-    </svg>
-        <span class="location_status" aria-live="polite" aria-atomic="true">
-      <strong class="location_status-label" data-opening-label>Otevírací doba</strong>
-      <span data-opening-detail> – zobrazit celý týden</span>
-    </span>
-    <svg class="location_hours-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="m6 9 6 6 6-6"></path>
-    </svg>
-  </summary>
-
-  <div class="location_schedule">
-    <h3 class="visually-hidden">Týdenní otevírací doba</h3>
-    <dl class="location_schedule-list">
-            <div data-opening-days="1 2 3 4 5">
-        <dt>Po–Pá</dt>
-                <dd><time datetime="06:00">6:00</time>–<time datetime="16:00">16:00</time></dd>
-              </div>
-            <div data-opening-days="6">
-        <dt>Sobota</dt>
-                <dd><time datetime="06:30">6:30</time>–<time datetime="10:30">10:30</time></dd>
-              </div>
-            <div data-opening-days="0" data-closed>
-        <dt>Neděle</dt>
-                <dd>Zavřeno</dd>
-              </div>
-          </dl>
-  </div>
-</details>
-
-  <a class="location_fact location_link" href="tel:+420733765333">
-    <svg class="location_icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2.1Z"></path>
-    </svg>
-    <span>733&nbsp;765&nbsp;333</span>
-  </a>
-
-  <a class="location_fact location_link" href="mailto:ales.carbol@email.cz">
-    <svg class="location_icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-      <path d="m3 7 9 6 9-6"></path>
-    </svg>
-    <span>ales.carbol@email.cz</span>
-  </a>
-
-    <div class="location_fact location_fact-row">
-    <svg class="location_icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 21s-7-4.6-9.2-9C1.1 8.5 2.8 5 6.4 5c2.2 0 3.7 1.3 4.6 2.6C11.9 6.3 13.4 5 15.6 5c3.6 0 5.3 3.5 3.6 7-2.2 4.4-7.2 9-7.2 9Z"></path>
-    </svg>
-    <div class="location_social-links" role="group" aria-label="Sociální sítě Pekárna Pino">
-      <a class="social-link" href="https://facebook.com/pekarna.pino" target="_blank" rel="noopener noreferrer" aria-label="Facebook – otevře se v novém okně">
-        <svg class="social-link_icon" viewBox="0 0 320 512" aria-hidden="true" focusable="false"><use href="assets/icons/social-sprite.svg#icon-facebook"></use></svg>
-      </a>
-      <a class="social-link" href="https://instagram.com/pekarna.pino" target="_blank" rel="noopener noreferrer" aria-label="Instagram – otevře se v novém okně">
-        <svg class="social-link_icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><use href="assets/icons/social-sprite.svg#icon-instagram"></use></svg>
-      </a>
-      <a class="social-link" href="https://linkedin.com/pekarna-pino" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn – otevře se v novém okně">
-        <svg class="social-link_icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><use href="assets/icons/social-sprite.svg#icon-linkedin"></use></svg>
-      </a>
-    </div>
-  </div>
-  </div>
-    </div>
-    <div class="location_map">
-            <iframe src="https://mapy.com/s/mapokovuvu" title="Mapa s polohou Pekárna Pino na adrese Palkovická 537 ve Frýdku-Místku" width="680" height="449" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-          </div>
-  </div>
+</article>
+</li>
+</ul>
+</div>
 </section>
-  </main>
-    <footer class="site-footer" id="site-footer">
-    <div class="site-footer_inner">
-      <a class="site-footer_brand" href="index.html" aria-label="Pekárna Pino – úvodní stránka">
-        <picture class="site-footer_brand-picture">
-          <source srcset="assets/img/pino-logo.webp" type="image/webp">
-          <img class="site-footer_brand-image" src="assets/img/pino-logo.png" width="325" height="133" alt="Pino" loading="lazy">
-        </picture>
-      </a>
-
-      <address class="site-footer_contact">
-        <a class="site-footer_contact-link" href="https://mapy.com/s/mapokovuvu" target="_blank" rel="noopener noreferrer">Palkovická 537, Frýdek-Místek</a>
-        <a class="site-footer_contact-link" href="tel:+420733765333">733&nbsp;765&nbsp;333</a>
-        <a class="site-footer_contact-link" href="mailto:ales.carbol@email.cz">ales.carbol@email.cz</a>
-      </address>
-
-      <div class="site-footer_social" role="group" aria-label="Sociální sítě">
-        <a class="social-link" href="https://facebook.com/pekarna.pino" target="_blank" rel="noopener noreferrer" aria-label="Facebook – otevře se v novém okně">
-          <svg class="social-link_icon" viewBox="0 0 320 512" aria-hidden="true" focusable="false">
-            <use href="assets/icons/social-sprite.svg#icon-facebook"></use>
-          </svg>
-        </a>
-        <a class="social-link" href="https://instagram.com/pekarna.pino" target="_blank" rel="noopener noreferrer" aria-label="Instagram – otevře se v novém okně">
-          <svg class="social-link_icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-            <use href="assets/icons/social-sprite.svg#icon-instagram"></use>
-          </svg>
-        </a>
-        <a class="social-link" href="https://linkedin.com/pekarna-pino" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn – otevře se v novém okně">
-          <svg class="social-link_icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-            <use href="assets/icons/social-sprite.svg#icon-linkedin"></use>
-          </svg>
-        </a>
-      </div>
-
-      <nav class="site-footer_nav" id="footer-navigation" aria-label="Navigace v patičce">
-        <ul class="site-footer_nav-list">
-          <li><a class="site-footer_nav-link" href="o-nas.html">O nás</a></li>
-          <li><a class="site-footer_nav-link" href="produkty.html">Naše produkty</a></li>
-          <li><a class="site-footer_nav-link" href="prodejna-potravin.html">Prodejna potravin</a></li>
-          <li><a class="site-footer_nav-link" href="pojizdna-prodejna.html">Pojízdná prodejna</a></li>
-        </ul>
-      </nav>
-
-      <p class="site-footer_copyright">
-        &copy; <time datetime="2026">2026</time> Pekárna Pino, s.r.o.      </p>
-    </div>
-  </footer>
-
-  <script src="js/_menu.js" defer></script>
-    <script src="js/index.js" defer></script>
-    <script src="js/_opening-hours.js" defer></script>
-  </body>
+<section aria-labelledby="location-title" class="location" id="location">
+<div class="location_inner">
+<div class="location_content">
+<h2 class="section-title location_title" id="location-title">Kde nás najdete</h2>
+<p class="location_subtitle">Pekárna Pino</p>
+<div class="location_facts">
+<address class="location_fact">
+<a aria-label="Pekárna Pino, Frýdek-Místek, Palkovická 537 – zobrazit na mapě v novém okně" class="location_address location_link" href="https://mapy.com/s/mapokovuvu" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="contact-icon-circle">
+<svg aria-hidden="true" class="location_icon" focusable="false" viewbox="0 0 24 24">
+<path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 1 1 16 0Z"></path>
+<circle cx="12" cy="10" r="3"></circle>
+</svg>
+</span>
+<span>
+<strong>Frýdek-Místek</strong>
+<span>Palkovická 537</span>
+</span>
+</a>
+</address>
+<details class="location_fact location_hours" data-opening-hours="">
+<summary class="location_hours-summary">
+<span aria-hidden="true" class="contact-icon-circle">
+<svg aria-hidden="true" class="location_icon" focusable="false" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="9"></circle>
+<path d="M12 7v5l-3 2"></path>
+</svg>
+</span>
+<span aria-atomic="true" aria-live="polite" class="location_status">
+<strong class="location_status-label" data-opening-label="">Otevírací doba</strong>
+<span data-opening-detail=""> – zobrazit celý týden</span>
+</span>
+<svg aria-hidden="true" class="location_hours-chevron" focusable="false" viewbox="0 0 24 24">
+<path d="m6 9 6 6 6-6"></path>
+</svg>
+</summary>
+<div class="location_schedule">
+<h3 class="visually-hidden">Týdenní otevírací doba</h3>
+<dl class="location_schedule-list">
+<div data-opening-days="1 2 3 4 5">
+<dt>Po–Pá</dt>
+<dd><time datetime="06:00">6:00</time>–<time datetime="16:00">16:00</time></dd>
+</div>
+<div data-opening-days="6">
+<dt>Sobota</dt>
+<dd><time datetime="06:30">6:30</time>–<time datetime="10:30">10:30</time></dd>
+</div>
+<div data-closed="" data-opening-days="0">
+<dt>Neděle</dt>
+<dd>Zavřeno</dd>
+</div>
+</dl>
+</div>
+</details>
+<a class="location_fact location_link" href="tel:+420733765333">
+<span aria-hidden="true" class="contact-icon-circle">
+<svg aria-hidden="true" class="location_icon" focusable="false" viewbox="0 0 24 24">
+<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2.1Z"></path>
+</svg>
+</span>
+<span>733 765 333</span>
+</a>
+<a class="location_fact location_link" href="mailto:ales.carbol@email.cz">
+<span aria-hidden="true" class="contact-icon-circle">
+<svg aria-hidden="true" class="location_icon" focusable="false" viewbox="0 0 24 24">
+<rect height="14" rx="2" width="18" x="3" y="5"></rect>
+<path d="m3 7 9 6 9-6"></path>
+</svg>
+</span>
+<span>ales.carbol@email.cz</span>
+</a>
+<div class="location_fact location_fact-row">
+<svg aria-hidden="true" class="location_icon" focusable="false" viewbox="0 0 24 24">
+<path d="M12 21s-7-4.6-9.2-9C1.1 8.5 2.8 5 6.4 5c2.2 0 3.7 1.3 4.6 2.6C11.9 6.3 13.4 5 15.6 5c3.6 0 5.3 3.5 3.6 7-2.2 4.4-7.2 9-7.2 9Z"></path>
+</svg>
+<div aria-label="Sociální sítě Pekárna Pino" class="location_social-links" role="group">
+<a aria-label="Facebook – otevře se v novém okně" class="social-link" href="https://facebook.com/pekarna.pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 320 512"><use href="assets/icons/social-sprite.svg?v=1786708000#icon-facebook"></use></svg>
+</a>
+<a aria-label="Instagram – otevře se v novém okně" class="social-link" href="https://instagram.com/pekarna.pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 448 512"><use href="assets/icons/social-sprite.svg?v=1786708000#icon-instagram"></use></svg>
+</a>
+<a aria-label="LinkedIn – otevře se v novém okně" class="social-link" href="https://linkedin.com/pekarna-pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 448 512"><use href="assets/icons/social-sprite.svg?v=1786708000#icon-linkedin"></use></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="location_map">
+<iframe height="449" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://mapy.com/s/mapokovuvu" title="Mapa s polohou Pekárna Pino na adrese Palkovická 537 ve Frýdku-Místku" width="680"></iframe>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer" id="site-footer">
+<div class="site-footer_inner">
+<a aria-label="Pekárna Pino – úvodní stránka" class="site-footer_brand" href="index.html">
+<picture class="site-footer_brand-picture">
+<source srcset="assets/img/pino-logo.webp?v=1786708000" type="image/webp"/>
+<img alt="Pino" class="site-footer_brand-image" height="133" loading="lazy" src="assets/img/pino-logo.png?v=1786708000" width="325"/>
+</picture>
+</a>
+<address class="site-footer_contact">
+<a class="site-footer_contact-link" href="https://mapy.com/s/mapokovuvu" rel="noopener noreferrer" target="_blank">Palkovická 537, Frýdek-Místek</a>
+<a class="site-footer_contact-link" href="tel:+420733765333">733 765 333</a>
+<a class="site-footer_contact-link" href="mailto:ales.carbol@email.cz">ales.carbol@email.cz</a>
+</address>
+<div aria-label="Sociální sítě" class="site-footer_social" role="group">
+<a aria-label="Facebook – otevře se v novém okně" class="social-link" href="https://facebook.com/pekarna.pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 320 512">
+<use href="assets/icons/social-sprite.svg?v=1786708000#icon-facebook"></use>
+</svg>
+</a>
+<a aria-label="Instagram – otevře se v novém okně" class="social-link" href="https://instagram.com/pekarna.pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 448 512">
+<use href="assets/icons/social-sprite.svg?v=1786708000#icon-instagram"></use>
+</svg>
+</a>
+<a aria-label="LinkedIn – otevře se v novém okně" class="social-link" href="https://linkedin.com/pekarna-pino" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="social-link_icon" focusable="false" viewbox="0 0 448 512">
+<use href="assets/icons/social-sprite.svg?v=1786708000#icon-linkedin"></use>
+</svg>
+</a>
+</div>
+<nav aria-label="Navigace v patičce" class="site-footer_nav" id="footer-navigation">
+<ul class="site-footer_nav-list">
+<li><a class="site-footer_nav-link" href="o-nas.html">O nás</a></li>
+<li><a class="site-footer_nav-link" href="produkty.html">Naše produkty</a></li>
+<li><a class="site-footer_nav-link" href="prodejna-potravin.html">Prodejna potravin</a></li>
+<li><a class="site-footer_nav-link" href="pojizdna-prodejna.html">Pojízdná prodejna</a></li>
+</ul>
+</nav>
+<p class="site-footer_copyright">
+        © <time datetime="2026">2026</time> Pekárna Pino, s.r.o.      </p>
+</div>
+</footer>
+<script defer="" src="js/_menu.js?v=1786735394"></script>
+<script defer="" src="js/index.js?v=1786735394"></script>
+<script defer="" src="js/_opening-hours.js?v=1786708000"></script>
+</body>
 </html>

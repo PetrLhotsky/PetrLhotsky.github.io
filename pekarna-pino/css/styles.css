@@ -857,11 +857,6 @@ textarea {
   stroke-width: 1.75;
 }
 
-#location .location_fact:last-child .location_icon,
-#contact-details .location_fact:last-child .location_icon {
-  visibility: hidden;
-}
-
 #location .location_subtitle,
 #contact-details .location_subtitle {
   display: none;
@@ -870,6 +865,7 @@ textarea {
 #location .location_facts,
 #contact-details .location_facts {
   margin-top: var(--space-8);
+  gap: var(--space-1);
 }
 
 #location .location_address,
@@ -880,7 +876,18 @@ textarea {
 #contact-details .location_hours-summary,
 #contact-details .location_link,
 #contact-details .location_fact-row {
-  gap: calc(var(--space-6) + var(--space-3));
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-items: center;
+}
+
+#location .location_hours-summary,
+#contact-details .location_hours-summary {
+  grid-template-columns: 3rem auto 1.25rem;
+}
+
+#location .location_fact:last-child .location_icon,
+#contact-details .location_fact:last-child .location_icon {
+  visibility: hidden;
 }
 
 .location_link {
@@ -966,7 +973,6 @@ textarea {
 }
 
 .location_schedule {
-  margin-block-start: var(--space-4);
   margin-inline: 0;
   padding: var(--space-4);
   border: 1px solid rgb(75 17 25 / 18%);
@@ -1229,10 +1235,6 @@ textarea {
 
 
 @media (hover: hover) and (pointer: fine) {
-  .tab-filter_link:hover {
-    transform: translateY(-1px);
-  }
-
   .tab-filter_link[aria-current="true"]:hover,
   .tab-filter_link[aria-selected="true"]:hover {
     background: var(--color-primary);
@@ -1349,7 +1351,7 @@ textarea {
   }
 
   .location_schedule {
-    margin-inline-start: 2.25rem;
+    margin-inline-start: 4rem;
   }
 
   .frgal-card_caption {

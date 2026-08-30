@@ -1,35 +1,46 @@
 (() => {
-  const routeFilter = document.querySelector("[data-route-filter]");
-  const selector = 'iframe[data-mapy-embed][src^="https://mapy.com/s/"]';
+  const routePanels = [...document.querySelectorAll("[data-route]")];
+  const routeTabLists = [...document.querySelectorAll("[data-tab-list]")];
 
-  function initializeMap(panel) {
-    if (!panel || panel.hidden) return;
+  if (!routePanels.length) return;
 
-    const frame = panel.querySelector(selector);
-    if (!frame || frame.dataset.mapyInitialized === "true") return;
+  function getMapFrame(panel) {
+    return panel?.querySelector('iframe[data-map-src^="https://mapy.com/s/"]') || null;
+  }
 
-    const src = frame.getAttribute("src");
+  function reloadMapOnce(panel) {
+    const frame = getMapFrame(panel);
+
+    if (!frame || frame.dataset.mapReady === "true") return;
+
+    const src = frame.dataset.mapSrc || frame.getAttribute("src");
     if (!src) return;
 
-    frame.dataset.mapyInitialized = "true";
+    frame.dataset.mapReady = "true";
+    frame.setAttribute("src", "about:blank");
 
-    // A Mapy.com iframe that first rendered in a hidden tab can calculate
-    // an incorrect viewport. Reload it once after the panel is visible.
-    frame.removeAttribute("src");
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
         frame.setAttribute("src", src);
       });
     });
   }
 
-  // _tabs.js and pojizdna-prodejna.js are loaded before this file, so the
-  // currently selected route is already known here.
-  document.querySelectorAll("[data-route]").forEach((panel) => {
-    if (!panel.hidden) initializeMap(panel);
+  // The first route is rendered visibly by default and can keep its initial load.
+  const firstFrame = getMapFrame(routePanels[0]);
+  if (firstFrame) firstFrame.dataset.mapReady = "true";
+
+  // If page logic selected another route before this script ran (hash/today route),
+  // reload that non-primary map once now that its panel is visible.
+  routePanels.slice(1).forEach((panel) => {
+    if (!panel.hidden) reloadMapOnce(panel);
   });
 
-  routeFilter?.addEventListener("pino:tabs:change", (event) => {
-    initializeMap(event.detail?.panel);
+  routeTabLists.forEach((tabList) => {
+    tabList.addEventListener("pino:tabs:change", (event) => {
+      const panel = event.detail?.panel;
+      if (!panel) return;
+      reloadMapOnce(panel);
+    });
   });
 })();
