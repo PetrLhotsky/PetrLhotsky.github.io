@@ -1,5 +1,6 @@
 .location {
   padding-block-start: 0;
+  padding-block-end: calc(var(--space-12) + var(--space-6));
 }
 
 #contact-details .location_map {

@@ -1,46 +1,27 @@
 (() => {
-  const routePanels = [...document.querySelectorAll("[data-route]")];
-  const routeTabLists = [...document.querySelectorAll("[data-tab-list]")];
+  const routeFilter = document.querySelector("[data-route-filter]");
+  const selector = ".mobile-route_map iframe[data-map-src]";
 
-  if (!routePanels.length) return;
+  function reloadMap(panel) {
+    const iframe = panel?.querySelector?.(selector);
+    if (!iframe || iframe.dataset.mapReady === "true") return;
 
-  function getMapFrame(panel) {
-    return panel?.querySelector('iframe[data-map-src^="https://mapy.com/s/"]') || null;
-  }
-
-  function reloadMapOnce(panel) {
-    const frame = getMapFrame(panel);
-
-    if (!frame || frame.dataset.mapReady === "true") return;
-
-    const src = frame.dataset.mapSrc || frame.getAttribute("src");
+    const src = iframe.dataset.mapSrc || iframe.getAttribute("src");
     if (!src) return;
 
-    frame.dataset.mapReady = "true";
-    frame.setAttribute("src", "about:blank");
-
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        frame.setAttribute("src", src);
-      });
+    iframe.dataset.mapReady = "true";
+    requestAnimationFrame(() => {
+      iframe.setAttribute("src", "about:blank");
+      requestAnimationFrame(() => iframe.setAttribute("src", src));
     });
   }
 
-  // The first route is rendered visibly by default and can keep its initial load.
-  const firstFrame = getMapFrame(routePanels[0]);
-  if (firstFrame) firstFrame.dataset.mapReady = "true";
-
-  // If page logic selected another route before this script ran (hash/today route),
-  // reload that non-primary map once now that its panel is visible.
-  routePanels.slice(1).forEach((panel) => {
-    if (!panel.hidden) reloadMapOnce(panel);
+  document.querySelectorAll(selector).forEach((iframe) => {
+    const panel = iframe.closest("[data-tab-panel]");
+    if (panel && !panel.hidden) reloadMap(panel);
   });
 
-  routeTabLists.forEach((tabList) => {
-    tabList.addEventListener("pino:tabs:change", (event) => {
-      const panel = event.detail?.panel;
-      if (!panel) return;
-      reloadMapOnce(panel);
-    });
+  routeFilter?.addEventListener("pino:tabs:change", (event) => {
+    reloadMap(event.detail?.panel);
   });
 })();

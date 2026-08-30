@@ -1,5 +1,5 @@
 .products-page {
-  padding-block: var(--space-10) var(--space-20);
+  padding-block: var(--space-14) var(--space-20);
 }
 
 .products-page_header,
@@ -41,7 +41,7 @@
 .product-panel_intro {
   max-width: 41rem;
   margin: var(--space-4) auto 0;
-  line-height: 1.65;
+  line-height: 1.55;
   text-wrap: pretty;
 }
 

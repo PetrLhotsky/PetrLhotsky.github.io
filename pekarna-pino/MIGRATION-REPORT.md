@@ -1,46 +1,51 @@
-# Report migrace PHP → statický HTML web
+# Report statického exportu
 
-## Zdroj
-- `www(20260830-130933).zip`
-- Export proveden 2026-08-30.
+Zdroj: `www(20260830-211129).zip`
+Datum exportu: 2026-08-30
 
 ## Výsledek
-- 38 HTML souborů celkem.
-- 30 samostatných produktových detailů.
-- `sitemap.xml` převeden na statické `.html` URL.
-- Statická aktiva zachována v původní struktuře (`assets`, `css`, `js`, `admin/data/img`).
-- Všechny lokální odkazy a cesty v HTML jsou relativní.
-- Žádný nevyhodnocený PHP kód, `.php` odkaz ani dynamická URL `produkt?produkt=…` nezůstala.
 
-## Mapy.com iframe – pojízdná prodejna
-Na `pojizdna-prodejna.html` jsou zachované oba externí iframe odkazy:
+- Vygenerováno **38 HTML stránek**.
+- Z toho **30 produktových detailů** (`produkt-<technical_id>.html`).
+- Všechny lokální odkazy a cesty k CSS, JS, obrázkům a fontům jsou relativní.
+- Dynamické odkazy `produkt?produkt=...` byly převedeny na samostatné `.html` soubory.
+- `sitemap.php` byl převeden na statický `sitemap.xml` s **36 veřejnými URL**.
+- Administrační PHP část není součástí statického webu; obrázky potřebné z `admin/data/img` byly zachovány.
 
-- Trasa A: `https://mapy.com/s/cokateholo`
-- Trasa B: `https://mapy.com/s/karapecaro`
+## Mapy.com iframe
 
-Oba iframe mají `allowfullscreen` a původní `src` zůstává absolutní HTTPS URL. Do statického exportu je přidán `js/mapy-iframe-fix.js`. První mapa se načte standardně; mapa v dalším skrytém tabu se při prvním zobrazení jednou znovu načte až ve viditelném panelu. Tím se eliminuje problém s inicializací Mapy.com iframe uvnitř panelu skrytého přes `hidden` / `display:none`.
+Na `pojizdna-prodejna.html` jsou zachovány oba externí Mapy.com iframe:
+
+- `https://mapy.com/s/cokateholo`
+- `https://mapy.com/s/karapecaro`
+
+Oba mají `allowfullscreen`, původní absolutní HTTPS URL a atribut `data-map-src`. Soubor `js/mapy-iframe-fix.js` při prvním zobrazení aktivního/skrytého panelu mapu jednou znovu načte až ve viditelném tabu, aby se předešlo problému s vykreslením iframe načteného ve skrytém panelu. Externí Mapy.com URL se při relativizaci nemění.
 
 ## Font Recoleta
-Fontové CSS bylo zachováno z dodané verze. V HTML preloadu je pouze sjednocen název souboru na skutečně existující `assets/fonts/Recoleta-SemiboldCondensed.woff2`, aby preload neodkazoval na neexistující variantu názvu lišící se velikostí písmene.
 
-## QA
-- 1 817 lokálních referencí zkontrolováno při souborové validaci.
-- 148 unikátních lokálních souborových cílů.
-- 152 HTTP cílů ověřeno přes lokální statický server: všechny HTTP 200.
-- `sitemap.xml` je validní XML a obsahuje 36 veřejných URL.
-- 2/2 Mapy.com iframe mají zachovaný externí `src`, `data-map-src` a `allowfullscreen`.
+CSS fontu bylo převzato ze zdrojové verze beze změny. V HTML preloadu byl použit přesný existující název souboru `assets/fonts/Recoleta-SemiboldCondensed.woff2`, aby cesta fungovala i na case-sensitive hostingu.
 
-## Vygenerované základní stránky
-- `index.html`
-- `o-nas.html`
-- `produkty.html`
-- `prodejna-potravin.html`
-- `pojizdna-prodejna.html`
-- `kontakty.html`
-- `produkt.html`
+## Kontrola kvality
+
+- HTML souborů: **38**
+- Lokálních referencí zkontrolovaných souborově: **1 655**
+- Unikátních lokálních cest: **146**
+- HTTP cílů ověřených přes lokální statický server: **150**
+- Chybné HTTP cíle: **0**
+- Zbytky PHP v HTML: **0**
+- Lokální `.php` odkazy: **0**
+- Dynamické produktové odkazy: **0**
+- Kořenové lokální cesty v HTML/CSS: **0**
+- `sitemap.xml`: validní XML, **36 URL**
+
+## Vygenerované stránky
+
 - `404.html`
-
-## Produktové stránky
+- `index.html`
+- `kontakty.html`
+- `o-nas.html`
+- `pojizdna-prodejna.html`
+- `prodejna-potravin.html`
 - `produkt-chleba-1.html`
 - `produkt-chleba-2.html`
 - `produkt-chleba-3.html`
@@ -71,9 +76,11 @@ Fontové CSS bylo zachováno z dodané verze. V HTML preloadu je pouze sjednocen
 - `produkt-specialni-pecivo-7.html`
 - `produkt-specialni-pecivo-8.html`
 - `produkt-tvarohovy-frgal.html`
+- `produkt.html`
+- `produkty.html`
 
 ## Omezení statické verze
-- PHP administrace a serverová editace dat nejsou součástí exportu.
-- Obsah produktů a ostatní data jsou statický snímek z této verze webu; při změně CMS dat je nutné export znovu vygenerovat.
-- Stav tras (aktuální časy / zvýraznění zastávek) se nadále dopočítává klientským JavaScriptem v prohlížeči; samotná data tras jsou ze zdrojové verze.
-- Externí Mapy.com obsah závisí na dostupnosti služby Mapy.com a síťovém připojení návštěvníka.
+
+- PHP administrace a ukládání změn na serveru nejsou ve statickém exportu dostupné.
+- Změny produktů, tras nebo dalších JSON dat je nutné znovu vyexportovat do HTML.
+- Mapy.com iframe zůstávají závislé na dostupnosti externí služby Mapy.com a připojení návštěvníka k internetu.

@@ -44,7 +44,6 @@
 
 .hero_badge-picture {
   display: block;
-  width: 47%;
   aspect-ratio: 325 / 133;
 }
 
@@ -75,7 +74,7 @@
 
 .hero_lead {
   margin: var(--space-6) 0 0;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .hero_link {
@@ -84,7 +83,7 @@
   gap: var(--space-2);
   margin-top: var(--space-6);
   color: var(--color-primary);
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: var(--font-weight-semibold);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.35em;
@@ -134,9 +133,9 @@
 
 .frgals_intro {
   max-width: 36rem;
-  margin: var(--space-3) auto 0;
+  margin: var(--space-4) auto 0;
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.55;
 }
 
 .frgals_viewport {
@@ -382,7 +381,7 @@
   .hero_link {
     margin-top: var(--space-6);
     padding-inline: 0;
-    font-size: 1rem;
+    font-size: 1.125rem;
   }
 
   .hero_link-icon {
