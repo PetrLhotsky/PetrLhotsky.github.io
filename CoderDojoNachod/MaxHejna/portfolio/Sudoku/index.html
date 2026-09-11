@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg,
+                    #1e1e1e,
+                    #2f2f2f,
+                    #1e1e1e,
+                    #3a3a3a);
+            background-size: 400% 400%;
+            animation: bgShift 12s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #grid {
+            display: grid;
+            padding: 1px;
+            grid-template-columns: repeat(9, 55px);
+        }
+
+        .cell {
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 55px;
+            height: 55px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            background: rgb(112, 112, 112);
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 0.4s ease forwards;
+            animation-delay: calc(var(--i) * 0.005s);
+            transition: all 0.1s;
+        }
+
+        .cell:nth-child(9n+3),
+        .cell:nth-child(9n+6) {
+            border-right: 5px solid #000;
+        }
+
+        .cell:nth-child(n+19):nth-child(-n+27),
+        .cell:nth-child(n+46):nth-child(-n+54) {
+            border-bottom: 5px solid #000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+
+            }
+        }
+
+        .cell:not(:empty) {
+            background: rgb(178, 178, 178);
+        }
+
+        .cell:hover {
+            background: rgb(178, 178, 178);
+        }
+
+        .cell:active {
+            background: rgb(150, 150, 150);
+        }
+
+        .cell.selected {
+            background: rgb(255, 255, 255);
+            transform: scale(1.2) !important;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="grid"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        var velikost = 9
+        var velikostpole = velikost * velikost
+
+        var pole = []
+        var polehrac = []
+
+        var polevse
+
+        var id
+
+
+
+        function nacist() {
+            localStorage.clear() // dočasné, aby se hra neukládala; pak vymazat
+            pole = JSON.parse(localStorage.getItem('pole')) || []
+            polehrac = JSON.parse(localStorage.getItem('polehrac')) || []
+
+            if (pole.length <= 0) {
+                pole = generovaniHry()
+                polehrac = Array.from({ length: velikostpole }, () => 0)
+            }
+
+            for (let i = 0; i < velikostpole; i++) {
+                $("#grid").append('<div class="cell" id="' + i + '" style="--i: ' + i + '"></div>')
+            }
+
+            pole.forEach((x, i) => { // dočasné, aby byla vidět celá plocha; pak upravit
+                $("#" + i).text(x)
+            })
+        }
+
+
+
+        function generovaniHry() {
+            polevse = Array(81).fill(0)
+            var vyzkouseno = Array.from({ length: 81 }, () => [])
+
+            var cislo
+
+            // první řádek sudoku:
+            for (let i = 0; i < 9; i++) {
+                do {
+                    cislo = Math.floor(Math.random() * 9) + 1
+                } while (radek(i).includes(cislo))
+
+                polevse[i] = cislo
+            }
+
+            var stat
+
+            // další řádky sudoku:
+            for (let i = 9; i < 81; i++) {
+                stat = 0
+
+                do {
+                    if (vyzkouseno[i].length >= 9) {
+                        vyzkouseno[i] = []
+
+                        i = i - 2
+                        if (i < 0) {
+                            return generovaniHry()
+                        }
+                        
+                        stat = 1
+                        break
+                    }
+
+                    cislo = Math.floor(Math.random() * 9) + 1
+
+                    if (!vyzkouseno[i].includes(cislo)) {
+                        vyzkouseno[i].push(cislo)
+                    }
+
+                } while (radek(i).includes(cislo) || sloupec(i).includes(cislo) || ctverec(i).includes(cislo))
+
+                if (stat == 0) {
+                    polevse[i] = cislo
+                }
+            }
+
+            return polevse
+        }
+
+
+
+        function radek(policko) {
+            var zacatek = Math.floor(policko / 9) * 9
+            return polevse.slice(zacatek, zacatek + 9)
+        }
+
+        function sloupec(policko) {
+            var mistnipole = []
+            var kolikdolu = Math.floor(policko / 9)
+
+            for (let i = 1; i <= kolikdolu; i++) {
+                mistnipole.push(policko - i * 9)
+            }
+
+            return covtomje(mistnipole)
+        }
+
+        function ctverec(policko) {
+            var mistnipole = []
+            var radek = Math.floor(policko / 9) % 3
+            var sloupec = Math.floor(policko % 9) % 3
+            var kam = (policko - sloupec) - (9 * radek)
+
+            mistnipole.push(kam)
+            mistnipole.push(kam + 1)
+            mistnipole.push(kam + 2)
+            mistnipole.push(kam + 9)
+            mistnipole.push(kam + 10)
+            mistnipole.push(kam + 11)
+            mistnipole.push(kam + 18)
+            mistnipole.push(kam + 19)
+            mistnipole.push(kam + 20)
+
+            return covtomje(mistnipole)
+        }
+
+        function covtomje(polecisel) {
+            var mistnipole = []
+            for (let i = 0; i < polecisel.length; i++) {
+                mistnipole.push(polevse[polecisel[i]])
+            }
+            return mistnipole
+        }
+
+
+
+        nacist()
+
+
+
+        $(document).on("click", ".cell", hracKlik)
+        $(document).on("keydown", "*", hracCislo)
+
+        function hracKlik(policko) {
+            $("#" + id).removeClass("selected")
+            id = parseInt(policko.target.id)
+            $("#" + id).addClass("selected")
+        }
+
+        function hracCislo(klavesa) {
+            if (id == null) return
+
+            var cyslo = parseInt(klavesa.key)
+
+            if (!isNaN(cyslo) && cyslo >= 1 && cyslo <= 9) {
+                polehrac[id] = cyslo
+                $("#" + id).text(cyslo)
+                ulozit()
+                kontrola()
+            }
+        }
+
+
+
+        function ulozit() {
+            localStorage.setItem('pole', JSON.stringify(pole))
+            localStorage.setItem('polehrac', JSON.stringify(polehrac))
+        }
+
+        function kontrola() {
+
+        }
+
+        function vyhra(who) {
+            alert("Vyhráli jste")
+            $(document).off("click", ".cell", hrac)
+            localStorage.clear()
+        }
+    </script>
+</body>
+
+</html>
