@@ -1,86 +1,26 @@
 # Report statického exportu
 
-Zdroj: `www(20260830-211129).zip`
-Datum exportu: 2026-08-30
-
-## Výsledek
-
-- Vygenerováno **38 HTML stránek**.
-- Z toho **30 produktových detailů** (`produkt-<technical_id>.html`).
-- Všechny lokální odkazy a cesty k CSS, JS, obrázkům a fontům jsou relativní.
-- Dynamické odkazy `produkt?produkt=...` byly převedeny na samostatné `.html` soubory.
-- `sitemap.php` byl převeden na statický `sitemap.xml` s **36 veřejnými URL**.
-- Administrační PHP část není součástí statického webu; obrázky potřebné z `admin/data/img` byly zachovány.
+- Zdroj: `www(20261006-143921).zip`
+- Vygenerováno HTML stránek: **22**
+- Produktových detailů: **14**
+- URL v `sitemap.xml`: **20**
+- Ověřených lokálních HTML referencí: **954**
+- Ověřených CSS `url()` referencí: **4**
+- Ověřených unikátních cílů přes statický HTTP server: **156**
+- HTTP chyby: **0**
+- Chybějící lokální soubory: **0**
+- Kořenové lokální cesty v HTML: **0**
+- Zbývající `.php` / dynamické produktové odkazy: **0**
 
 ## Mapy.com iframe
 
-Na `pojizdna-prodejna.html` jsou zachovány oba externí Mapy.com iframe:
+Na stránce `pojizdna-prodejna.html` jsou zachovány dva externí iframe:
 
-- `https://mapy.com/s/cokateholo`
-- `https://mapy.com/s/karapecaro`
+- `https://mapy.com/s/holerakade`
+- `https://mapy.com/s/gukanalede`
 
-Oba mají `allowfullscreen`, původní absolutní HTTPS URL a atribut `data-map-src`. Soubor `js/mapy-iframe-fix.js` při prvním zobrazení aktivního/skrytého panelu mapu jednou znovu načte až ve viditelném tabu, aby se předešlo problému s vykreslením iframe načteného ve skrytém panelu. Externí Mapy.com URL se při relativizaci nemění.
+Oba mají `data-map-src`, `allowfullscreen` a stránka načítá `js/mapy-iframe-fix.js`. Skript při prvním zobrazení aktivního/skrytého panelu iframe jednou znovu inicializuje, stejně jako v předchozím statickém převodu. Externí Mapy.com URL se nepřevádějí na relativní cesty.
 
-## Font Recoleta
+## Poznámka k dynamickému obsahu
 
-CSS fontu bylo převzato ze zdrojové verze beze změny. V HTML preloadu byl použit přesný existující název souboru `assets/fonts/Recoleta-SemiboldCondensed.woff2`, aby cesta fungovala i na case-sensitive hostingu.
-
-## Kontrola kvality
-
-- HTML souborů: **38**
-- Lokálních referencí zkontrolovaných souborově: **1 655**
-- Unikátních lokálních cest: **146**
-- HTTP cílů ověřených přes lokální statický server: **150**
-- Chybné HTTP cíle: **0**
-- Zbytky PHP v HTML: **0**
-- Lokální `.php` odkazy: **0**
-- Dynamické produktové odkazy: **0**
-- Kořenové lokální cesty v HTML/CSS: **0**
-- `sitemap.xml`: validní XML, **36 URL**
-
-## Vygenerované stránky
-
-- `404.html`
-- `index.html`
-- `kontakty.html`
-- `o-nas.html`
-- `pojizdna-prodejna.html`
-- `prodejna-potravin.html`
-- `produkt-chleba-1.html`
-- `produkt-chleba-2.html`
-- `produkt-chleba-3.html`
-- `produkt-chleba-4.html`
-- `produkt-hruskovy-frgal.html`
-- `produkt-jemne-pecivo-1.html`
-- `produkt-jemne-pecivo-2.html`
-- `produkt-jemne-pecivo-3.html`
-- `produkt-jemne-pecivo-4.html`
-- `produkt-jemne-pecivo-5.html`
-- `produkt-jemne-pecivo-6.html`
-- `produkt-jemne-pecivo-7.html`
-- `produkt-jemne-pecivo-8.html`
-- `produkt-makovy-frgal.html`
-- `produkt-orechovy-frgal.html`
-- `produkt-ovocny-frgal.html`
-- `produkt-povidlovy-frgal.html`
-- `produkt-speci-aln-i-1.html`
-- `produkt-speci-aln-i-2.html`
-- `produkt-speci-aln-i-3.html`
-- `produkt-speci-aln-i-4.html`
-- `produkt-specialni-pecivo-1.html`
-- `produkt-specialni-pecivo-2.html`
-- `produkt-specialni-pecivo-3.html`
-- `produkt-specialni-pecivo-4.html`
-- `produkt-specialni-pecivo-5.html`
-- `produkt-specialni-pecivo-6.html`
-- `produkt-specialni-pecivo-7.html`
-- `produkt-specialni-pecivo-8.html`
-- `produkt-tvarohovy-frgal.html`
-- `produkt.html`
-- `produkty.html`
-
-## Omezení statické verze
-
-- PHP administrace a ukládání změn na serveru nejsou ve statickém exportu dostupné.
-- Změny produktů, tras nebo dalších JSON dat je nutné znovu vyexportovat do HTML.
-- Mapy.com iframe zůstávají závislé na dostupnosti externí služby Mapy.com a připojení návštěvníka k internetu.
+Jízdní řád/trasy jsou statickým snímkem stavu vykresleného při tomto exportu. Budoucí změny dat v PHP/CMS se do statického webu samy nepropíší a vyžadují nový export. PHP administrace není součástí statického balíčku; z `/admin` se kopírují pouze obrázky potřebné veřejným katalogem (`admin/data/img`).

@@ -32,6 +32,14 @@ if (routeElements.length) {
     hourCycle: "h23",
   });
 
+  const routeDayFormatter = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: routeTimeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const loadedRouteDate = routeDayFormatter.format(new Date());
+
   function parseTimeToMinutes(time) {
     const [hours, minutes] = String(time || "").split(":").map(Number);
 
@@ -113,15 +121,23 @@ if (routeElements.length) {
     const statusText = route.querySelector("[data-route-status-text]");
     const daysMessage = getRouteDaysMessage(weekdays);
 
-    const statusMessage = [daysMessage, message]
-      .filter(Boolean)
-      .join(" · ");
+    const lines = [daysMessage, message].filter(Boolean);
 
     route.dataset.routeState = state;
 
-    if (statusText && statusText.textContent !== statusMessage) {
-      statusText.textContent = statusMessage;
-    }
+    if (!statusText) return;
+
+    const newKey = lines.join("\n");
+    if (statusText.dataset.statusKey === newKey) return;
+    statusText.dataset.statusKey = newKey;
+
+    statusText.replaceChildren(
+      ...lines.flatMap((line, i) =>
+        i === 0
+          ? [document.createTextNode(line)]
+          : [document.createElement("br"), document.createTextNode(line)]
+      )
+    );
   }
 
   function resetStopStates(stops) {
@@ -136,39 +152,22 @@ if (routeElements.length) {
 
     resetStopStates(stops);
 
-    /*
-     * Informace o dnech jízdy se zobrazuje vždy.
-     * Pokud dnes daná trasa nejede, není potřeba přidávat
-     * žádný další aktuální stav.
-     */
     if (!weekdays.includes(currentTime.weekday)) {
       setStatus(route, weekdays, "", "off");
       return "off";
     }
 
-    /*
-     * Trasa nemá platné zastávky, takže nelze určit
-     * její začátek ani konec.
-     */
     if (!stops.length) {
       setStatus(route, weekdays, "", "off");
       return "off";
     }
 
-    /*
-     * Celkový čas trasy:
-     * - začátek = čas začátku první zastávky
-     * - konec = čas konce poslední zastávky
-     */
     const firstStop = stops[0];
     const lastStop = stops.at(-1);
 
     const routeStart = firstStop.from;
     const routeEnd = lastStop.to;
 
-    /*
-     * Dnes se jede, ale trasa ještě nezačala.
-     */
     if (currentTime.minutes < routeStart) {
       setStatus(
         route,
@@ -189,9 +188,6 @@ if (routeElements.length) {
       return "upcoming";
     }
 
-    /*
-     * Dnes se jelo, ale trasa už skončila.
-     */
     if (currentTime.minutes > routeEnd) {
       setStatus(
         route,
@@ -207,10 +203,6 @@ if (routeElements.length) {
       return "finished";
     }
 
-    /*
-     * Jsme mezi začátkem první a koncem poslední zastávky,
-     * takže je trasa aktivní.
-     */
     setStatus(
       route,
       weekdays,
@@ -218,10 +210,6 @@ if (routeElements.length) {
       "active",
     );
 
-    /*
-     * Pokud právě probíhá čas konkrétní zastávky,
-     * označíme ji jako aktuální.
-     */
     const currentStopIndex = stops.findIndex(
       ({ from, to }) =>
         currentTime.minutes >= from &&
@@ -243,10 +231,6 @@ if (routeElements.length) {
       return "active";
     }
 
-    /*
-     * Jsme mezi dvěma zastávkami.
-     * Najdeme nejbližší následující zastávku.
-     */
     const nextStopIndex = stops.findIndex(
       ({ from }) => from > currentTime.minutes,
     );
@@ -276,10 +260,6 @@ if (routeElements.length) {
       return;
     }
 
-    /*
-     * Pokud už je konkrétní trasa zvolená hashem v URL,
-     * respektujeme ji a automaticky ji nepřepínáme.
-     */
     const hasExplicitRouteHash = routeElements.some(
       (route) => window.location.hash === `#${route.id}`,
     );
@@ -288,10 +268,6 @@ if (routeElements.length) {
       return;
     }
 
-    /*
-     * Automaticky zobrazíme trasu, která jezdí dnešní den.
-     * Pokud dnes žádná nejede, zobrazíme první dostupnou trasu.
-     */
     const todayRoute = routeElements.find((route) =>
       getRouteWeekdays(route).includes(currentTime.weekday),
     );
@@ -311,36 +287,34 @@ if (routeElements.length) {
     );
   }
 
-  /*
-   * První inicializace zároveň vybere dnešní trasu.
-   */
-  updateRoutes({
+  function refreshRoutesOrReload(options = {}) {
+    if (routeDayFormatter.format(new Date()) !== loadedRouteDate) {
+      window.location.reload();
+      return;
+    }
+
+    updateRoutes(options);
+  }
+
+  refreshRoutesOrReload({
     selectTodayRoute: true,
   });
 
-  /*
-   * Další aktualizace zarovnáme na začátek další minuty
-   * a následně stav obnovujeme každou minutu.
-   */
   const millisecondsUntilNextMinute =
     60_000 - (Date.now() % 60_000) + 50;
 
   window.setTimeout(() => {
-    updateRoutes();
+    refreshRoutesOrReload();
 
     window.setInterval(
-      updateRoutes,
+      refreshRoutesOrReload,
       60_000,
     );
   }, millisecondsUntilNextMinute);
-
-  /*
-   * Po návratu uživatele na záložku přepočítáme stav,
-   * protože mezitím mohl uplynout delší čas.
-   */
+  
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
-      updateRoutes();
+      refreshRoutesOrReload();
     }
   });
 }

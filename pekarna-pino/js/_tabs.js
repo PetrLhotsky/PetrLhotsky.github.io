@@ -33,6 +33,9 @@ function setupTabList(tabList) {
 
   panels.forEach((panel) => {
     panel.setAttribute("role", "tabpanel");
+    if (panel.matches("[data-route]")) {
+      panel.setAttribute("tabindex", "0");
+    }
   });
 
   function activateTab(tab, { focus = false, updateHistory = false } = {}) {

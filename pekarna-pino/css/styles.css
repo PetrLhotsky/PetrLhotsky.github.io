@@ -247,13 +247,22 @@ textarea {
   text-align: center;
 }
 
+.primary-nav {
+  width: 80%;
+}
+
 .primary-nav_list {
   display: grid;
   justify-items: center;
   gap: var(--space-1);
+  width: 100%;
   margin: 0;
   padding: 0;
   list-style-type: "";
+}
+
+.primary-nav_list > li {
+  width: 100%;
 }
 
 .primary-nav_link {
@@ -653,7 +662,6 @@ textarea {
   aspect-ratio: 0.771 / 1;
   overflow: hidden;
   border-radius: var(--radius-large);
-  background: var(--color-white);
 }
 
 .product-card_image {
@@ -884,6 +892,10 @@ textarea {
 #location .location_fact:last-child .location_icon,
 #contact-details .location_fact:last-child .location_icon {
   visibility: hidden;
+}
+
+.location_social-links {
+  margin-top: var(--space-2);
 }
 
 .location_link {
@@ -1460,12 +1472,18 @@ textarea {
 
   .primary-nav {
     flex: 1 1 auto;
+    width: auto;
   }
 
   .primary-nav_list {
     display: flex;
     align-items: center;
     gap: clamp(var(--space-3), 1.5vw, var(--space-6));
+    width: auto;
+  }
+
+  .primary-nav_list > li {
+    width: auto;
   }
 
   .primary-nav_link {

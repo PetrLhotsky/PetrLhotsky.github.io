@@ -64,6 +64,7 @@ if (carouselControls) {
     if (!viewport) return;
 
     const items = getVisualItems(viewport);
+    if (!items.length) return;
     const activeIndex = getActiveItemIndex(viewport, items);
     const activeItem = items[activeIndex];
 
@@ -84,6 +85,7 @@ if (carouselControls) {
     if (!viewport) return;
 
     const items = getVisualItems(viewport);
+    if (!items.length) return;
     const activeIndex = getActiveItemIndex(viewport, items);
     const lastStartIndex = Math.max(0, items.length - getVisibleItemCount(viewport, items));
     const targetIndex =

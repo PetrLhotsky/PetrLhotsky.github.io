@@ -132,7 +132,7 @@
 }
 
 .frgals_intro {
-  max-width: 36rem;
+  max-width: 34rem;
   margin: var(--space-4) auto 0;
   font-size: 1rem;
   line-height: 1.55;
@@ -192,29 +192,11 @@
   transform: translateY(0);
 }
 
-.frgaly_item--ovocny-frgal {
-  order: 1;
-}
 
-.frgaly_item--tvarohovy-frgal {
-  order: 2;
-}
 
-.frgaly_item--makovy-frgal {
-  order: 3;
-}
 
-.frgaly_item--povidlovy-frgal {
-  order: 4;
-}
 
-.frgaly_item--hruskovy-frgal {
-  order: 5;
-}
 
-.frgaly_item--orechovy-frgal {
-  order: 6;
-}
 
 .frgals_controls {
   display: flex;
@@ -402,7 +384,7 @@
 
   .frgals_intro {
     margin-inline: 0;
-    line-height: 1.65;
+    line-height: 1.55;
   }
 
   .frgals_viewport {
@@ -413,17 +395,8 @@
     flex-basis: 50%;
   }
 
-  .frgaly_item--makovy-frgal {
-    order: 1;
-  }
 
-  .frgaly_item--ovocny-frgal {
-    order: 2;
-  }
 
-  .frgaly_item--tvarohovy-frgal {
-    order: 3;
-  }
 
   .frgals_controls {
     margin-top: var(--space-8);
