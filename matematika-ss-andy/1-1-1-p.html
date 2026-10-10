@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Matematika SŠ | Čísla a číselné obory</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#192537;--muted:#64748b;--line:#dce3ed;--primary:#315cdb;--primarySoft:#ebf0ff;--green:#16805d;--greenSoft:#e9f8f1;--shadow:0 12px 36px rgba(27,42,75,.055)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}button,select{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #91a9ff;outline-offset:3px}.wrap{max-width:920px;margin:auto;padding:35px 20px 72px}.eyebrow{font-size:.78rem;letter-spacing:.12em;font-weight:750;color:var(--primary);text-transform:uppercase}h1{font-size:clamp(1.8rem,4.3vw,2.65rem);line-height:1.2;margin:.5rem 0 1rem}p{color:var(--muted);margin:.5rem 0 1.6rem}.panel,.problem{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.panel{padding:25px;margin:25px 0}.stats{display:flex;justify-content:space-between;align-items:center;gap:15px}.stats strong{font-size:1.6rem}.counter{font-size:.85rem;font-weight:700;color:var(--green);background:var(--greenSoft);border-radius:999px;padding:6px 12px}.progress{height:9px;background:#e7ecf4;border-radius:20px;overflow:hidden;margin:14px 0 22px}.progress>div{height:100%;background:var(--green);width:0;transition:width .25s}.filters{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end}.field label{display:block;font-size:.89rem;font-weight:700;margin-bottom:7px}select{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:white;color:var(--ink)}.segments{display:flex;flex-wrap:wrap;gap:5px;background:#f0f3f9;border-radius:11px;padding:5px}.segments button{border:0;background:transparent;padding:9px 11px;border-radius:8px;font-size:.88rem;color:var(--muted)}.segments button.active{background:#fff;color:var(--primary);box-shadow:0 2px 6px #1e293b12;font-weight:700}.controls{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:18px}.small{font-size:.84rem;color:var(--muted)}.reset,.outline{border:1px solid var(--line);background:white;color:var(--ink);border-radius:10px;padding:10px 14px}.sectionHeader{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:28px 0 15px}h2{font-size:1.34rem;margin:0}.problem{padding:23px;margin-bottom:13px}.problemTop{display:flex;justify-content:space-between;gap:16px}.meta{display:flex;align-items:center;gap:9px;margin-bottom:9px}.num{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted)}.level{font-size:.73rem;background:#edf2fa;color:#4d617c;padding:3px 10px;border-radius:999px}.statement{font-size:1.08rem;line-height:1.75}.check{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:.83rem;color:var(--muted);cursor:pointer}.check input{accent-color:var(--green);height:18px;width:18px}.answer{display:none;background:var(--greenSoft);border:1px solid #caebda;border-radius:12px;padding:14px 16px;margin-top:18px}.answer.show{display:block}.answerLabel{font-size:.76rem;font-weight:800;letter-spacing:.04em;color:var(--green);margin-bottom:4px}.problemFoot{display:flex;justify-content:flex-end;margin-top:16px}.reveal{background:white;border:1px solid var(--line);border-radius:9px;color:var(--primary);font-size:.87rem;font-weight:700;padding:9px 12px}.nav{display:flex;justify-content:space-between;margin-top:20px;gap:14px}.next{border:0;background:var(--primary);color:white;border-radius:10px;padding:10px 16px;font-weight:700}.nav button:disabled{opacity:.4;cursor:not-allowed}.note{border-top:1px solid var(--line);padding-top:23px;margin-top:35px}.note h2{margin-bottom:8px}.note p{margin:0}.completed{border-color:#bde7d2}@media(max-width:640px){.wrap{padding:25px 14px 50px}.panel{padding:17px}.filters{grid-template-columns:1fr}.segments{width:100%;display:grid;grid-template-columns:repeat(4,1fr)}.segments button{padding:10px 3px;font-size:.78rem}.problem{padding:17px}.check{font-size:0}.check input{width:21px;height:21px}.stats strong{font-size:1.35rem}.small{font-size:.78rem}}
+@media print{body{background:white}.wrap{max-width:none}.panel,.problem{box-shadow:none;break-inside:avoid}.segments,.controls,.nav,.reveal,.check{display:none!important}.answer{display:block}.problem{margin-bottom:9px}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<main class="wrap">
+<div class="eyebrow">Matematika · Střední škola</div>
+<h1>Příklady: Čísla, číselné obory, číselná osa</h1>
+<section class="panel" aria-label="Nastavení procvičování">
+<div class="stats"><div><div class="eyebrow" style="color:var(--muted)">Tvůj postup</div><strong id="progressText">0 / 54 příkladů</strong></div><span class="counter" id="percent">0 % hotovo</span></div>
+<div class="progress" role="progressbar" aria-label="Celkový postup" aria-valuemin="0" aria-valuemax="54" aria-valuenow="0" id="progressTrack"><div id="progressBar"></div></div>
+<div class="filters"><div class="field"><label for="topic">Vyber téma</label><select id="topic"></select></div><div class="field"><label>Obtížnost</label><div class="segments" id="difficulty" role="group" aria-label="Filtr obtížnosti"><button type="button" data-filter="all" class="active" aria-pressed="true">Všechny</button><button type="button" data-filter="easy" aria-pressed="false">Základní</button><button type="button" data-filter="mid" aria-pressed="false">Střední</button><button type="button" data-filter="hard" aria-pressed="false">Náročné</button></div></div></div>
+<div class="controls"><span class="small">Obtížnost postupně narůstá. Kliknutím na výsledek si ověříš řešení.</span><button type="button" class="reset" id="reset">Reset postupu</button></div>
+</section>
+<section aria-live="polite"><div class="sectionHeader"><h2 id="sectionName"></h2><span class="small" id="sectionCount"></span></div><div id="problems"></div><nav class="nav"><button type="button" class="outline" id="prev">← Předchozí</button><button type="button" class="next" id="next">Další téma →</button></nav></section>
+</main>
+<script>
+const sections=[
+{title:'Přirozená čísla',questions:[
+['Vypočítej: \\(348+576-219\\).','705'],
+['Vypočítej: \\(24\\cdot15-144:12\\).','348'],
+['Urči největšího společného dělitele čísel 84 a 126.','42'],
+['Urči nejmenší společný násobek čísel 18, 24 a 30.','360'],
+['Při dělení přirozeného čísla číslem 7 je podíl 23 a zbytek 5. Urči číslo.','166'],
+['Najdi nejmenší přirozené číslo větší než 100, které je dělitelné současně 6, 8 a 9.','144']]},
+{title:'Sudá a lichá čísla, prvočísla',questions:[
+['Rozhodni, zda je číslo 137 prvočíslo.','Ano, 137 je prvočíslo.'],
+['Rozlož číslo 360 na součin prvočísel.','\\(360=2^3\\cdot3^2\\cdot5\\)'],
+['Vypiš všechna prvočísla mezi 40 a 70.','41, 43, 47, 53, 59, 61, 67'],
+['Rozhodni, zda součet tří po sobě jdoucích lichých čísel může být sudý.','Ne, součet tří lichých čísel je vždy lichý.'],
+['Najdi všechna prvočísla \\(p\\), pro která je také \\(p+2\\) a \\(p+4\\) prvočíslo.','Pouze \\(p=3\\), tedy 3, 5, 7.'],
+['Dokaž, že druhá mocnina každého lichého celého čísla je lichá.','Pro \\(n=2k+1\\) platí \\(n^2=4k(k+1)+1\\), tedy jde o liché číslo.']]},
+{title:'Celá čísla',questions:[
+['Vypočítej: \\((-18)+35-(-12)-47\\).','−18'],
+['Vypočítej: \\((-6)\\cdot(-8)+(-72):9\\).','40'],
+['Vypočítej: \\((-3)^4-(-2)^5\\).','113'],
+['Urči všechna celá čísla \\(x\\), pro která \\(-4<x\\leq3\\).','−3, −2, −1, 0, 1, 2, 3'],
+['Vyřeš rovnici \\(5-3x=2x+30\\).','\\(x=-5\\)'],
+['Najdi všechna celá čísla \\(x\\), která splňují \\(-15<4x+1\\leq17\\).','\\(x\\in\\{-3,-2,-1,0,1,2,3,4\\}\\)']]},
+{title:'Racionální čísla',questions:[
+['Vypočítej: \\(\\frac34+\\frac56\\).','\\(\\frac{19}{12}\\)'],
+['Vypočítej: \\(\\frac79-\\frac23\\cdot\\frac34\\).','\\(\\frac5{18}\\)'],
+['Vypočítej: \\(\\left(-\\frac35\\right):\\frac9{10}\\).','\\(-\\frac23\\)'],
+['Seřaď vzestupně čísla \\(\\frac23,\\frac58,\\frac7{12},\\frac34\\).','\\(\\frac7{12}<\\frac58<\\frac23<\\frac34\\)'],
+['Vyřeš rovnici \\(\\frac{x}{3}+\\frac{x}{4}=7\\).','\\(x=12\\)'],
+['Z nádrže se spotřebovala \\(\\frac25\\) vody a potom \\(\\frac13\\) zbývající vody. Jaká část původního množství zůstala?','\\(\\frac25\\) původního množství']]},
+{title:'Zlomky a desetinná čísla',questions:[
+['Převeď 0,375 na zlomek v základním tvaru.','\\(\\frac38\\)'],
+['Převeď \\(\\frac7{16}\\) na desetinné číslo.','0,4375'],
+['Převeď periodické číslo \\(0,\\overline3\\) na zlomek.','\\(\\frac13\\)'],
+['Převeď \\(1,2\\overline7\\) na zlomek v základním tvaru.','\\(\\frac{23}{18}\\)'],
+['Vypočítej a výsledek zapiš desetinným číslem: \\(\\frac58+0{,}375\\).','1'],
+['Urči bez dělení, zda má zlomek \\(\\frac{21}{150}\\) konečný desetinný rozvoj, a vysvětli proč.','Ano. Po krácení dostaneme \\(\\frac7{50}\\); jmenovatel obsahuje pouze prvočinitele 2 a 5.']]},
+{title:'Iracionální čísla',questions:[
+['Urči, která čísla jsou iracionální: \\(\\sqrt9,\\sqrt7,\\pi,\\frac{22}{7},\\sqrt{0{,}16}\\).','\\(\\sqrt7\\) a \\(\\pi\\)'],
+['Uprav odmocninu: \\(\\sqrt{72}\\).','\\(6\\sqrt2\\)'],
+['Vypočítej: \\(\\sqrt{50}+\\sqrt8-\\sqrt{18}\\).','\\(4\\sqrt2\\)'],
+['Usměrni jmenovatel: \\(\\frac5{\\sqrt3}\\).','\\(\\frac{5\\sqrt3}{3}\\)'],
+['Zjednoduš: \\((\\sqrt5+\\sqrt2)(\\sqrt5-\\sqrt2)\\).','3'],
+['Rozhodni, zda je číslo \\(\\sqrt{12}\\cdot\\sqrt{27}\\) racionální, nebo iracionální.','Racionální; jeho hodnota je 18.']]},
+{title:'Reálná čísla a číselná osa',questions:[
+['Seřaď vzestupně: \\(-1{,}5;\\sqrt2;-\\sqrt3;0;\\frac32\\).','\\(-\\sqrt3<-1{,}5<0<\\sqrt2<\\frac32\\)'],
+['Urči vzdálenost čísel −7 a 5 na číselné ose.','12'],
+['Najdi střed úsečky s krajními body −8 a 14 na číselné ose.','3'],
+['Urči všechna reálná čísla, jejichž vzdálenost od čísla 2 je rovna 5.','−3 a 7'],
+['Najdi číslo, které leží přesně uprostřed mezi \\(\\sqrt2\\) a \\(3\\sqrt2\\).','\\(2\\sqrt2\\)'],
+['Urči všechna reálná čísla \\(x\\), pro která platí současně \\(x>-2\\) a \\(x^2<9\\).','\\(x\\in(-2;3)\\)']]},
+{title:'Nekonečno',questions:[
+['Rozhodni, zda má množina přirozených čísel největší prvek.','Nemá.'],
+['Kolik přirozených čísel leží mezi 1 a 100 včetně? A kolik reálných?','100 přirozených a nekonečně mnoho reálných.'],
+['Urči hodnotu výrazu \\(\\frac1n\\), ke které se blíží pro rostoucí \\(n\\to+\\infty\\).','Blíží se k 0.'],
+['Rozhodni, zda existuje největší reálné číslo menší než 5.','Neexistuje.'],
+['Rozhodni, zda mají intervaly \\((0;1)\\) a \\((0;100)\\) stejný počet reálných čísel.','Ano, obě množiny mají stejnou nekonečnou mohutnost.'],
+['Vysvětli, proč je množina sudých přirozených čísel stejně početná jako množina všech přirozených čísel.','Každému přirozenému číslu \\(n\\) jednoznačně odpovídá sudé číslo \\(2n\\).']]},
+{title:'Absolutní hodnota a intervaly',questions:[
+['Vypočítej: \\(|-12|+|5-9|\\).','16'],
+['Vyřeš: \\(|x|=7\\).','\\(x=-7\\) nebo \\(x=7\\)'],
+['Vyřeš nerovnici \\(|x-3|<5\\).','\\(x\\in(-2;8)\\)'],
+['Urči průnik intervalů \\(A=(-3;5]\\) a \\(B=[1;8)\\).','\\(A\\cap B=[1;5]\\)'],
+['Urči sjednocení intervalů \\(A=(-\\infty;2)\\) a \\(B=[-1;6]\\).','\\(A\\cup B=(-\\infty;6]\\)'],
+['Vyřeš nerovnici \\(|2x-1|\\geq5\\) a výsledek zapiš intervalem.','\\(x\\in(-\\infty;-2]\\cup[3;+\\infty)\\)']]}
+];
+const topic=document.getElementById('topic'),problems=document.getElementById('problems');
+let state={done:{},shown:{},section:0,filter:'all'};
+try{const saved=JSON.parse(localStorage.getItem('mathPracticeSS_v1'));if(saved&&typeof saved==='object'){state={...state,...saved};}}catch(e){}
+if(!Number.isInteger(state.section)||state.section<0||state.section>=sections.length)state.section=0;
+if(!['all','easy','mid','hard'].includes(state.filter))state.filter='all';
+function save(){try{localStorage.setItem('mathPracticeSS_v1',JSON.stringify(state));}catch(e){}}
+function totalDone(){return Object.values(state.done).filter(Boolean).length}
+function stats(){const done=totalDone();document.getElementById('progressText').textContent=`${done} / 54 příkladů`;document.getElementById('percent').textContent=`${Math.round(done/54*100)} % hotovo`;document.getElementById('progressBar').style.width=`${done/54*100}%`;document.getElementById('progressTrack').setAttribute('aria-valuenow',done);document.getElementById('sectionCount').textContent=`${sections[state.section].questions.filter((_,i)=>state.done[`${state.section}-${i}`]).length} z 6 hotovo`}
+function element(tag,cls,txt){let e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+function render(){topic.value=String(state.section);const section=sections[state.section];document.getElementById('sectionName').textContent=section.title;document.querySelectorAll('[data-filter]').forEach(b=>{let active=b.dataset.filter===state.filter;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});problems.replaceChildren();section.questions.forEach(([q,a],i)=>{if(state.filter==='easy'&&i>1||state.filter==='mid'&&(i<2||i>3)||state.filter==='hard'&&i<4)return;const key=`${state.section}-${i}`;const card=element('article','problem'+(state.done[key]?' completed':''));const top=element('div','problemTop'),content=element('div',''),meta=element('div','meta');meta.append(element('span','num',`Příklad ${i+1}`),element('span','level',i<2?'Základní':i<4?'Střední':'Náročný'));let statement=element('div','statement');statement.textContent=q;content.append(meta,statement);let label=element('label','check'),check=document.createElement('input');check.type='checkbox';check.checked=!!state.done[key];check.setAttribute('aria-label',`Označit příklad ${i+1} jako hotový`);check.addEventListener('change',()=>{state.done[key]=check.checked;card.classList.toggle('completed',check.checked);stats();save()});label.append(check,document.createTextNode(' Hotovo'));top.append(content,label);const answer=element('div','answer'+(state.shown[key]?' show':''));answer.append(element('div','answerLabel','SPRÁVNÝ VÝSLEDEK'));const answerText=element('div','');answerText.textContent=a;answer.append(answerText);const foot=element('div','problemFoot'),reveal=element('button','reveal',state.shown[key]?'Skrýt výsledek':'Zobrazit výsledek');reveal.type='button';reveal.setAttribute('aria-expanded',String(!!state.shown[key]));reveal.addEventListener('click',()=>{state.shown[key]=!state.shown[key];answer.classList.toggle('show',!!state.shown[key]);reveal.textContent=state.shown[key]?'Skrýt výsledek':'Zobrazit výsledek';reveal.setAttribute('aria-expanded',String(!!state.shown[key]));save();if(state.shown[key]&&window.MathJax?.typesetPromise)MathJax.typesetPromise([answer]).catch(()=>{})});foot.append(reveal);card.append(top,answer,foot);problems.append(card)});document.getElementById('prev').disabled=state.section===0;document.getElementById('next').disabled=state.section===sections.length-1;stats();save();if(window.MathJax?.typesetPromise)MathJax.typesetPromise([problems]).catch(()=>{});}
+sections.forEach((s,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=`${i+1}. ${s.title}`;topic.append(opt)});
+topic.addEventListener('change',()=>{state.section=Number(topic.value);state.filter='all';render()});document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{state.filter=b.dataset.filter;render()}));document.getElementById('prev').addEventListener('click',()=>{if(state.section>0){state.section--;state.filter='all';render();}});document.getElementById('next').addEventListener('click',()=>{if(state.section<sections.length-1){state.section++;state.filter='all';render();}});document.getElementById('reset').addEventListener('click',()=>{if(confirm('Opravdu chceš smazat všechna označení hotových úloh a zobrazené výsledky?')){state.done={};state.shown={};render()}});
+render();
+window.addEventListener('load',()=>{if(window.MathJax?.typesetPromise)MathJax.typesetPromise([problems]).catch(()=>{});});
+</script>
+</body>
+</html>
