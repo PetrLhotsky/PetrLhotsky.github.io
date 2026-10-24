@@ -290,6 +290,8 @@ textarea {
   transform: scaleX(0);
   transform-origin: center;
   transition: transform var(--transition-fast);
+  max-width: calc(var(--space-28) + var(--space-28));
+  margin: 0 auto;
 }
 
 .primary-nav_link:hover,
@@ -313,10 +315,6 @@ textarea {
 
 .primary-nav_link[aria-current="page"] {
   color: var(--color-text);
-}
-
-.primary-nav_link[aria-current="page"]::after {
-  transform: scaleX(1);
 }
 
 .social-nav {
@@ -1489,6 +1487,10 @@ textarea {
   .primary-nav_link {
     padding-block: var(--space-2);
     white-space: nowrap;
+  }
+
+  .primary-nav_link[aria-current="page"]::after {
+    transform: scaleX(1);
   }
 
   .social-nav {

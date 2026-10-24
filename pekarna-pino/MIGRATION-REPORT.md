@@ -1,44 +1,38 @@
-# Report migrace na statický web
+# Report migrace PHP → statický HTML web
 
-Zdroj: `www(20261024-113259).zip`
+Zdroj: `admin(2).zip`
+Datum exportu: 2026-10-24
 
 ## Výsledek
 
-- 25 HTML souborů celkem
-- 17 veřejných produktových detailů
-- 6 hlavních veřejných stránek + `404.html` + fallback `produkt.html`
-- 23 veřejných URL v `sitemap.xml`
-- všechny veřejné PHP routy převedeny na `.html`
-- lokální cesty k CSS, JS, obrázkům a fontům jsou relativní
-- PHP administrační část nebyla přenesena; zachovány jsou pouze statické obrázky z `admin/data/img`
+- HTML souborů: 25
+- veřejných produktových detailů: 17
+- URL v sitemap.xml: 23
+- PHP soubory nejsou součástí statického výstupu
+- lokální CSS, JS, obrázky, fonty a interní odkazy používají relativní cesty
+- produktové URL `/produkt?produkt=...` byly převedeny na `produkt-<technical_id>.html`
 
-## Produkty
+## Pojízdná prodejna / Mapy.com
 
-Zdrojová data obsahují 18 viditelných produktů, ale produkt `cerealni-bageta` patří do skryté kategorie `cerealni-pecivo`. Původní PHP web proto jeho veřejný detail nepovoluje a statický export jej rovněž negeneruje. Výsledkem je 17 veřejných produktových detailů.
-
-## Mapy.com iframe
-
-Na `pojizdna-prodejna.html` jsou zachovány dva externí iframe:
-
+Aktuální trasy:
 - `https://mapy.com/s/holerakade`
 - `https://mapy.com/s/gukanalede`
 
-Oba mají zachovaný absolutní `src`, atribut `data-map-src` a `allowfullscreen`. Soubor `js/mapy-iframe-fix.js` při prvním zobrazení dříve skrytého panelu mapu jednou znovu načte, aby se iframe správně vykreslil po přepnutí trasy.
 
-## Font
+Oba route iframe mají ve statickém exportu zachované absolutní HTTPS URL, `data-map-src`, `allowfullscreen` a používají `js/mapy-iframe-fix.js`. Skript při prvním zobrazení panelu iframe jednou znovu načte, aby se mapa správně vykreslila i v panelu, který byl při načtení stránky skrytý.
 
-Recoleta je ponechána podle zdrojové verze. Preload i CSS používají existující soubor `assets/fonts/Recoleta-SemiboldCondensed.woff2`.
+## Omezení statického exportu
 
-## Kontrola
+- Administrační PHP rozhraní není součástí statického webu; z `/admin` se kopírují pouze veřejně potřebné obrázky `/admin/data/img`.
+- PHP výpočet opakování tras je zachycen jako stav v okamžiku exportu. Klientský JavaScript nadále aktualizuje stav trasy podle aktuálního dne a času z dat vložených do HTML.
+- Pro změny obsahu řízeného JSON daty je potřeba statický export znovu vygenerovat.
 
-- 1 084 lokálních HTML/CSS referencí zkontrolováno souborově
-- 171 unikátních lokálních cílů ověřeno přes statický HTTP server
-- 0 chybějících lokálních cílů
-- 0 PHP fragmentů
-- 0 nezmigrovaných dynamických URL `produkt?produkt=...`
-- 0 kořenových lokálních cest v HTML/CSS
-- `sitemap.xml` je validní XML
+## Kontrola kvality
 
-## Omezení statické verze
-
-Administrace a ukládání změn přes PHP nejsou součástí statického webu. Pro změnu katalogu, tras nebo kontaktních údajů je nutné znovu vytvořit statický export ze zdrojové PHP/CMS verze.
+- zkontrolováno 1 084 lokálních referencí v HTML/CSS
+- chybějící lokální soubory: 0
+- kořenové lokální cesty v HTML: 0
+- PHP soubory ve výstupu: 0
+- dynamické produktové odkazy ve výstupu: 0
+- HTTP kontrola statického serveru: 168 unikátních lokálních cílů, 0 chyb
+- `sitemap.xml`: validní XML
