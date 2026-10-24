@@ -1,27 +1,36 @@
 (() => {
-  const routeFilter = document.querySelector("[data-route-filter]");
-  const selector = ".mobile-route_map iframe[data-map-src]";
+  const routes = [...document.querySelectorAll('[data-route]')];
+  if (!routes.length) return;
 
-  function reloadMap(panel) {
-    const iframe = panel?.querySelector?.(selector);
-    if (!iframe || iframe.dataset.mapReady === "true") return;
-
-    const src = iframe.dataset.mapSrc || iframe.getAttribute("src");
+  const initMap = (route) => {
+    if (!route) return;
+    const frame = route.querySelector('.mobile-route_map iframe[data-map-src]');
+    if (!frame || frame.dataset.mapReady === 'true') return;
+    const src = frame.dataset.mapSrc;
     if (!src) return;
-
-    iframe.dataset.mapReady = "true";
+    frame.dataset.mapReady = 'true';
     requestAnimationFrame(() => {
-      iframe.setAttribute("src", "about:blank");
-      requestAnimationFrame(() => iframe.setAttribute("src", src));
+      frame.src = 'about:blank';
+      requestAnimationFrame(() => { frame.src = src; });
     });
+  };
+
+  const visibleRoute = () => routes.find((route) => getComputedStyle(route).display !== 'none');
+  const first = visibleRoute();
+  if (first) {
+    const firstFrame = first.querySelector('.mobile-route_map iframe[data-map-src]');
+    if (firstFrame) firstFrame.dataset.mapReady = 'true';
   }
 
-  document.querySelectorAll(selector).forEach((iframe) => {
-    const panel = iframe.closest("[data-tab-panel]");
-    if (panel && !panel.hidden) reloadMap(panel);
+  document.addEventListener('click', (event) => {
+    const tab = event.target.closest('[data-tab][href^="#"]');
+    if (!tab) return;
+    const id = tab.getAttribute('href').slice(1);
+    setTimeout(() => initMap(document.getElementById(id)), 0);
   });
 
-  routeFilter?.addEventListener("pino:tabs:change", (event) => {
-    reloadMap(event.detail?.panel);
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1);
+    if (id) setTimeout(() => initMap(document.getElementById(id)), 0);
   });
 })();
