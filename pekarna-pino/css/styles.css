@@ -582,6 +582,10 @@ textarea {
   color: var(--color-primary-dark);
 }
 
+.frgal-card_suffix {
+  display: none;
+}
+
 .bulk-order {
   display: grid;
   justify-items: center;
@@ -841,7 +845,6 @@ textarea {
 .location_fact-content,
 .location_address > span {
   display: grid;
-  gap: var(--space-1);
 }
 
 .location_fact-content strong,
@@ -924,6 +927,8 @@ textarea {
   justify-content: start;
   cursor: pointer;
   list-style: none;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+  max-width: max(50%, 20rem);
 }
 
 .location_hours-summary::-webkit-details-marker {
@@ -932,6 +937,13 @@ textarea {
 
 .location_hours-summary::marker {
   content: "";
+}
+
+.location_hours-summary:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-color: currentColor;
 }
 
 .location_hours {
@@ -1358,10 +1370,6 @@ textarea {
     font-size: 1.125rem;
   }
 
-  .frgal-card_suffix {
-    display: none;
-  }
-
   .bulk-order {
     grid-template-columns: 1fr auto;
     justify-items: stretch;
@@ -1419,7 +1427,7 @@ textarea {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--space-4) var(--space-12);
+    gap: var(--space-4) var(--space-10);
   }
 
   .site-footer_copyright {

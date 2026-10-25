@@ -19,34 +19,31 @@
     <loc>https://www.pekarna-pino.cz/kontakty.html</loc>
   </url>
   <url>
-    <loc>https://www.pekarna-pino.cz/produkt-hruskovy.html</loc>
+    <loc>https://www.pekarna-pino.cz/produkt-hruskovy-frgal.html</loc>
+  </url>
+  <url>
+    <loc>https://www.pekarna-pino.cz/produkt-makovy-frgal.html</loc>
+  </url>
+  <url>
+    <loc>https://www.pekarna-pino.cz/produkt-tvarohovy-frgal.html</loc>
+  </url>
+  <url>
+    <loc>https://www.pekarna-pino.cz/produkt-duo-frgal.html</loc>
   </url>
   <url>
     <loc>https://www.pekarna-pino.cz/produkt-dobrozrnny-chleb-kb.html</loc>
   </url>
   <url>
-    <loc>https://www.pekarna-pino.cz/produkt-satecek-s-ovocnou-naplni.html</loc>
-  </url>
-  <url>
-    <loc>https://www.pekarna-pino.cz/produkt-vanocka.html</loc>
-  </url>
-  <url>
-    <loc>https://www.pekarna-pino.cz/produkt-makovy.html</loc>
-  </url>
-  <url>
     <loc>https://www.pekarna-pino.cz/produkt-vitapan.html</loc>
+  </url>
+  <url>
+    <loc>https://www.pekarna-pino.cz/produkt-satecek-s-ovocnou-naplni.html</loc>
   </url>
   <url>
     <loc>https://www.pekarna-pino.cz/produkt-satecek-s-tvarohovou-naplni.html</loc>
   </url>
   <url>
-    <loc>https://www.pekarna-pino.cz/produkt-tvarohovy.html</loc>
-  </url>
-  <url>
     <loc>https://www.pekarna-pino.cz/produkt-honzovy-buchty-s-povidly.html</loc>
-  </url>
-  <url>
-    <loc>https://www.pekarna-pino.cz/produkt-duo.html</loc>
   </url>
   <url>
     <loc>https://www.pekarna-pino.cz/produkt-honzovy-buchty-s-tvarohem.html</loc>
@@ -61,12 +58,15 @@
     <loc>https://www.pekarna-pino.cz/produkt-svatecni-kolac-makovy.html</loc>
   </url>
   <url>
-    <loc>https://www.pekarna-pino.cz/produkt-svatecni-kolac-hruskovy.html</loc>
+    <loc>https://www.pekarna-pino.cz/produkt-vanocka.html</loc>
   </url>
   <url>
     <loc>https://www.pekarna-pino.cz/produkt-kefirovy-rez.html</loc>
   </url>
   <url>
     <loc>https://www.pekarna-pino.cz/produkt-boruvkovy-kolac.html</loc>
+  </url>
+  <url>
+    <loc>https://www.pekarna-pino.cz/produkt-svatecni-kolac-hruskovy.html</loc>
   </url>
 </urlset>

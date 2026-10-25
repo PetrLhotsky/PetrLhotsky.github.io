@@ -1,31 +1,18 @@
 (() => {
   const selector = 'iframe[data-map-src]';
-  const refreshed = new WeakSet();
-
-  function refreshMap(frame) {
-    if (!frame || refreshed.has(frame)) return;
-    const src = frame.dataset.mapSrc;
-    if (!src) return;
-
-    refreshed.add(frame);
-    frame.removeAttribute('src');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        frame.src = src;
-      });
-    });
-  }
-
-  function refreshMapsIn(panel) {
-    if (!panel) return;
-    panel.querySelectorAll(selector).forEach(refreshMap);
-  }
-
-  document.querySelectorAll('[data-tab-list]').forEach((tabList) => {
-    tabList.addEventListener('pino:tabs:change', (event) => {
-      refreshMapsIn(event.detail?.panel);
+  const activate = (panel) => {
+    if (!panel || panel.hidden) return;
+    const frame = panel.querySelector(selector);
+    if (!frame || frame.dataset.mapActivated === 'true') return;
+    const source = frame.dataset.mapSrc;
+    if (!source) return;
+    frame.src = source;
+    frame.dataset.mapActivated = 'true';
+  };
+  document.querySelectorAll('[data-tab-list]').forEach((list) => {
+    list.addEventListener('pino:tabs:change', (event) => {
+      requestAnimationFrame(() => activate(event.detail?.panel));
     });
   });
-
-  document.querySelectorAll('[data-tab-panel]:not([hidden])').forEach(refreshMapsIn);
+  document.querySelectorAll('[data-tab-panel]').forEach(activate);
 })();
