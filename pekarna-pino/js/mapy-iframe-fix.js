@@ -1,18 +1,21 @@
 (() => {
-  const selector = 'iframe[data-map-src]';
-  const activate = (panel) => {
-    if (!panel || panel.hidden) return;
-    const frame = panel.querySelector(selector);
-    if (!frame || frame.dataset.mapActivated === 'true') return;
-    const source = frame.dataset.mapSrc;
-    if (!source) return;
-    frame.src = source;
-    frame.dataset.mapActivated = 'true';
+  const initializeMap = (panel) => {
+    if (!panel) return;
+    const iframe = panel.querySelector('iframe[data-map-src]');
+    if (!iframe || iframe.dataset.mapInitialized === 'true') return;
+    iframe.dataset.mapInitialized = 'true';
+    iframe.src = iframe.dataset.mapSrc;
   };
-  document.querySelectorAll('[data-tab-list]').forEach((list) => {
-    list.addEventListener('pino:tabs:change', (event) => {
-      requestAnimationFrame(() => activate(event.detail?.panel));
+
+  const initializeVisibleMaps = () => {
+    document.querySelectorAll('[data-tab-panel]:not([hidden])').forEach(initializeMap);
+  };
+
+  document.querySelectorAll('[data-tab-list]').forEach((tabList) => {
+    tabList.addEventListener('pino:tabs:change', (event) => {
+      initializeMap(event.detail?.panel || null);
     });
   });
-  document.querySelectorAll('[data-tab-panel]').forEach(activate);
+
+  initializeVisibleMaps();
 })();

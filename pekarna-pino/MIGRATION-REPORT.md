@@ -1,22 +1,44 @@
-# Report statického exportu
+# Report statického exportu – Pekárna Pino
 
-- Zdroj: `www(20261025-203801).zip`
-- HTML souborů: 25
-- Veřejných produktových detailů: 17
-- Sitemap veřejných URL: 23
-- Lokální odkazy a assety jsou převedeny na relativní cesty.
-- Dynamické produktové URL jsou převedeny na samostatné `produkt-*.html` soubory.
-- `pojizdna-prodejna.html` zachovává externí Mapy.com iframe a používá `js/mapy-iframe-fix.js` pro opětovnou inicializaci mapy ve skrytém tabu.
-- Administrace PHP není součástí statického exportu; z `/admin` jsou přeneseny pouze veřejně používané obrázky `/admin/data/img`.
-- Jízdní řád je vyrenderovaný jako stav v okamžiku exportu; klientský JS dále aktualizuje stav zastávek podle času v rámci vyrenderovaných dnů tras.
+Datum exportu: 30. 10. 2026
+
+## Výsledek
+
+- 25 HTML souborů celkem.
+- 17 veřejných produktových detailů.
+- 6 hlavních veřejných stránek + statické fallback stránky `404.html` a `produkt.html`.
+- `sitemap.xml` obsahuje 23 veřejných URL.
+- Veškeré lokální odkazy na CSS, JS, fonty, obrázky a interní HTML stránky jsou relativní.
+- Dynamické produktové URL `produkt?produkt=...` byly převedeny na samostatné soubory `produkt-<slug>.html`.
+- Canonical a Open Graph URL produktů byly převedeny na statické `.html` adresy.
+- Ve vygenerovaném HTML nezůstal PHP kód ani lokální `.php` odkaz.
+
+## Produkty
+
+Zdrojová data obsahují 18 produktů. Produkt `Cereální bageta` patří do kategorie `Cereální pečivo`, která má `is_visible: false`, proto jej veřejný PHP web nezobrazuje a statický export jeho detail nevytváří. Export tedy obsahuje 17 veřejných produktových detailů.
+
+## Mapy.com – pojízdná prodejna
+
+Dvě route mapy používají aktuální externí URL:
+
+- Trasa A: `https://mapy.com/s/holerakade`
+- Trasa B: `https://mapy.com/s/gukanalede`
+
+U obou iframe je zachován externí `src`, přidán `data-map-src` a `allowfullscreen`. Soubor `js/mapy-iframe-fix.js` při prvním zobrazení skrytého tab panelu mapu jednou znovu inicializuje, aby se vyhnul problému s vykreslením iframe načteného ve skrytém panelu. Ostatní Mapy.com iframe (např. mapa provozovny) nejsou tímto loaderem měněny.
 
 ## Kontrola kvality
 
-- Lokálních referencí v HTML/CSS: 1 109
-- Unikátních lokálních cílů: 169
-- Chybějících lokálních souborů: 0
-- HTTP chyb při kontrole statického webu: 0
-- `sitemap.xml`: validní XML
-- Nevyhodnocený PHP kód v HTML: nenalezen
-- Kořenové lokální URL v HTML: nenalezeny
-- Dynamické `produkt?produkt=...` odkazy: nenalezeny
+- 25 HTML stránek zkontrolováno.
+- 1 067 lokálních HTML referencí zkontrolováno.
+- 0 kořenových lokálních cest v HTML/CSS.
+- 0 lokálních `.php` odkazů.
+- 0 dynamických produktových odkazů.
+- 174 unikátních lokálních cílů ověřeno přes statický HTTP server.
+- 0 HTTP chyb.
+- `sitemap.xml` používá statické veřejné URL.
+
+## Omezení statického exportu
+
+- Administrační PHP rozhraní není součástí statického webu; z `admin` je přenesena pouze veřejně používaná složka `admin/data/img` s obrázky katalogu.
+- Změny provedené později v CMS/JSON datech se ve statickém webu automaticky neprojeví; je nutný nový export.
+- Externí obsah Mapy.com závisí na dostupnosti služby Mapy.com a jejich embed URL.
